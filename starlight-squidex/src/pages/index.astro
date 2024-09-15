@@ -1,0 +1,28 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import { indexQuery } from "../lib/api";
+
+const { contentLayout } = await indexQuery();
+
+const frontmatter = { title: "index" };
+
+const sidebar = contentLayout?.map((sidebarItem) => ({
+  label: sidebarItem.flatData.title!, // Chapter, secondary directory
+  items:
+    sidebarItem.flatData.text?.contents?.map((item) => ({
+      label: item.flatData.name!,
+      link: item.flatData.slug!,
+    })) ?? [],
+}));
+
+// const pageContent = contentLayout![0].flatData;
+
+// const items = pageContent.text?.contents?.map((item) => ({
+//   label: item.flatData.name!,
+//   link: `${pageContent.slug!}/${item.flatData.slug!}`,
+// }));
+---
+
+<StarlightPage frontmatter={frontmatter} sidebar={sidebar}>
+  Example content.
+</StarlightPage>
