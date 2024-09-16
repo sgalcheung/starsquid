@@ -49,6 +49,10 @@ importers:
         version: 16.9.0
 
   packages/squidex:
+    dependencies:
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
     devDependencies:
       '@graphql-codegen/cli':
         specifier: ^5.0.2
@@ -59,9 +63,6 @@ importers:
       '@graphql-typed-document-node/core':
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.9.0)
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
       graphql:
         specifier: ^16.9.0
         version: 16.9.0
