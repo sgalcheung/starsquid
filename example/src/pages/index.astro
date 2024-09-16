@@ -11,7 +11,7 @@ const sidebar = contentLayout?.map((sidebarItem) => ({
   items:
     sidebarItem.flatData.text?.contents?.map((item) => ({
       label: item.flatData.name!,
-      link: item.flatData.slug!,
+      link: `column/${item.flatData.slug!}`,
     })) ?? [],
 }));
 
@@ -22,7 +22,9 @@ const sidebar = contentLayout?.map((sidebarItem) => ({
 //   link: `${pageContent.slug!}/${item.flatData.slug!}`,
 // }));
 ---
+<!-- single page, not layout, not sidebar={sidebar}, should add headings -->
 
-<StarlightPage frontmatter={frontmatter} sidebar={sidebar}>
+
+<StarlightPage frontmatter={frontmatter}>
   Example content.
 </StarlightPage>

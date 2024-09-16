@@ -1,12 +1,17 @@
 // @ts-check
 import starlight from "@astrojs/starlight";
 import { defineConfig } from "astro/config";
+// import starlightSSR from "starlight-squidex";
+import starlightSSR from "starlight-ssr";
 
 // https://astro.build/config
 export default defineConfig({
+  output: 'server',
   integrations: [
     starlight({
-      title: "My delightful docs site",
+      prerender: false,
+      title: "My CMS Column",
+      plugins: [starlightSSR()],
     }),
   ],
 });

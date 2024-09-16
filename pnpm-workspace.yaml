@@ -1,2 +1,3 @@
 packages:
-  - 'starlight-squidex/'
+  - 'example/'
+  - 'packages/*'

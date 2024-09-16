@@ -1,13 +1,13 @@
 ---
 import { getPost } from "../lib/api";
 
-export function getStaticPaths() {
-  return [
-    { params: { slug: "ibis-wembley" } },
-    { params: { slug: "jianguo-hotel-qianmen" } },
-    { params: { slug: undefined } },
-  ];
-}
+// export function getStaticPaths() {
+//   return [
+//     { params: { slug: "ibis-wembley" } },
+//     { params: { slug: "jianguo-hotel-qianmen" } },
+//     { params: { slug: undefined } },
+//   ];
+// }
 
 const { slug } = Astro.params;
 

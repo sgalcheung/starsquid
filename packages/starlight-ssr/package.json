@@ -1,0 +1,24 @@
+{
+  "name": "starlight-ssr",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./package.json": "./package.json",
+    "./route": "./components/Route.astro"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Sgal Cheung",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "squidex": "workspace:*"
+  },
+  "devDependencies": {
+    "@astrojs/starlight": "^0.27.0",
+    "astro": "^4.15.4"
+  }
+}

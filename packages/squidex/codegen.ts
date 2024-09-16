@@ -1,5 +1,4 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
-// import { EndpointType, getEndpoint } from './src/config';
 import "dotenv/config";
 
 function buildUrl(url: string) {
@@ -7,7 +6,7 @@ function buildUrl(url: string) {
     url = url.slice(1);
   }
 
-  const result = `${import.meta.env.SQUIDEX_ENVIRONMENT}/${url}`;
+  const result = `${process.env.SQUIDEX_ENVIRONMENT}/${url}`;
 
   return result;
 }

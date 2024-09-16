@@ -1,0 +1,28 @@
+{
+  "name": "starlight-squidex",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./package.json": "./package.json",
+    "./route": "./components/Route.astro"
+  },
+  "scripts": {
+    "generate": "graphql-codegen"
+  },
+  "keywords": [],
+  "author": "Sgal Cheung",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@astrojs/starlight": "^0.27.0",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/client-preset": "^4.3.3",
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "dotenv": "^16.4.5",
+    "graphql": "^16.9.0"
+  },
+  "dependencies": {
+    "vite": "^5.4.5"
+  }
+}
