@@ -3,10 +3,11 @@ import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
 // import OpenAPIParser from '@readme/openapi-parser'
 // import type { InferGetStaticPropsType } from 'astro'
 
-import { getPageProps } from '../libs/starlight'
+// import { getPageProps } from '../libs/starlight'
 
 // import Operation from './operation/Operation.astro'
 import Overview from './Overview.astro'
+import { getPost } from 'squidex/src/lib/api'
 
 export const prerender = false
 
@@ -25,10 +26,22 @@ const { schema } = Astro.props
 
 // const title = isOverview ? 'Overview' : Astro.props.operation.title;
 const title =  'Overview' ;
-console.log(Astro.props) // {}
+// console.log(Astro.props) // {}
+
+
+const { SSRSlug } = Astro.params;
+
+const { posts } = await getPost(SSRSlug);
+if (!posts || posts.length > 1) return Astro.redirect("/404");
+
+const post = posts?.[0].flatData;
+
+const frontmatter = { title: post.name };
+
 ---
 
-<StarlightPage {...getPageProps(title, schema, Astro.props.operation)}>
+<StarlightPage frontmatter={frontmatter}>
   <!-- {isOverview ? <Overview {schema} /> : <Operation {schema} operation={Astro.props.operation} />} -->
   <!-- <Overview {schema} /> -->
+   <article set:html={post.description} />
 </StarlightPage>
