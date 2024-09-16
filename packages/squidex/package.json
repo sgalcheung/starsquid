@@ -9,14 +9,13 @@
   "author": "Sgal Cheung",
   "license": "ISC",
   "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/client-preset": "^4.3.3",
     "@graphql-typed-document-node/core": "^3.2.0",
-    "dotenv": "^16.4.5",
     "graphql": "^16.9.0"
-  },
-  "dependencies": {
-    "vite": "^5.4.5"
   }
 }

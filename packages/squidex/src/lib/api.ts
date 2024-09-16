@@ -4,18 +4,26 @@ import type { IndexQuery, PostQuery } from "../__generated__/graphql";
 import { graphql } from "../__generated__";
 
 // LOAD ENVIRONMENT VARIABLES
-import { loadEnv } from "vite";
+// import { loadEnv } from "vite";
 
-const { SQUIDEX_ENVIRONMENT, SQUIDEX_APP_NAME } = loadEnv(
-  "all",
-  process.cwd(),
-  "SQUIDEX_"
-);
+// const { SQUIDEX_ENVIRONMENT, SQUIDEX_APP_NAME } = loadEnv(
+//   "all",
+//   process.cwd(),
+//   "SQUIDEX_"
+// );
+
+
+import { config as loadDotenv } from "dotenv";
+import { resolve } from "path";
+
+loadDotenv({
+  path: resolve(process.cwd(), ".env"),
+});
 
 
 // SETUP SQUIDEX API
-const squidexEnvironment = SQUIDEX_ENVIRONMENT || "";
-const squiexAppName = SQUIDEX_APP_NAME || "";
+const squidexEnvironment = process.env.SQUIDEX_ENVIRONMENT || "";
+const squiexAppName = process.env.SQUIDEX_APP_NAME || "";
 
 function buildUrl(url: string) {
   if (url.length > 0 && url.startsWith("/")) {
