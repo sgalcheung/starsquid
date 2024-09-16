@@ -1,47 +1,52 @@
-# Astro Starter Kit: Minimal
+<div align="center">
+  <h1>💜 starlight-squidex ❤️</h1>
+  <p>Starlight plugin to pull articles from Squidex(3rd-party API) to your documentation.</p>
+  <p>
+    <a href="./screenshot.png" title="Screenshot of starlight-squidex">
+      <img alt="Screenshot of starlight-squidex" src="./screenshot.png" width="520" />
+    </a>
+  </p>
+</div>
 
-```sh
-npm create astro@latest -- --template minimal
-```
+> origin discussion [Pull main docs Content from 3rd-party API (a headless CMS) · withastro/starlight · Discussion #1790 (github.com)](https://github.com/withastro/starlight/discussions/1790)
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## 🌠 Getting Started
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Want to get started immediately? Check out the source code or check out the [example](https://starlight-squidex.netlify.app) to see the plugin in action.
 
 ## 🚀 Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
+```test
 /
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+├── README.md -> ./example/README.md
+├── example
+│   ├── README.md
+│   ├── astro.config.mjs
+│   ├── codegen.ts
+│   ├── dist
+│   ├── node_modules
+│   ├── package.json
+│   ├── public
+│   ├── src
+│   └── tsconfig.json
+├── netlify.toml
+├── node_modules
+├── package.json
+├── packages
+│   ├── squidex
+│   ├── starlight-squidex
+│   └── starlight-ssr
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+└── screenshot.png
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+starlight-squidex has unused, it is squidex and starlight-ssr mixed test product.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## ⚙️ Features
 
-Any static assets, like images, can be placed in the `public/` directory.
+A [Starlight](https://starlight.astro.build) plugin to server render contents, it is experment, more features are under development.
 
-## 🧞 Commands
+- SSR render contents
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+> This README format inspired from [starlight-blog/README.md at main · HiDeoo/starlight-blog (github.com)](https://github.com/HiDeoo/starlight-blog/blob/main/README.md)
