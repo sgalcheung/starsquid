@@ -1,4 +1,4 @@
-importScripts
+
 
 export function stripLeadingAndTrailingSlashes(path: string): string {
   return stripLeadingSlash(stripTrailingSlash(path))

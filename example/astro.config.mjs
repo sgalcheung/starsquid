@@ -8,13 +8,18 @@ import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
+  output: "server",
 
   integrations: [
     starlight({
       prerender: false,
       title: "My CMS Column",
-      plugins: [starlightSSR()],
+      plugins: [
+        starlightSSR({
+          entrypoint: "./src/components/Route.astro",
+          pattern: "column/[...SSRSlug]",
+        }),
+      ],
     }),
   ],
 

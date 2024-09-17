@@ -1,32 +1,40 @@
-import type { StarlightPlugin } from '@astrojs/starlight/types'
-import { starlightSSRIntegration } from './libs/integration'
+import type { StarlightPlugin } from "@astrojs/starlight/types";
+import { starlightSSRIntegration } from "./libs/integration";
 
-// import { validateConfig, type StarlightOpenAPIUserConfig } from './libs/config'
+import { validateConfig, type StarlightSSRUserConfig } from './libs/config'
 // import { starlightOpenAPIIntegration } from './libs/integration'
 // import { parseSchema } from './libs/parser'
 // import { getSidebarFromSchemas, getSidebarGroupsPlaceholder } from './libs/starlight'
 import { getSidebar } from "./libs/starlight";
+import type { StarlightSSRUserConfig } from "./utils/user-config";
 
 // export const openAPISidebarGroups = getSidebarGroupsPlaceholder()
 
-export default function starlightSSRPlugin(): StarlightPlugin {
+export default function starlightSSRPlugin(
+  userConfig: StarlightSSRUserConfig
+): StarlightPlugin {
   return {
-    name: 'starlight-ssr-plugin',
+    name: "starlight-ssr-plugin",
     hooks: {
-      setup: async ({ addIntegration, command, config: starlightConfig, logger, updateConfig }) => {
-        if (command !== 'build' && command !== 'dev') {
-          return
+      setup: async ({
+        addIntegration,
+        command,
+        config: starlightConfig,
+        logger,
+        updateConfig,
+      }) => {
+        if (command !== "build" && command !== "dev") {
+          return;
         }
 
-        // const config = validateConfig(logger, userConfig)
-        // const schemas = await Promise.all(config.map((schemaConfig) => parseSchema(logger, schemaConfig)))
+        const config = validateConfig(logger, userConfig);
 
-        addIntegration(starlightSSRIntegration())
+        addIntegration(starlightSSRIntegration(config));
 
         const sidebar = await Promise.resolve(getSidebar());
 
-        updateConfig({ sidebar })
+        updateConfig({ sidebar });
       },
     },
-  }
+  };
 }
