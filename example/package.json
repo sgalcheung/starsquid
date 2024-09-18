@@ -8,6 +8,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "typecheck": "astro check",
     "generate": "graphql-codegen"
   },
   "dependencies": {

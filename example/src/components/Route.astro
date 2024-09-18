@@ -34,11 +34,11 @@ const title =  'Overview' ;
 const { slug } = Astro.params;
 
 const { posts } = await getPost(slug);
-if (!posts || posts.length > 1) return Astro.redirect("/404");
+if (!posts || posts.length !== 1) return Astro.redirect("/404");
 
-const post = posts?.[0].flatData;
+const post = posts[0].flatData;
 
-const frontmatter = { title: post.name };
+const frontmatter = { title: post.name! };
 
 ---
 
