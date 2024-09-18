@@ -8,7 +8,7 @@ const UserConfigSchema = z.object({
   pattern: PatternSchema(),
 });
 
-const containsDynamicPattern = /\[\.\.\..+\]$/; //  Pattern must contain '[...]' and end with ']'
+const containsDynamicPattern = /\[.*\]$/; // Pattern must contain '[]' and end with ']'
 
 export const StarlightSSRConfigSchema = UserConfigSchema.strict()
   .transform((config) => ({
@@ -20,7 +20,7 @@ export const StarlightSSRConfigSchema = UserConfigSchema.strict()
       "The pattern '[...slug]' is reserved. Please use a different pattern.",
   })
   .refine((config) => containsDynamicPattern.test(config.pattern), {
-    message: "The pattern must contain '[...]' and end with ']'.",
+    message: "The pattern must contain '[]' and end with ']'.",
   });
 
 export type StarlightSSRUserConfig = z.input<typeof StarlightSSRConfigSchema>;

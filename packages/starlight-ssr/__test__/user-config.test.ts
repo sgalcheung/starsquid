@@ -33,7 +33,7 @@ test("pattern should not be '[...slug]'", () => {
   }
 });
 
-test("pattern must contain '[...]' and end with ']'", () => {
+test("pattern must contain '[]' and end with ']'", () => {
   const invalidConfig = {
     entrypoint: "./src/components/Route.astro",
     pattern: "page/static",
@@ -47,9 +47,19 @@ test("pattern must contain '[...]' and end with ']'", () => {
     expect(result.error.errors).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          message: "The pattern must contain '[...]' and end with ']'.",
+          message: "The pattern must contain '[]' and end with ']'.",
         }),
       ])
     );
   }
+});
+
+test("valid pattern with square brackets", () => {
+  const validConfig = {
+    entrypoint: "./src/components/Route.astro",
+    pattern: "section/[id]",
+  };
+
+  const result = StarlightSSRConfigSchema.safeParse(validConfig);
+  expect(result.success).toBe(true);
 });
