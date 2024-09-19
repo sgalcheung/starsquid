@@ -6,7 +6,6 @@ import { validateConfig, type StarlightSSRUserConfig } from './libs/config'
 // import { parseSchema } from './libs/parser'
 // import { getSidebarFromSchemas, getSidebarGroupsPlaceholder } from './libs/starlight'
 import { getSidebar } from "./libs/starlight";
-import type { StarlightSSRUserConfig } from "./utils/user-config";
 
 // export const openAPISidebarGroups = getSidebarGroupsPlaceholder()
 
