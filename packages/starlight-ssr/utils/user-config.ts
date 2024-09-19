@@ -8,13 +8,20 @@ const UserConfigSchema = z.object({
   pattern: PatternSchema(),
 });
 
-const containsDynamicPattern = /\[.*\]$/; // Pattern must contain '[]' and end with ']'
+// Matches any dynamic route pattern inside square brackets: '[...]' or '[slug]'
+const containsDynamicPattern = /\[.*\]$/; 
+
+// Regular expression to check for double slashes
+const containsDoubleSlash = /\/{2,}/;
 
 export const StarlightSSRConfigSchema = UserConfigSchema.strict()
   .transform((config) => ({
     ...config,
     entrypoint: stripLeadingAndTrailingSlashes(config.entrypoint),
   }))
+  .refine((config) => !containsDoubleSlash.test(config.pattern), {
+    message: "The pattern should not contain '//'.",
+  })
   .refine((config) => config.pattern !== "[...slug]", {
     message:
       "The pattern '[...slug]' is reserved. Please use a different pattern.",

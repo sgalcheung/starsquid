@@ -1,7 +1,7 @@
 import { expect, test } from "vitest";
 import { StarlightSSRConfigSchema } from "../utils/user-config";
 
-test("valid pattern", () => {
+test("valid pattern without double slashes", () => {
   const validConfig = {
     entrypoint: "./src/components/Route.astro",
     pattern: "section/[...dynamic]",
@@ -9,6 +9,26 @@ test("valid pattern", () => {
 
   const result = StarlightSSRConfigSchema.safeParse(validConfig);
   expect(result.success).toBe(true);
+});
+
+test("pattern should not contain '//'", () => {
+  const invalidConfig = {
+    entrypoint: "./src/components/Route.astro",
+    pattern: "column/article//[slug]", // Invalid
+  };
+
+  const result = StarlightSSRConfigSchema.safeParse(invalidConfig);
+  expect(result.success).toBe(false);
+
+  if (!result.success) {
+    expect(result.error.errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          message: "The pattern should not contain '//'.",
+        }),
+      ])
+    );
+  }
 });
 
 test("pattern should not be '[...slug]'", () => {
