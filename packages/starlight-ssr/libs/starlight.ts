@@ -2,6 +2,7 @@ import type { StarlightUserConfig } from "@astrojs/starlight/types";
 import type { MarkdownHeading } from "astro";
 // import { Schema } from './schema'
 import { indexQuery } from "squidex/src/lib/api";
+import type { StarlightSSRUserConfig } from "../utils/user-config";
 
 const starlightOpenAPISidebarGroupsLabel = Symbol(
   "StarlightOpenAPISidebarGroupsLabel"
@@ -27,7 +28,14 @@ export function getSidebarGroupsPlaceholder(): SidebarGroup[] {
 //   }
 // }
 
-export async function getSidebar(): Promise<StarlightUserConfigSidebar> {
+export async function getSidebar(
+  userConfig: StarlightSSRUserConfig
+): Promise<StarlightUserConfigSidebar> {
+  const subPath = userConfig.pattern.substring(
+    0,
+    userConfig.pattern.indexOf("/[")
+  );
+
   const { contentLayout } = await indexQuery();
 
   const sidebar: StarlightUserConfigSidebar = contentLayout?.map(
@@ -36,7 +44,7 @@ export async function getSidebar(): Promise<StarlightUserConfigSidebar> {
       items:
         sidebarItem.flatData.text?.contents?.map((item) => ({
           label: item.flatData.name!,
-          link: `column/${item.flatData.slug!}`,
+          link: `${subPath}/${item.flatData.slug!}`,
         })) ?? [],
     })
   );

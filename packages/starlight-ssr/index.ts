@@ -30,7 +30,7 @@ export default function starlightSSRPlugin(
 
         addIntegration(starlightSSRIntegration(config));
 
-        const sidebar = await Promise.resolve(getSidebar());
+        const sidebar = await Promise.resolve(getSidebar(userConfig));
 
         updateConfig({ sidebar });
       },

@@ -5,6 +5,7 @@ import { defineConfig } from "astro/config";
 import starlightSSR from "starlight-ssr";
 
 import netlify from "@astrojs/netlify";
+import { COLUMN_ARTICLE_PATH } from "./src/helpers/constants";
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,7 +18,7 @@ export default defineConfig({
       plugins: [
         starlightSSR({
           entrypoint: "./src/components/Route.astro",
-          pattern: "column/[slug]",
+          pattern: `${COLUMN_ARTICLE_PATH}/[slug]`,
         }),
       ],
     }),
