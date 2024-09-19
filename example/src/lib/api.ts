@@ -1,6 +1,10 @@
 import { inspect } from "node:util";
 import { executeOperation } from "./graphql";
-import type { IndexQuery, PostQuery } from "../__generated__/graphql";
+import type {
+  ColumnQuery,
+  IndexQuery,
+  PostQuery,
+} from "../__generated__/graphql";
 import { graphql } from "../__generated__";
 
 function buildUrl(url: string) {
@@ -46,6 +50,31 @@ export const indexQuery = async () => {
 
   return r.data as IndexQuery;
 };
+
+export async function getColumn(
+  slug: string | undefined
+): Promise<ColumnQuery> {
+  const query = graphql(`
+    query Column($filter: String!) {
+      columns: queryPostsContents(filter: $filter) {
+        flatData {
+          title
+          description
+        }
+      }
+    }
+  `);
+
+  return executeOperation(GRAPHQL_URL, query, {
+    filter: `data/slug/iv eq '${slug}'`,
+  }).then((r) => {
+    if (r.errors) {
+      console.log(inspect(r.errors, { depth: Infinity, colors: true }));
+      throw new Error("Failed to execute GraphQL query");
+    }
+    return r.data as ColumnQuery;
+  });
+}
 
 export async function getPost(slug: string | undefined): Promise<PostQuery> {
   const query = graphql(`

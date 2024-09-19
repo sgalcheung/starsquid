@@ -1,0 +1,19 @@
+---
+// uri: column/intro/100002201
+// uri: column/intro/new-hotel-offerings
+
+import { getColumn } from "@lib/api";
+
+
+const {slug} = Astro.params;
+const { columns } = await getColumn(slug);
+
+if (!columns || columns.length !== 1) return Astro.redirect("/404");
+
+const column = columns?.[0].flatData;
+
+// console.log(column)
+---
+
+<article set:html={column.description} />
+
