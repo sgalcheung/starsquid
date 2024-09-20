@@ -4,7 +4,6 @@ import type {
   ArticleQuery,
   IndexQuery,
   IntroQuery,
-  PostQuery,
 } from "../__generated__/graphql";
 import { graphql } from "../__generated__";
 
