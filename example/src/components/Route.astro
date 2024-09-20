@@ -9,7 +9,7 @@ import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
 
 // import Operation from './operation/Operation.astro'
 // import Overview from './Overview.astro'
-import { getPost } from '../lib/api'
+import { getArticle } from '@/lib/api'
 
 export const prerender = false
 
@@ -33,17 +33,17 @@ const title =  'Overview' ;
 
 const { slug } = Astro.params;
 
-const { posts } = await getPost(slug);
-if (!posts || posts.length !== 1) return Astro.redirect("/404");
+const { articles } = await getArticle(slug);
+if (!articles || articles.length !== 1) return Astro.redirect("/404");
 
-const post = posts[0].flatData;
+const article = articles[0].flatData;
 
-const frontmatter = { title: post.name! };
+const frontmatter = { title: article.name! };
 
 ---
 
 <StarlightPage frontmatter={frontmatter}>
   <!-- {isOverview ? <Overview {schema} /> : <Operation {schema} operation={Astro.props.operation} />} -->
   <!-- <Overview {schema} /> -->
-   <article set:html={post.description} />
+   <article set:html={article.content} />
 </StarlightPage>

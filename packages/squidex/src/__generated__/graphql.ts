@@ -21,37 +21,61 @@ export type Scalars = {
   Long: { input: any; output: any; }
 };
 
-export type AllContents = Hotels | Pages | Posts | Test;
+export type AllContents = Articles | Columns | Hotels | Introductions | Pages | Posts | Test;
 
 /** The app mutations. */
 export type ApplicationMutations = {
   __typename?: 'ApplicationMutations';
+  /** Change a articles content. */
+  changeArticlesContent?: Maybe<Articles>;
+  /** Change a The relationship of Hotels and introductions content. */
+  changeColumnsContent?: Maybe<Columns>;
   /** Change a Hotels content. */
   changeHotelsContent?: Maybe<Hotels>;
+  /** Change a introductions content. */
+  changeIntroductionsContent?: Maybe<Introductions>;
   /** Change a Pages content. */
   changePagesContent?: Maybe<Pages>;
   /** Change a Posts content. */
   changePostsContent?: Maybe<Posts>;
   /** Change a test content. */
   changeTestContent?: Maybe<Test>;
+  /** Creates an articles content. */
+  createArticlesContent?: Maybe<Articles>;
+  /** Creates an The relationship of Hotels and introductions content. */
+  createColumnsContent?: Maybe<Columns>;
   /** Creates an Hotels content. */
   createHotelsContent?: Maybe<Hotels>;
+  /** Creates an introductions content. */
+  createIntroductionsContent?: Maybe<Introductions>;
   /** Creates an Pages content. */
   createPagesContent?: Maybe<Pages>;
   /** Creates an Posts content. */
   createPostsContent?: Maybe<Posts>;
   /** Creates an test content. */
   createTestContent?: Maybe<Test>;
+  /** Delete an articles content. */
+  deleteArticlesContent: EntitySavedResultDto;
+  /** Delete an The relationship of Hotels and introductions content. */
+  deleteColumnsContent: EntitySavedResultDto;
   /** Delete an Hotels content. */
   deleteHotelsContent: EntitySavedResultDto;
+  /** Delete an introductions content. */
+  deleteIntroductionsContent: EntitySavedResultDto;
   /** Delete an Pages content. */
   deletePagesContent: EntitySavedResultDto;
   /** Delete an Posts content. */
   deletePostsContent: EntitySavedResultDto;
   /** Delete an test content. */
   deleteTestContent: EntitySavedResultDto;
+  /** Patch an articles content by id. */
+  patchArticlesContent?: Maybe<Articles>;
+  /** Patch an The relationship of Hotels and introductions content by id. */
+  patchColumnsContent?: Maybe<Columns>;
   /** Patch an Hotels content by id. */
   patchHotelsContent?: Maybe<Hotels>;
+  /** Patch an introductions content by id. */
+  patchIntroductionsContent?: Maybe<Introductions>;
   /** Patch an Pages content by id. */
   patchPagesContent?: Maybe<Pages>;
   /** Patch an Posts content by id. */
@@ -59,10 +83,25 @@ export type ApplicationMutations = {
   /** Patch an test content by id. */
   patchTestContent?: Maybe<Test>;
   /**
+   * Publish a articles content.
+   * @deprecated Use 'changeArticlesContent' instead
+   */
+  publishArticlesContent?: Maybe<Articles>;
+  /**
+   * Publish a The relationship of Hotels and introductions content.
+   * @deprecated Use 'changeColumnsContent' instead
+   */
+  publishColumnsContent?: Maybe<Columns>;
+  /**
    * Publish a Hotels content.
    * @deprecated Use 'changeHotelsContent' instead
    */
   publishHotelsContent?: Maybe<Hotels>;
+  /**
+   * Publish a introductions content.
+   * @deprecated Use 'changeIntroductionsContent' instead
+   */
+  publishIntroductionsContent?: Maybe<Introductions>;
   /**
    * Publish a Pages content.
    * @deprecated Use 'changePagesContent' instead
@@ -78,16 +117,28 @@ export type ApplicationMutations = {
    * @deprecated Use 'changeTestContent' instead
    */
   publishTestContent?: Maybe<Test>;
+  /** Update an articles content by id. */
+  updateArticlesContent?: Maybe<Articles>;
+  /** Update an The relationship of Hotels and introductions content by id. */
+  updateColumnsContent?: Maybe<Columns>;
   /** Update an Hotels content by id. */
   updateHotelsContent?: Maybe<Hotels>;
+  /** Update an introductions content by id. */
+  updateIntroductionsContent?: Maybe<Introductions>;
   /** Update an Pages content by id. */
   updatePagesContent?: Maybe<Pages>;
   /** Update an Posts content by id. */
   updatePostsContent?: Maybe<Posts>;
   /** Update an test content by id. */
   updateTestContent?: Maybe<Test>;
+  /** Upsert an articles content by id. */
+  upsertArticlesContent?: Maybe<Articles>;
+  /** Upsert an The relationship of Hotels and introductions content by id. */
+  upsertColumnsContent?: Maybe<Columns>;
   /** Upsert an Hotels content by id. */
   upsertHotelsContent?: Maybe<Hotels>;
+  /** Upsert an introductions content by id. */
+  upsertIntroductionsContent?: Maybe<Introductions>;
   /** Upsert an Pages content by id. */
   upsertPagesContent?: Maybe<Pages>;
   /** Upsert an Posts content by id. */
@@ -98,7 +149,34 @@ export type ApplicationMutations = {
 
 
 /** The app mutations. */
+export type ApplicationMutationsChangeArticlesContentArgs = {
+  dueTime?: InputMaybe<Scalars['Instant']['input']>;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['String']['input'];
+  status: Scalars['String']['input'];
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsChangeColumnsContentArgs = {
+  dueTime?: InputMaybe<Scalars['Instant']['input']>;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['String']['input'];
+  status: Scalars['String']['input'];
+};
+
+
+/** The app mutations. */
 export type ApplicationMutationsChangeHotelsContentArgs = {
+  dueTime?: InputMaybe<Scalars['Instant']['input']>;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['String']['input'];
+  status: Scalars['String']['input'];
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsChangeIntroductionsContentArgs = {
   dueTime?: InputMaybe<Scalars['Instant']['input']>;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['String']['input'];
@@ -134,8 +212,35 @@ export type ApplicationMutationsChangeTestContentArgs = {
 
 
 /** The app mutations. */
+export type ApplicationMutationsCreateArticlesContentArgs = {
+  data: ArticlesDataInputDto;
+  id?: InputMaybe<Scalars['String']['input']>;
+  publish?: InputMaybe<Scalars['Boolean']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsCreateColumnsContentArgs = {
+  data: ColumnsDataInputDto;
+  id?: InputMaybe<Scalars['String']['input']>;
+  publish?: InputMaybe<Scalars['Boolean']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The app mutations. */
 export type ApplicationMutationsCreateHotelsContentArgs = {
   data: HotelsDataInputDto;
+  id?: InputMaybe<Scalars['String']['input']>;
+  publish?: InputMaybe<Scalars['Boolean']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsCreateIntroductionsContentArgs = {
+  data: IntroductionsDataInputDto;
   id?: InputMaybe<Scalars['String']['input']>;
   publish?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -170,7 +275,28 @@ export type ApplicationMutationsCreateTestContentArgs = {
 
 
 /** The app mutations. */
+export type ApplicationMutationsDeleteArticlesContentArgs = {
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['String']['input'];
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsDeleteColumnsContentArgs = {
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['String']['input'];
+};
+
+
+/** The app mutations. */
 export type ApplicationMutationsDeleteHotelsContentArgs = {
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['String']['input'];
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsDeleteIntroductionsContentArgs = {
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['String']['input'];
 };
@@ -198,8 +324,32 @@ export type ApplicationMutationsDeleteTestContentArgs = {
 
 
 /** The app mutations. */
+export type ApplicationMutationsPatchArticlesContentArgs = {
+  data: ArticlesDataInputDto;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsPatchColumnsContentArgs = {
+  data: ColumnsDataInputDto;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The app mutations. */
 export type ApplicationMutationsPatchHotelsContentArgs = {
   data: HotelsDataInputDto;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsPatchIntroductionsContentArgs = {
+  data: IntroductionsDataInputDto;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
 };
@@ -230,7 +380,34 @@ export type ApplicationMutationsPatchTestContentArgs = {
 
 
 /** The app mutations. */
+export type ApplicationMutationsPublishArticlesContentArgs = {
+  dueTime?: InputMaybe<Scalars['Instant']['input']>;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['String']['input'];
+  status: Scalars['String']['input'];
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsPublishColumnsContentArgs = {
+  dueTime?: InputMaybe<Scalars['Instant']['input']>;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['String']['input'];
+  status: Scalars['String']['input'];
+};
+
+
+/** The app mutations. */
 export type ApplicationMutationsPublishHotelsContentArgs = {
+  dueTime?: InputMaybe<Scalars['Instant']['input']>;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['String']['input'];
+  status: Scalars['String']['input'];
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsPublishIntroductionsContentArgs = {
   dueTime?: InputMaybe<Scalars['Instant']['input']>;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['String']['input'];
@@ -266,8 +443,32 @@ export type ApplicationMutationsPublishTestContentArgs = {
 
 
 /** The app mutations. */
+export type ApplicationMutationsUpdateArticlesContentArgs = {
+  data: ArticlesDataInputDto;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsUpdateColumnsContentArgs = {
+  data: ColumnsDataInputDto;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The app mutations. */
 export type ApplicationMutationsUpdateHotelsContentArgs = {
   data: HotelsDataInputDto;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsUpdateIntroductionsContentArgs = {
+  data: IntroductionsDataInputDto;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
 };
@@ -298,8 +499,41 @@ export type ApplicationMutationsUpdateTestContentArgs = {
 
 
 /** The app mutations. */
+export type ApplicationMutationsUpsertArticlesContentArgs = {
+  data: ArticlesDataInputDto;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['String']['input'];
+  patch?: InputMaybe<Scalars['Boolean']['input']>;
+  publish?: InputMaybe<Scalars['Boolean']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsUpsertColumnsContentArgs = {
+  data: ColumnsDataInputDto;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['String']['input'];
+  patch?: InputMaybe<Scalars['Boolean']['input']>;
+  publish?: InputMaybe<Scalars['Boolean']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The app mutations. */
 export type ApplicationMutationsUpsertHotelsContentArgs = {
   data: HotelsDataInputDto;
+  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['String']['input'];
+  patch?: InputMaybe<Scalars['Boolean']['input']>;
+  publish?: InputMaybe<Scalars['Boolean']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The app mutations. */
+export type ApplicationMutationsUpsertIntroductionsContentArgs = {
+  data: IntroductionsDataInputDto;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['String']['input'];
   patch?: InputMaybe<Scalars['Boolean']['input']>;
@@ -343,26 +577,44 @@ export type ApplicationMutationsUpsertTestContentArgs = {
 /** The app queries. */
 export type ApplicationQueries = {
   __typename?: 'ApplicationQueries';
+  /** Find an articles content by id. */
+  findArticlesContent?: Maybe<Articles>;
   /** Find an asset by id. */
   findAsset?: Maybe<Asset>;
+  /** Find an The relationship of Hotels and introductions content by id. */
+  findColumnsContent?: Maybe<Columns>;
   /** Find an Hotels content by id. */
   findHotelsContent?: Maybe<Hotels>;
+  /** Find an introductions content by id. */
+  findIntroductionsContent?: Maybe<Introductions>;
   /** Find an Pages content by id. */
   findPagesContent?: Maybe<Pages>;
   /** Find an Posts content by id. */
   findPostsContent?: Maybe<Posts>;
   /** Find an test content by id. */
   findTestContent?: Maybe<Test>;
+  /** Query articles content items. */
+  queryArticlesContents?: Maybe<Array<Articles>>;
+  /** Query articles content items with total count. */
+  queryArticlesContentsWithTotal?: Maybe<ArticlesResultDto>;
   /** Get assets. */
   queryAssets: Array<Asset>;
   /** Get assets and total count. */
   queryAssetsWithTotal: AssetResultDto;
+  /** Query The relationship of Hotels and introductions content items. */
+  queryColumnsContents?: Maybe<Array<Columns>>;
+  /** Query The relationship of Hotels and introductions content items with total count. */
+  queryColumnsContentsWithTotal?: Maybe<ColumnsResultDto>;
   /** Query content items by IDs across schemeas. */
   queryContentsByIds: Array<AllContents>;
   /** Query Hotels content items. */
   queryHotelsContents?: Maybe<Array<Hotels>>;
   /** Query Hotels content items with total count. */
   queryHotelsContentsWithTotal?: Maybe<HotelsResultDto>;
+  /** Query introductions content items. */
+  queryIntroductionsContents?: Maybe<Array<Introductions>>;
+  /** Query introductions content items with total count. */
+  queryIntroductionsContentsWithTotal?: Maybe<IntroductionsResultDto>;
   /** Query Pages content items. */
   queryPagesContents?: Maybe<Array<Pages>>;
   /** Query Pages content items with total count. */
@@ -379,13 +631,34 @@ export type ApplicationQueries = {
 
 
 /** The app queries. */
+export type ApplicationQueriesFindArticlesContentArgs = {
+  id: Scalars['String']['input'];
+  version?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The app queries. */
 export type ApplicationQueriesFindAssetArgs = {
   id: Scalars['String']['input'];
 };
 
 
 /** The app queries. */
+export type ApplicationQueriesFindColumnsContentArgs = {
+  id: Scalars['String']['input'];
+  version?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The app queries. */
 export type ApplicationQueriesFindHotelsContentArgs = {
+  id: Scalars['String']['input'];
+  version?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The app queries. */
+export type ApplicationQueriesFindIntroductionsContentArgs = {
   id: Scalars['String']['input'];
   version?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -413,6 +686,26 @@ export type ApplicationQueriesFindTestContentArgs = {
 
 
 /** The app queries. */
+export type ApplicationQueriesQueryArticlesContentsArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The app queries. */
+export type ApplicationQueriesQueryArticlesContentsWithTotalArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The app queries. */
 export type ApplicationQueriesQueryAssetsArgs = {
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
@@ -425,6 +718,26 @@ export type ApplicationQueriesQueryAssetsArgs = {
 export type ApplicationQueriesQueryAssetsWithTotalArgs = {
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The app queries. */
+export type ApplicationQueriesQueryColumnsContentsArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The app queries. */
+export type ApplicationQueriesQueryColumnsContentsWithTotalArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -448,6 +761,26 @@ export type ApplicationQueriesQueryHotelsContentsArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryHotelsContentsWithTotalArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The app queries. */
+export type ApplicationQueriesQueryIntroductionsContentsArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The app queries. */
+export type ApplicationQueriesQueryIntroductionsContentsWithTotalArgs = {
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
@@ -532,6 +865,110 @@ export type ApplicationSubscriptionsAssetChangesArgs = {
 export type ApplicationSubscriptionsContentChangesArgs = {
   schemaName?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<EnrichedContentEventType>;
+};
+
+/** The structure of a articles content type. */
+export type Articles = Content & {
+  __typename?: 'Articles';
+  /** The timestamp when the object was created. */
+  created: Scalars['Instant']['output'];
+  /** The user who created the object. */
+  createdBy: Scalars['String']['output'];
+  /** The user who created the object. */
+  createdByUser: User;
+  /** The data of the content. */
+  data: ArticlesDataDto;
+  /** The data of the content. */
+  data__dynamic?: Maybe<Scalars['JsonScalar']['output']>;
+  /** The edit token. */
+  editToken?: Maybe<Scalars['String']['output']>;
+  /** The flat data of the content. */
+  flatData: ArticlesFlatDataDto;
+  /** The ID of the object (usually GUID). */
+  id: Scalars['String']['output'];
+  /** The timestamp when the object was updated the last time. */
+  lastModified: Scalars['Instant']['output'];
+  /** The user who updated the object the last time. */
+  lastModifiedBy: Scalars['String']['output'];
+  /** The user who updated the object the last time. */
+  lastModifiedByUser: User;
+  /** The new status of the content. */
+  newStatus?: Maybe<Scalars['String']['output']>;
+  /** The status color of the content. */
+  newStatusColor?: Maybe<Scalars['String']['output']>;
+  /** The status of the content. */
+  status: Scalars['String']['output'];
+  /** The status color of the content. */
+  statusColor: Scalars['String']['output'];
+  /** The URL to the content. */
+  url: Scalars['String']['output'];
+  /** The version of the objec. */
+  version: Scalars['Int']['output'];
+};
+
+/** The structure of the Content field of the articles content type. */
+export type ArticlesDataContentDto = {
+  __typename?: 'ArticlesDataContentDto';
+  iv?: Maybe<Scalars['String']['output']>;
+};
+
+/** The structure of the Content field of the articles content input type. */
+export type ArticlesDataContentInputDto = {
+  iv?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The structure of the articles data type. */
+export type ArticlesDataDto = {
+  __typename?: 'ArticlesDataDto';
+  content?: Maybe<ArticlesDataContentDto>;
+  name?: Maybe<ArticlesDataNameDto>;
+  slug?: Maybe<ArticlesDataSlugDto>;
+};
+
+/** The structure of the articles data input type. */
+export type ArticlesDataInputDto = {
+  content?: InputMaybe<ArticlesDataContentInputDto>;
+  name?: InputMaybe<ArticlesDataNameInputDto>;
+  slug?: InputMaybe<ArticlesDataSlugInputDto>;
+};
+
+/** The structure of the Name field of the articles content type. */
+export type ArticlesDataNameDto = {
+  __typename?: 'ArticlesDataNameDto';
+  iv?: Maybe<Scalars['String']['output']>;
+};
+
+/** The structure of the Name field of the articles content input type. */
+export type ArticlesDataNameInputDto = {
+  iv?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The structure of the Slug (Autogenerated) field of the articles content type. */
+export type ArticlesDataSlugDto = {
+  __typename?: 'ArticlesDataSlugDto';
+  iv?: Maybe<Scalars['String']['output']>;
+};
+
+/** The structure of the Slug (Autogenerated) field of the articles content input type. */
+export type ArticlesDataSlugInputDto = {
+  iv?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The structure of the flat articles data type. */
+export type ArticlesFlatDataDto = {
+  __typename?: 'ArticlesFlatDataDto';
+  content?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  slug?: Maybe<Scalars['String']['output']>;
+};
+
+/** List of articles items and total count. */
+export type ArticlesResultDto = {
+  __typename?: 'ArticlesResultDto';
+  /** The contents. */
+  items?: Maybe<Array<Articles>>;
+  /** The total count of  contents. */
+  total: Scalars['Int']['output'];
 };
 
 /** An asset */
@@ -625,6 +1062,155 @@ export enum AssetType {
   Unknown = 'UNKNOWN',
   Video = 'VIDEO'
 }
+
+/** The structure of the chapters component schema. */
+export type ChaptersComponent = Component & {
+  __typename?: 'ChaptersComponent';
+  articles?: Maybe<Array<Articles>>;
+  /** The ID of the schema. */
+  schemaId: Scalars['String']['output'];
+  /** The name of the schema. */
+  schemaName?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+};
+
+/** The structure of a The relationship of Hotels and introductions content type. */
+export type Columns = Content & {
+  __typename?: 'Columns';
+  /** The timestamp when the object was created. */
+  created: Scalars['Instant']['output'];
+  /** The user who created the object. */
+  createdBy: Scalars['String']['output'];
+  /** The user who created the object. */
+  createdByUser: User;
+  /** The data of the content. */
+  data: ColumnsDataDto;
+  /** The data of the content. */
+  data__dynamic?: Maybe<Scalars['JsonScalar']['output']>;
+  /** The edit token. */
+  editToken?: Maybe<Scalars['String']['output']>;
+  /** The flat data of the content. */
+  flatData: ColumnsFlatDataDto;
+  /** The ID of the object (usually GUID). */
+  id: Scalars['String']['output'];
+  /** The timestamp when the object was updated the last time. */
+  lastModified: Scalars['Instant']['output'];
+  /** The user who updated the object the last time. */
+  lastModifiedBy: Scalars['String']['output'];
+  /** The user who updated the object the last time. */
+  lastModifiedByUser: User;
+  /** The new status of the content. */
+  newStatus?: Maybe<Scalars['String']['output']>;
+  /** The status color of the content. */
+  newStatusColor?: Maybe<Scalars['String']['output']>;
+  /** Query Hotels content items. */
+  referencesHotelsContents?: Maybe<Array<Hotels>>;
+  /** Query Hotels content items with total count. */
+  referencesHotelsContentsWithTotal?: Maybe<HotelsResultDto>;
+  /** Query introductions content items. */
+  referencesIntroductionsContents?: Maybe<Array<Introductions>>;
+  /** Query introductions content items with total count. */
+  referencesIntroductionsContentsWithTotal?: Maybe<IntroductionsResultDto>;
+  /** The status of the content. */
+  status: Scalars['String']['output'];
+  /** The status color of the content. */
+  statusColor: Scalars['String']['output'];
+  /** The URL to the content. */
+  url: Scalars['String']['output'];
+  /** The version of the objec. */
+  version: Scalars['Int']['output'];
+};
+
+
+/** The structure of a The relationship of Hotels and introductions content type. */
+export type ColumnsReferencesHotelsContentsArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The structure of a The relationship of Hotels and introductions content type. */
+export type ColumnsReferencesHotelsContentsWithTotalArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The structure of a The relationship of Hotels and introductions content type. */
+export type ColumnsReferencesIntroductionsContentsArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The structure of a The relationship of Hotels and introductions content type. */
+export type ColumnsReferencesIntroductionsContentsWithTotalArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The structure of the The relationship of Hotels and introductions data type. */
+export type ColumnsDataDto = {
+  __typename?: 'ColumnsDataDto';
+  hotels?: Maybe<ColumnsDataHotelsDto>;
+  slug?: Maybe<ColumnsDataSlugDto>;
+};
+
+/** The structure of the Hotels field of the The relationship of Hotels and introductions content type. */
+export type ColumnsDataHotelsDto = {
+  __typename?: 'ColumnsDataHotelsDto';
+  iv?: Maybe<Array<Hotels>>;
+};
+
+/** The structure of the Hotels field of the The relationship of Hotels and introductions content input type. */
+export type ColumnsDataHotelsInputDto = {
+  iv?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+/** The structure of the The relationship of Hotels and introductions data input type. */
+export type ColumnsDataInputDto = {
+  hotels?: InputMaybe<ColumnsDataHotelsInputDto>;
+  slug?: InputMaybe<ColumnsDataSlugInputDto>;
+};
+
+/** The structure of the Slug field of the The relationship of Hotels and introductions content type. */
+export type ColumnsDataSlugDto = {
+  __typename?: 'ColumnsDataSlugDto';
+  iv?: Maybe<Array<Introductions>>;
+};
+
+/** The structure of the Slug field of the The relationship of Hotels and introductions content input type. */
+export type ColumnsDataSlugInputDto = {
+  iv?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+/** The structure of the flat The relationship of Hotels and introductions data type. */
+export type ColumnsFlatDataDto = {
+  __typename?: 'ColumnsFlatDataDto';
+  hotels?: Maybe<Array<Hotels>>;
+  slug?: Maybe<Array<Introductions>>;
+};
+
+/** List of The relationship of Hotels and introductions items and total count. */
+export type ColumnsResultDto = {
+  __typename?: 'ColumnsResultDto';
+  /** The contents. */
+  items?: Maybe<Array<Columns>>;
+  /** The total count of  contents. */
+  total: Scalars['Int']['output'];
+};
 
 /** The structure of all content types. */
 export type Component = {
@@ -818,6 +1404,10 @@ export type Hotels = Content & {
   newStatus?: Maybe<Scalars['String']['output']>;
   /** The status color of the content. */
   newStatusColor?: Maybe<Scalars['String']['output']>;
+  /** Query The relationship of Hotels and introductions content items. */
+  referencingColumnsContents?: Maybe<Array<Columns>>;
+  /** Query The relationship of Hotels and introductions content items with total count. */
+  referencingColumnsContentsWithTotal?: Maybe<ColumnsResultDto>;
   /** The status of the content. */
   status: Scalars['String']['output'];
   /** The status color of the content. */
@@ -826,6 +1416,26 @@ export type Hotels = Content & {
   url: Scalars['String']['output'];
   /** The version of the objec. */
   version: Scalars['Int']['output'];
+};
+
+
+/** The structure of a Hotels content type. */
+export type HotelsReferencingColumnsContentsArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The structure of a Hotels content type. */
+export type HotelsReferencingColumnsContentsWithTotalArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** The structure of the Description field of the Hotels content type. */
@@ -931,6 +1541,168 @@ export type HotelsResultDto = {
   __typename?: 'HotelsResultDto';
   /** The contents. */
   items?: Maybe<Array<Hotels>>;
+  /** The total count of  contents. */
+  total: Scalars['Int']['output'];
+};
+
+/** The structure of a introductions content type. */
+export type Introductions = Content & {
+  __typename?: 'Introductions';
+  /** The timestamp when the object was created. */
+  created: Scalars['Instant']['output'];
+  /** The user who created the object. */
+  createdBy: Scalars['String']['output'];
+  /** The user who created the object. */
+  createdByUser: User;
+  /** The data of the content. */
+  data: IntroductionsDataDto;
+  /** The data of the content. */
+  data__dynamic?: Maybe<Scalars['JsonScalar']['output']>;
+  /** The edit token. */
+  editToken?: Maybe<Scalars['String']['output']>;
+  /** The flat data of the content. */
+  flatData: IntroductionsFlatDataDto;
+  /** The ID of the object (usually GUID). */
+  id: Scalars['String']['output'];
+  /** The timestamp when the object was updated the last time. */
+  lastModified: Scalars['Instant']['output'];
+  /** The user who updated the object the last time. */
+  lastModifiedBy: Scalars['String']['output'];
+  /** The user who updated the object the last time. */
+  lastModifiedByUser: User;
+  /** The new status of the content. */
+  newStatus?: Maybe<Scalars['String']['output']>;
+  /** The status color of the content. */
+  newStatusColor?: Maybe<Scalars['String']['output']>;
+  /** Query The relationship of Hotels and introductions content items. */
+  referencingColumnsContents?: Maybe<Array<Columns>>;
+  /** Query The relationship of Hotels and introductions content items with total count. */
+  referencingColumnsContentsWithTotal?: Maybe<ColumnsResultDto>;
+  /** The status of the content. */
+  status: Scalars['String']['output'];
+  /** The status color of the content. */
+  statusColor: Scalars['String']['output'];
+  /** The URL to the content. */
+  url: Scalars['String']['output'];
+  /** The version of the objec. */
+  version: Scalars['Int']['output'];
+};
+
+
+/** The structure of a introductions content type. */
+export type IntroductionsReferencingColumnsContentsArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The structure of a introductions content type. */
+export type IntroductionsReferencingColumnsContentsWithTotalArgs = {
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The structure of the Chapters field of the introductions content type. */
+export type IntroductionsDataChaptersDto = {
+  __typename?: 'IntroductionsDataChaptersDto';
+  iv?: Maybe<Array<ChaptersComponent>>;
+};
+
+/** The dynamic structure of the Chapters field of the introductions content type. */
+export type IntroductionsDataChaptersDto__Dynamic = {
+  __typename?: 'IntroductionsDataChaptersDto__Dynamic';
+  iv?: Maybe<Scalars['JsonScalar']['output']>;
+};
+
+
+/** The dynamic structure of the Chapters field of the introductions content type. */
+export type IntroductionsDataChaptersDto__DynamicIvArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The structure of the Chapters field of the introductions content input type. */
+export type IntroductionsDataChaptersInputDto = {
+  iv?: InputMaybe<Scalars['JsonScalar']['input']>;
+};
+
+/** The structure of the Description field of the introductions content type. */
+export type IntroductionsDataDescriptionDto = {
+  __typename?: 'IntroductionsDataDescriptionDto';
+  iv?: Maybe<Scalars['String']['output']>;
+};
+
+/** The structure of the Description field of the introductions content input type. */
+export type IntroductionsDataDescriptionInputDto = {
+  iv?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The structure of the introductions data type. */
+export type IntroductionsDataDto = {
+  __typename?: 'IntroductionsDataDto';
+  chapters?: Maybe<IntroductionsDataChaptersDto>;
+  chapters__Dynamic?: Maybe<IntroductionsDataChaptersDto__Dynamic>;
+  description?: Maybe<IntroductionsDataDescriptionDto>;
+  slug?: Maybe<IntroductionsDataSlugDto>;
+  title?: Maybe<IntroductionsDataTitleDto>;
+};
+
+/** The structure of the introductions data input type. */
+export type IntroductionsDataInputDto = {
+  chapters?: InputMaybe<IntroductionsDataChaptersInputDto>;
+  description?: InputMaybe<IntroductionsDataDescriptionInputDto>;
+  slug?: InputMaybe<IntroductionsDataSlugInputDto>;
+  title?: InputMaybe<IntroductionsDataTitleInputDto>;
+};
+
+/** The structure of the Slug (Autogenerated) field of the introductions content type. */
+export type IntroductionsDataSlugDto = {
+  __typename?: 'IntroductionsDataSlugDto';
+  iv?: Maybe<Scalars['String']['output']>;
+};
+
+/** The structure of the Slug (Autogenerated) field of the introductions content input type. */
+export type IntroductionsDataSlugInputDto = {
+  iv?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The structure of the Title field of the introductions content type. */
+export type IntroductionsDataTitleDto = {
+  __typename?: 'IntroductionsDataTitleDto';
+  iv?: Maybe<Scalars['String']['output']>;
+};
+
+/** The structure of the Title field of the introductions content input type. */
+export type IntroductionsDataTitleInputDto = {
+  iv?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The structure of the flat introductions data type. */
+export type IntroductionsFlatDataDto = {
+  __typename?: 'IntroductionsFlatDataDto';
+  chapters?: Maybe<Array<ChaptersComponent>>;
+  chapters__Dynamic?: Maybe<Scalars['JsonScalar']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  slug?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The structure of the flat introductions data type. */
+export type IntroductionsFlatDataDtoChapters__DynamicArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** List of introductions items and total count. */
+export type IntroductionsResultDto = {
+  __typename?: 'IntroductionsResultDto';
+  /** The contents. */
+  items?: Maybe<Array<Introductions>>;
   /** The total count of  contents. */
   total: Scalars['Int']['output'];
 };
@@ -1097,9 +1869,21 @@ export type Posts = Content & {
   version: Scalars['Int']['output'];
 };
 
+/** The structure of the Description field of the Posts content type. */
+export type PostsDataDescriptionDto = {
+  __typename?: 'PostsDataDescriptionDto';
+  iv?: Maybe<Scalars['String']['output']>;
+};
+
+/** The structure of the Description field of the Posts content input type. */
+export type PostsDataDescriptionInputDto = {
+  iv?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** The structure of the Posts data type. */
 export type PostsDataDto = {
   __typename?: 'PostsDataDto';
+  description?: Maybe<PostsDataDescriptionDto>;
   slug?: Maybe<PostsDataSlugDto>;
   text?: Maybe<PostsDataTextDto>;
   title?: Maybe<PostsDataTitleDto>;
@@ -1107,6 +1891,7 @@ export type PostsDataDto = {
 
 /** The structure of the Posts data input type. */
 export type PostsDataInputDto = {
+  description?: InputMaybe<PostsDataDescriptionInputDto>;
   slug?: InputMaybe<PostsDataSlugInputDto>;
   text?: InputMaybe<PostsDataTextInputDto>;
   title?: InputMaybe<PostsDataTitleInputDto>;
@@ -1164,6 +1949,7 @@ export type PostsDataTitleInputDto = {
 /** The structure of the flat Posts data type. */
 export type PostsFlatDataDto = {
   __typename?: 'PostsFlatDataDto';
+  description?: Maybe<Scalars['String']['output']>;
   /** Autogenerated slug that can be used to identity the post. */
   slug?: Maybe<Scalars['String']['output']>;
   /** The text of the post. */
@@ -1273,6 +2059,13 @@ export type IndexQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type IndexQuery = { __typename?: 'ApplicationQueries', contentLayout?: Array<{ __typename?: 'Posts', flatData: { __typename?: 'PostsFlatDataDto', title?: string | null, slug?: string | null, text?: { __typename?: 'PostsDataTextEmbeddableString', contents: Array<{ __typename?: 'Hotels', flatData: { __typename?: 'HotelsFlatDataDto', name?: string | null, slug?: string | null } }> } | null } }> | null };
 
+export type IntroQueryVariables = Exact<{
+  filter: Scalars['String']['input'];
+}>;
+
+
+export type IntroQuery = { __typename?: 'ApplicationQueries', intros?: Array<{ __typename?: 'Introductions', flatData: { __typename?: 'IntroductionsFlatDataDto', title?: string | null, description?: string | null, chapters?: Array<{ __typename?: 'ChaptersComponent', title?: string | null, articles?: Array<{ __typename?: 'Articles', flatData: { __typename?: 'ArticlesFlatDataDto', name?: string | null, slug?: string | null } }> | null }> | null } }> | null };
+
 export type PostQueryVariables = Exact<{
   filter: Scalars['String']['input'];
 }>;
@@ -1282,4 +2075,5 @@ export type PostQuery = { __typename?: 'ApplicationQueries', posts?: Array<{ __t
 
 
 export const IndexDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Index"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"contentLayout"},"name":{"kind":"Name","value":"queryPostsContents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flatData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"text"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contents"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flatData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]}}]} as unknown as DocumentNode<IndexQuery, IndexQueryVariables>;
+export const IntroDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Intro"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"intros"},"name":{"kind":"Name","value":"queryIntroductionsContents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flatData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"chapters"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"articles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flatData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<IntroQuery, IntroQueryVariables>;
 export const PostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Post"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"posts"},"name":{"kind":"Name","value":"queryHotelsContents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flatData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"photos"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]}}]} as unknown as DocumentNode<PostQuery, PostQueryVariables>;

@@ -14,6 +14,7 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  */
 const documents = {
     "\n  query Index {\n    contentLayout: queryPostsContents {\n      flatData {\n        title\n        text {\n          contents {\n            flatData {\n              name\n              slug\n            }\n          }\n        }\n        slug\n      }\n    }\n  }\n": types.IndexDocument,
+    "\n    query Intro($filter: String!) {\n      intros: queryIntroductionsContents(filter: $filter) {\n        flatData {\n          title\n          description\n          chapters {\n            title\n            articles {\n              flatData {\n                name\n                slug\n              }\n            }\n          }\n        }\n      }\n    }\n  ": types.IntroDocument,
     "\n    query Post($filter: String!) {\n      posts: queryHotelsContents(filter: $filter) {\n        flatData {\n          name\n          description\n          photos {\n            url\n          }\n        }\n      }\n    }\n  ": types.PostDocument,
 };
 
@@ -35,6 +36,10 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query Index {\n    contentLayout: queryPostsContents {\n      flatData {\n        title\n        text {\n          contents {\n            flatData {\n              name\n              slug\n            }\n          }\n        }\n        slug\n      }\n    }\n  }\n"): (typeof documents)["\n  query Index {\n    contentLayout: queryPostsContents {\n      flatData {\n        title\n        text {\n          contents {\n            flatData {\n              name\n              slug\n            }\n          }\n        }\n        slug\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query Intro($filter: String!) {\n      intros: queryIntroductionsContents(filter: $filter) {\n        flatData {\n          title\n          description\n          chapters {\n            title\n            articles {\n              flatData {\n                name\n                slug\n              }\n            }\n          }\n        }\n      }\n    }\n  "): (typeof documents)["\n    query Intro($filter: String!) {\n      intros: queryIntroductionsContents(filter: $filter) {\n        flatData {\n          title\n          description\n          chapters {\n            title\n            articles {\n              flatData {\n                name\n                slug\n              }\n            }\n          }\n        }\n      }\n    }\n  "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

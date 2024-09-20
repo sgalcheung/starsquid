@@ -1,11 +1,13 @@
 import type { StarlightPlugin } from "@astrojs/starlight/types";
 import { starlightSSRIntegration } from "./libs/integration";
 
-import { validateConfig, type StarlightSSRUserConfig } from './libs/config'
+import { validateConfig, type StarlightSSRUserConfig } from "./libs/config";
 // import { starlightOpenAPIIntegration } from './libs/integration'
 // import { parseSchema } from './libs/parser'
 // import { getSidebarFromSchemas, getSidebarGroupsPlaceholder } from './libs/starlight'
 import { getSidebar } from "./libs/starlight";
+
+export { dataMap } from "./libs/starlight";
 
 // export const openAPISidebarGroups = getSidebarGroupsPlaceholder()
 
@@ -30,6 +32,7 @@ export default function starlightSSRPlugin(
 
         addIntegration(starlightSSRIntegration(config));
 
+        //TODO: this only execute once.
         const sidebar = await Promise.resolve(getSidebar(userConfig));
 
         updateConfig({ sidebar });

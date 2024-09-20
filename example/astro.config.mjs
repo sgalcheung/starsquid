@@ -7,6 +7,10 @@ import starlightSSR from "starlight-ssr";
 import netlify from "@astrojs/netlify";
 import { COLUMN_ARTICLE_PATH } from "./src/helpers/constants";
 
+import react from "@astrojs/react";
+
+import tailwind from "@astrojs/tailwind";
+
 // https://astro.build/config
 export default defineConfig({
   output: "server",
@@ -21,6 +25,10 @@ export default defineConfig({
           pattern: `${COLUMN_ARTICLE_PATH}/[slug]`,
         }),
       ],
+    }),
+    react(),
+    tailwind({
+      applyBaseStyles: false,
     }),
   ],
 

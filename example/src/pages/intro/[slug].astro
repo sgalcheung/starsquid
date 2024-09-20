@@ -2,18 +2,32 @@
 // uri: column/intro/100002201
 // uri: column/intro/new-hotel-offerings
 
-import { getColumn } from "@lib/api";
+import { getIntro } from "@/lib/api";
+import { COLUMN_ARTICLE_PATH } from "src/helpers/constants";
+import { dataMap } from "starlight-ssr";
+import { CatalogComponent } from "@/components/ShadcnComponents.tsx";
 
 
-const {slug} = Astro.params;
-const { columns } = await getColumn(slug);
 
-if (!columns || columns.length !== 1) return Astro.redirect("/404");
 
-const column = columns?.[0].flatData;
+const { slug } = Astro.params;
+const { intros } = await getIntro(slug);
+
+if (!intros || intros.length !== 1) return Astro.redirect("/404");
+
+const intro = intros[0].flatData;
+
+const chapters = intro!.chapters!;
 
 // console.log(column)
+const catalogs = dataMap(chapters, COLUMN_ARTICLE_PATH);
 ---
 
-<article set:html={column.description} />
+<!-- <a href=`/${COLUMN_ARTICLE_PATH}/index?cid=${slug}`>start explore</a> -->
 
+<article set:html={intro.description} />
+
+<CatalogComponent
+data={catalogs}
+client:visible
+/>

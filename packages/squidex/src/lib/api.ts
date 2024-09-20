@@ -1,6 +1,6 @@
 import { inspect } from "node:util";
 import { executeOperation } from "./graphql";
-import type { IndexQuery, PostQuery } from "../__generated__/graphql";
+import type { IndexQuery, IntroQuery, PostQuery } from "../__generated__/graphql";
 import { graphql } from "../__generated__";
 
 // LOAD ENVIRONMENT VARIABLES
@@ -68,6 +68,38 @@ export const indexQuery = async () => {
 
   return r.data as IndexQuery;
 };
+
+export async function getIntro(slug: string | undefined): Promise<IntroQuery> {
+  const query = graphql(`
+    query Intro($filter: String!) {
+      intros: queryIntroductionsContents(filter: $filter) {
+        flatData {
+          title
+          description
+          chapters {
+            title
+            articles {
+              flatData {
+                name
+                slug
+              }
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  return executeOperation(GRAPHQL_URL, query, {
+    filter: `data/slug/iv eq '${slug}'`,
+  }).then((r) => {
+    if (r.errors) {
+      console.log(inspect(r.errors, { depth: Infinity, colors: true }));
+      throw new Error("Failed to execute GraphQL query");
+    }
+    return r.data as IntroQuery;
+  });
+}
 
 export async function getPost(slug: string | undefined): Promise<PostQuery> {
   const query = graphql(`
