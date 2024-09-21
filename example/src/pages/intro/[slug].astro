@@ -6,7 +6,7 @@ import { getIntro } from "@/lib/api";
 import { COLUMN_ARTICLE_PATH } from "src/helpers/constants";
 import { dataMap } from "starlight-ssr";
 import { CatalogComponent } from "@/components/ShadcnComponents.tsx";
-
+import Layout from "@/layouts/Layout.astro"
 
 
 
@@ -25,9 +25,11 @@ const catalogs = dataMap(chapters, COLUMN_ARTICLE_PATH);
 
 <!-- <a href=`/${COLUMN_ARTICLE_PATH}/index?cid=${slug}`>start explore</a> -->
 
-<article set:html={intro.description} />
+<Layout>
+    <article set:html={intro.description} />
 
-<CatalogComponent
-data={catalogs}
-client:visible
-/>
+    <CatalogComponent
+    data={catalogs}
+    client:visible
+    />
+</Layout>
