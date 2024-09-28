@@ -138,10 +138,6 @@ importers:
         version: 16.9.0
 
   packages/starlight-ssr:
-    dependencies:
-      squidex:
-        specifier: workspace:*
-        version: link:../squidex
     devDependencies:
       '@astrojs/starlight':
         specifier: ^0.28.2

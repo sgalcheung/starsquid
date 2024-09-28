@@ -13,9 +13,6 @@
   "author": "Sgal Cheung",
   "license": "ISC",
   "description": "",
-  "dependencies": {
-    "squidex": "workspace:*"
-  },
   "devDependencies": {
     "@astrojs/starlight": "^0.28.2",
     "astro": "5.0.0-beta.2",

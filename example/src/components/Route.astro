@@ -9,7 +9,8 @@ import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
 
 // import Operation from './operation/Operation.astro'
 // import Overview from './Overview.astro'
-import { getArticle } from '@/lib/api'
+import { getArticle, getIntro } from '@/lib/api'
+import { dataMap } from '@/lib/convert'
 
 export const prerender = false
 
@@ -40,9 +41,20 @@ const article = articles[0].flatData;
 
 const frontmatter = { title: article.name! };
 
+
+const column = "hotel-directory";
+
+const { intros } = await getIntro(column);
+
+if (!intros || intros.length !== 1) return [];
+
+const chapters = intros[0].flatData.chapters!;
+
+const sidebar = dataMap(chapters);
+
 ---
 
-<StarlightPage frontmatter={frontmatter}>
+<StarlightPage frontmatter={frontmatter} sidebar={sidebar}>
   <!-- {isOverview ? <Overview {schema} /> : <Operation {schema} operation={Astro.props.operation} />} -->
   <!-- <Overview {schema} /> -->
    <article set:html={article.content} />
