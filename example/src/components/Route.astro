@@ -11,6 +11,8 @@ import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
 // import Overview from './Overview.astro'
 import { getArticle, getIntro } from '@/lib/api'
 import { dataMap } from '@/lib/convert'
+import { getFromRedis } from '@/lib/redis'
+import { COLUMN } from '@/helpers/constants'
 
 export const prerender = false
 
@@ -42,20 +44,56 @@ const article = articles[0].flatData;
 const frontmatter = { title: article.name! };
 
 
-const column = "hotel-directory";
+// const column = "hotel-directory";
 
-const { intros } = await getIntro(column);
+// const { intros } = await getIntro(column);
 
-if (!intros || intros.length !== 1) return [];
+// if (!intros || intros.length !== 1) return [];
 
-const chapters = intros[0].flatData.chapters!;
+// const chapters = intros[0].flatData.chapters!;
 
-const sidebar = dataMap(chapters);
+// const sidebar = dataMap(chapters);
+
+let sidebar = [];
+
+if (Astro.cookies.has(COLUMN)) {
+  const cookie = Astro.cookies.get(COLUMN);
+  const column = cookie?.value;
+  if (column) {
+    const sidebar_str = await getFromRedis(column);
+    if (sidebar_str) {
+      sidebar = JSON.parse(sidebar_str);
+    }
+  }
+} else { // Direct access from specific article link
+  // TODO: fetch from API
+}
+
 
 ---
 
-<StarlightPage frontmatter={frontmatter} sidebar={sidebar}>
+<div data-starlight>
+  <StarlightPage frontmatter={frontmatter} sidebar={sidebar}>
   <!-- {isOverview ? <Overview {schema} /> : <Operation {schema} operation={Astro.props.operation} />} -->
   <!-- <Overview {schema} /> -->
-   <article set:html={article.content} />
-</StarlightPage>
+   <div data-content>
+      <!-- <template data-column></template>
+      <template data-catalogs></template> -->
+      <article set:html={article.content} />
+   </div>
+  </StarlightPage>
+</div>
+
+<!-- <script>
+    import { getElement } from '@/helpers/dom.js';
+
+    const catalogs = localStorage.getItem('catalogs');
+    for (const starlight of document.querySelectorAll('[data-starlight]')) {
+        const sidebar = getElement('[data-sidebar]', HTMLElement, starlight);
+
+        if (catalogs) {
+            sidebar.setAttribute('sidebar', catalogs);
+        }
+    }
+    console.log(JSON.stringify(catalogs))
+</script> -->
