@@ -16,7 +16,7 @@ export function dataMap(chapters: ChaptersType) {
     items:
       sidebarItem.articles!.map((item) => ({
         label: item.flatData.name!,
-        link: `/${COLUMN_ARTICLE_PATH}/${item.flatData.slug!}`,
+        link: `/${COLUMN_ARTICLE_PATH}/${item.id}`,
       })) ?? [],
   }));
 }

@@ -1,9 +1,6 @@
 import { inspect } from "node:util";
 import { executeOperation } from "./graphql";
-import type {
-  ArticleQuery,
-  IntroQuery,
-} from "../__generated__/graphql";
+import type { ArticleQuery, IntroQuery } from "../__generated__/graphql";
 import { graphql } from "../__generated__";
 
 function buildUrl(url: string) {
@@ -30,9 +27,9 @@ export async function getIntro(slug: string | undefined): Promise<IntroQuery> {
           chapters {
             title
             articles {
+              id
               flatData {
                 name
-                slug
               }
             }
           }
@@ -53,7 +50,7 @@ export async function getIntro(slug: string | undefined): Promise<IntroQuery> {
 }
 
 export async function getArticle(
-  slug: string | undefined
+  id: string | undefined
 ): Promise<ArticleQuery> {
   const query = graphql(`
     query Article($filter: String!) {
@@ -67,7 +64,7 @@ export async function getArticle(
   `);
 
   return executeOperation(GRAPHQL_URL, query, {
-    filter: `data/slug/iv eq '${slug}'`,
+    filter: `id eq '${id}'`,
   }).then((r) => {
     if (r.errors) {
       console.log(inspect(r.errors, { depth: Infinity, colors: true }));

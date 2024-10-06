@@ -22,7 +22,7 @@ export default defineConfig({
       plugins: [
         starlightSSR({
           entrypoint: "./src/components/Route.astro",
-          pattern: `${COLUMN_ARTICLE_PATH}/[slug]`,
+          pattern: `${COLUMN_ARTICLE_PATH}/[id]`,
         }),
       ],
     }),

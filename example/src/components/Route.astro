@@ -34,9 +34,9 @@ const title =  'Overview' ;
 // console.log(Astro.props) // {}
 
 
-const { slug } = Astro.params;
+const { id } = Astro.params;
 
-const { articles } = await getArticle(slug);
+const { articles } = await getArticle(id);
 if (!articles || articles.length !== 1) return Astro.redirect("/404");
 
 const article = articles[0].flatData;
@@ -67,6 +67,7 @@ if (Astro.cookies.has(COLUMN)) {
   }
 } else { // Direct access from specific article link
   // TODO: fetch from API
+
 }
 
 
