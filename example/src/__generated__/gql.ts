@@ -15,6 +15,7 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 const documents = {
     "\n    query Intro($filter: String!) {\n      intros: queryIntroductionsContents(filter: $filter) {\n        flatData {\n          title\n          description\n          chapters {\n            title\n            articles {\n              id\n              flatData {\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  ": types.IntroDocument,
     "\n    query Article($filter: String!) {\n      articles: queryArticlesContents(filter: $filter) {\n        flatData {\n          name\n          content\n        }\n      }\n    }\n  ": types.ArticleDocument,
+    "\n    query Sidebar($filter: String!) {\n      sidebars: queryIntroductionsContents(filter: $filter) {\n        flatData {\n          chapters {\n            title\n            articles {\n              id\n              flatData {\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  ": types.SidebarDocument,
 };
 
 /**
@@ -39,6 +40,10 @@ export function graphql(source: "\n    query Intro($filter: String!) {\n      in
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    query Article($filter: String!) {\n      articles: queryArticlesContents(filter: $filter) {\n        flatData {\n          name\n          content\n        }\n      }\n    }\n  "): (typeof documents)["\n    query Article($filter: String!) {\n      articles: queryArticlesContents(filter: $filter) {\n        flatData {\n          name\n          content\n        }\n      }\n    }\n  "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query Sidebar($filter: String!) {\n      sidebars: queryIntroductionsContents(filter: $filter) {\n        flatData {\n          chapters {\n            title\n            articles {\n              id\n              flatData {\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  "): (typeof documents)["\n    query Sidebar($filter: String!) {\n      sidebars: queryIntroductionsContents(filter: $filter) {\n        flatData {\n          chapters {\n            title\n            articles {\n              id\n              flatData {\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  "];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

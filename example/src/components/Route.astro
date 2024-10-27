@@ -9,10 +9,11 @@ import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
 
 // import Operation from './operation/Operation.astro'
 // import Overview from './Overview.astro'
-import { getArticle, getIntro } from '@/lib/api'
+import { getArticle, getIntro, getSidebar } from '@/lib/api'
 import { dataMap } from '@/lib/convert'
-import { getFromRedis } from '@/lib/redis'
-import { COLUMN } from '@/helpers/constants'
+import { getFromRedis, storeRedis } from '@/lib/redis'
+import { CATALOGS_CACHE_TIME, COLUMN } from '@/helpers/constants'
+import type { StarlightUserConfig } from '@astrojs/starlight/types'
 
 export const prerender = false
 
@@ -54,7 +55,7 @@ const frontmatter = { title: article.name! };
 
 // const sidebar = dataMap(chapters);
 
-let sidebar = [];
+let catalogs: StarlightUserConfig['sidebar'] = [];
 
 if (Astro.cookies.has(COLUMN)) {
   const cookie = Astro.cookies.get(COLUMN);
@@ -62,19 +63,41 @@ if (Astro.cookies.has(COLUMN)) {
   if (column) {
     const sidebar_str = await getFromRedis(column);
     if (sidebar_str) {
-      sidebar = JSON.parse(sidebar_str);
+      catalogs = JSON.parse(sidebar_str);
+    } else { // Direct access from column name
+      const { intros } = await getIntro(column);
+
+      if (!intros || intros.length !== 1) return Astro.redirect("/404");
+
+      const intro = intros[0].flatData;
+
+      const chapters = intro!.chapters!;
+
+      const catalogs = dataMap(chapters);
+
+      await storeRedis(column, JSON.stringify(catalogs), CATALOGS_CACHE_TIME);
     }
   }
 } else { // Direct access from specific article link
-  // TODO: fetch from API
+    // TODO: query by article link
+      // const { sidebars } = await getSidebar(id);
 
-}
+      // if (!sidebars || sidebars.length !== 1) return Astro.redirect("/404");
+
+      // const sidebar = sidebars[0].flatData;
+
+      // const chapters = sidebar!.chapters!;
+
+      // catalogs = dataMap(chapters);
+      
+      // await storeRedis(column, JSON.stringify(catalogs), CATALOGS_CACHE_TIME);
+    }
 
 
 ---
 
 <div data-starlight>
-  <StarlightPage frontmatter={frontmatter} sidebar={sidebar}>
+  <StarlightPage frontmatter={frontmatter} sidebar={catalogs}>
   <!-- {isOverview ? <Overview {schema} /> : <Operation {schema} operation={Astro.props.operation} />} -->
   <!-- <Overview {schema} /> -->
    <div data-content>

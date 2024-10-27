@@ -1,6 +1,10 @@
 import { inspect } from "node:util";
 import { executeOperation } from "./graphql";
-import type { ArticleQuery, IntroQuery } from "../__generated__/graphql";
+import type {
+  ArticleQuery,
+  IntroQuery,
+  SidebarQuery,
+} from "../__generated__/graphql";
 import { graphql } from "../__generated__";
 
 function buildUrl(url: string) {
@@ -71,5 +75,37 @@ export async function getArticle(
       throw new Error("Failed to execute GraphQL query");
     }
     return r.data as ArticleQuery;
+  });
+}
+
+export async function getSidebar(
+  articleId: string | undefined
+): Promise<SidebarQuery> {
+  const query = graphql(`
+    query Sidebar($filter: String!) {
+      sidebars: queryIntroductionsContents(filter: $filter) {
+        flatData {
+          chapters {
+            title
+            articles {
+              id
+              flatData {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  `);
+
+  return executeOperation(GRAPHQL_URL, query, {
+    filter: `data/chapters/iv/articles eq '${articleId}'`,
+  }).then((r) => {
+    if (r.errors) {
+      console.log(inspect(r.errors, { depth: Infinity, colors: true }));
+      throw new Error("Failed to execute GraphQL query");
+    }
+    return r.data as SidebarQuery;
   });
 }
