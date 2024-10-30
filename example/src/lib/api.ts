@@ -12,7 +12,7 @@ function buildUrl(url: string) {
     url = url.slice(1);
   }
 
-  const result = `${import.meta.env.SQUIDEX_ENVIRONMENT}/${url}`;
+  const result = `${import.meta.env.SQUIDEX_URL}/${url}`;
 
   return result;
 }
