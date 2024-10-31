@@ -15,9 +15,9 @@ export async function storeRedis(
     await client.set(key, token, {
       EX: expiresInSeconds,
     });
-    console.log("Token stored successfully in Redis.");
+    console.log("Stored successfully in Redis.");
   } catch (error) {
-    console.error("Error storing token in Redis:", error);
+    console.error("Error storing in Redis:", error);
   }
 }
 
