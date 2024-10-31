@@ -1,6 +1,8 @@
-import { docsSchema } from "@astrojs/starlight/schema";
-import { defineCollection } from "astro:content";
+import { squidexCollections } from "desquidex/loaders";
 
-export const collections = {
-	docs: defineCollection({ schema: docsSchema() }),
-};
+export const collections = squidexCollections({
+  squidexUrl: import.meta.env.SQUIDEX_URL,
+  squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
+  squidexClientId: import.meta.env.SQUIDEX_CLIENT_ID,
+  squidexClientSecret: import.meta.env.SQUIDEX_CLIENT_SECRET,
+});

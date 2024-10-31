@@ -1,7 +1,62 @@
 ---
-import Layout from "@/layouts/Layout.astro"
+import Layout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { marked } from "marked";
+
+const app = (await getCollection("app"))?.[0];
+const newsFeature = (await getCollection("news"))?.[0];
+const features = newsFeature.data.features.slice(0, 2);
+await Promise.all(
+  features.map(async (feature) => {
+    feature.text = await marked.parse(feature.text);
+  })
+);
+console.log(features);
 ---
 
 <Layout>
-    <a href="/intro/hotel-directory/">Hotel Directory</a>
+  <main class="max-w-[960px] mx-auto">
+    <h2>
+      <a href="/intro/hotel-directory/">Hotel Directory</a>
+    </h2>
+    <br />
+    <sction>
+      <h3>This is the backend info:</h3>
+      {
+        app && (
+          <p>
+            <strong>App name</strong>: {app.data.name}
+          </p>
+        )
+      }
+      <ul>
+        <strong>Change log</strong>
+        {
+          features.map((feature) => {
+            return (
+              <li>
+                <p>
+                  <em>{feature.name}</em>: <article set:html={feature.text} />
+                </p>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </sction>
+  </main>
 </Layout>
+
+<style>
+  h2,
+  h3,
+  h4 {
+    font-size: revert;
+    font-weight: revert;
+  }
+
+  a {
+    color: revert;
+    text-decoration: revert;
+  }
+</style>

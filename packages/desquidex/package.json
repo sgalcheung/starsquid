@@ -1,0 +1,23 @@
+{
+  "name": "desquidex",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "generate": "ts-to-zod"
+  },
+  "exports": {
+    "./loaders": "./loaders.ts"
+  },
+  "keywords": [],
+  "author": "Sgal Cheung",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "astro": "5.0.0-beta.2",
+    "ts-to-zod": "^3.13.0",
+    "zod": "^3.23.8"
+  },
+  "dependencies": {
+    "@squidex/squidex": "2.0.0-rc2"
+  }
+}

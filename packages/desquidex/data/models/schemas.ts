@@ -1,0 +1,17 @@
+export const enum SCHEMAS {
+    AMAZON_GET_ITEMS = 'amazon-get-items',
+    BRANDS = 'brands',
+    BRANDS_SLOTS = 'brands-slots',
+    PAGES = 'pages',
+    LISTINGS = 'listings',
+    MARKETPLACES = 'marketplaces',
+    OFFERS = 'offers',
+    PRODUCT_CATEGORIES = 'product-categories',
+    PRODUCTS = 'products',
+    REDIRECTS = 'redirects',
+    SOCIAL_NETWORKS = 'social-networks',
+    SELLERS = 'sellers',
+    SITE = 'site',
+    SITE_CONFIG = 'site-config',
+    SLUGS = 'slugs',
+};
