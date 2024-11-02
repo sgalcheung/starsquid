@@ -54,16 +54,6 @@ function makeLoader({ name }: { name: string }) {
           });
           const storeEntry: DataEntry = { id: String(item.id), data: item };
           store.set(storeEntry);
-
-          // for (const rawNew of news) {
-          //   console.log(rawNew);
-          //   const item = await parseData({
-          //     id: String(rawNew.name),
-          //     data: JSON.parse(JSON.stringify(rawFeature)),
-          //   });
-          //   const storeEntry: DataEntry = { id: String(item.id), data: item };
-          //   store.set(storeEntry);
-          // }
           break;
         }
         default:
