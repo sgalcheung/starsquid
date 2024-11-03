@@ -2,41 +2,44 @@ import { AstroError } from "astro/errors";
 import type { DataStore, Loader } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import { configService, type Config } from "./configService";
-import type { AppDto, FeaturesDto } from "@squidex/squidex";
 import { getClient } from "./data/core/client";
-import { appDtoSchema, featuresDtoSchema } from "./schemas";
+import {
+  SCHEMAS,
+  appDtoSchema,
+  featuresDtoSchema,
+} from "./data/models/schemas";
 
 type DataEntry = Parameters<DataStore["set"]>[0];
 
 export function squidexCollections(config: Config) {
   configService.setConfig(config);
 
-  const l = (type: string) =>
+  const l = (type: SCHEMAS) =>
     makeLoader({
-      name: `desquidex-${type}`,
+      schema: type,
     });
 
   return {
-    app: defineCollection({
+    [SCHEMAS.APP]: defineCollection({
       schema: appDtoSchema,
-      loader: l("app"),
+      loader: l(SCHEMAS.APP),
     }),
 
-    news: defineCollection({
+    [SCHEMAS.FEATURES]: defineCollection({
       schema: featuresDtoSchema,
-      loader: l("features"),
+      loader: l(SCHEMAS.FEATURES),
     }),
   };
 }
 
-function makeLoader({ name }: { name: string }) {
+function makeLoader({ schema }: { schema: SCHEMAS }) {
   const { client } = getClient();
 
   const loader: Loader = {
-    name,
-    async load({ store, parseData }) {
-      switch (name) {
-        case "desquidex-app": {
+    name: `desquidex-${schema.toString()}`,
+    load: async ({ store, parseData }) => {
+      switch (schema) {
+        case SCHEMAS.APP: {
           const app = await client.apps.getApp();
           const item = await parseData({
             id: String(app.id),
@@ -46,7 +49,7 @@ function makeLoader({ name }: { name: string }) {
           store.set(storeEntry);
           break;
         }
-        case "desquidex-news": {
+        case SCHEMAS.FEATURES: {
           const news = await client.news.getNews({ version: 1 });
           const item = await parseData({
             id: String(news.version),
