@@ -7,7 +7,7 @@
   },
   "exports": {
     "./loaders": "./loaders.ts",
-    "./SCHEMAS": "./data/models/schemas.ts"
+    "./schemas": "./data/models/schemas.ts"
   },
   "keywords": [],
   "author": "Sgal Cheung",

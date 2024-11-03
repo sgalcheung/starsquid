@@ -2,7 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import { marked } from "marked";
-import { SCHEMAS } from "desquidex/SCHEMAS";
+import { SCHEMAS } from "desquidex/schemas";
 
 const app = (await getCollection(SCHEMAS.APP))?.[0];
 const newsFeature = (await getCollection(SCHEMAS.FEATURES))?.[0];
