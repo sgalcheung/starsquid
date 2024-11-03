@@ -6,7 +6,8 @@
     "generate": "ts-to-zod"
   },
   "exports": {
-    "./loaders": "./loaders.ts"
+    "./loaders": "./loaders.ts",
+    "./SCHEMAS": "./data/models/schemas.ts"
   },
   "keywords": [],
   "author": "Sgal Cheung",

@@ -2,9 +2,10 @@
 import Layout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import { marked } from "marked";
+import { SCHEMAS } from "desquidex/SCHEMAS";
 
-const app = (await getCollection("app"))?.[0];
-const newsFeature = (await getCollection("news"))?.[0];
+const app = (await getCollection(SCHEMAS.APP))?.[0];
+const newsFeature = (await getCollection(SCHEMAS.FEATURES))?.[0];
 const features = newsFeature.data.features.slice(0, 2);
 await Promise.all(
   features.map(async (feature: any) => {
