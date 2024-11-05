@@ -2,47 +2,75 @@
 // uri: column/intro/100002201
 // uri: column/intro/new-hotel-offerings
 
-import { getIntro } from "@/lib/api";
+// import { getIntro } from "@/lib/api";
 import { CatalogComponent } from "@/components/ShadcnComponents.tsx";
-import Layout from "@/layouts/Layout.astro"
+import Layout from "@/layouts/Layout.astro";
 import { dataMap } from "@/lib/convert";
 import { storeRedis } from "@/lib/redis";
 import { CATALOGS_CACHE_TIME, COLUMN } from "@/helpers/constants";
-
-
+import { getCollection } from "astro:content";
+import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect("/404");
 
-Astro.cookies.set(COLUMN, slug, {path: '/'});
+Astro.cookies.set(COLUMN, slug, { path: "/" });
 
-const { intros } = await getIntro(slug);
+interface SlugData {
+  iv: string;
+}
 
-if (!intros || intros.length !== 1) return Astro.redirect("/404");
+interface Description {
+  iv: string;
+}
 
-const intro = intros[0].flatData;
+interface IntroductionItem {
+  data: {
+    slug: SlugData;
+    description: Description;
+  };
+}
 
-const chapters = intro!.chapters!;
+interface IntroductionsResponse {
+  data?: {
+    items?: IntroductionItem[];
+  };
+}
+
+// const { intros } = await getIntro(slug);
+const intros = (
+  await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS)
+)?.[0] as IntroductionsResponse;
+let intro: IntroductionItem | undefined;
+if (intros.data && Array.isArray(intros.data.items)) {
+  intro = intros.data.items.find((item) => item.data.slug.iv === slug);
+}
+// const intro = (
+//   await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS)
+// )?.[0].data?.items.find((item: any) => item.data.slug.iv == slug);
+
+if (!intro) return Astro.redirect("/404");
+
+// const intro = intros.data;
+
+// const chapters = intro!.chapters.iv!;
 
 // console.log(column)
-const catalogs = dataMap(chapters);
+// TODO: load from cached()
+const catalogs = dataMap(intro);
 
 await storeRedis(slug, JSON.stringify(catalogs), CATALOGS_CACHE_TIME);
 ---
 
 <!-- <a href=`/${COLUMN_ARTICLE_PATH}/index?cid=${slug}`>start explore</a> -->
-
 <Layout>
-    <div data-intro>
-        <!-- <template data-column-slug={slug}></template>
+  <div data-intro>
+    <!-- <template data-column-slug={slug}></template>
         <template data-catalogs={catalogs}></template> -->
-        <article set:html={intro.description} />
+    <article set:html={intro.data.description.iv} />
 
-        <CatalogComponent
-        data={catalogs}
-        client:visible
-        />
-    </div>
+    <CatalogComponent data={catalogs} client:visible />
+  </div>
 </Layout>
 
 <!-- <script>

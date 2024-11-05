@@ -3,6 +3,7 @@ export interface Config {
   squidexClientId?: string;
   squidexClientSecret?: string;
   squidexUrl?: string;
+  squidexContentSchemas?: string[];
 }
 
 class ConfigService {

@@ -1,25 +1,34 @@
 import { AstroError } from "astro/errors";
 import type { DataStore, Loader } from "astro/loaders";
-import { defineCollection } from "astro:content";
+import {
+  defineCollection,
+  type BaseSchema,
+  type CollectionConfig,
+} from "astro:content";
 import { configService, type Config } from "./configService";
 import { getClient } from "./data/core/client";
 import {
   SCHEMAS,
   appDtoSchema,
+  contentsDtoSchema,
   featuresDtoSchema,
 } from "./data/models/schemas";
 
 type DataEntry = Parameters<DataStore["set"]>[0];
+// type CollectionSchema = {
+//   [key: string]: CollectionConfig<ZodObject>;
+// };
 
 export function squidexCollections(config: Config) {
   configService.setConfig(config);
 
-  const l = (type: SCHEMAS) =>
+  const l = (type: SCHEMAS, contentSchema?: string) =>
     makeLoader({
       schema: type,
+      contentSchema: contentSchema,
     });
 
-  return {
+  const generalCollection = {
     [SCHEMAS.APP]: defineCollection({
       schema: appDtoSchema,
       loader: l(SCHEMAS.APP),
@@ -30,13 +39,51 @@ export function squidexCollections(config: Config) {
       loader: l(SCHEMAS.FEATURES),
     }),
   };
+
+  // const result = {
+  //   ...generalCollection,
+  // };
+
+  // if (config.squidexContentSchemas) {
+  //   for (const schema of config.squidexContentSchemas) {
+  //     result[schema] = defineCollection({
+  //       schema: contentsDtoSchema,
+  //       loader: l(SCHEMAS.CONTENTS, schema),
+  //     });
+  //   }
+  // }
+
+  if (config.squidexContentSchemas) {
+    const dynamicCollections = config.squidexContentSchemas.reduce(
+      (acc, schema) => {
+        acc[schema] = defineCollection({
+          schema: contentsDtoSchema,
+          loader: l(SCHEMAS.CONTENTS, schema),
+        });
+        return acc;
+      },
+      {} as Record<string, CollectionConfig<BaseSchema>>
+    );
+
+    Object.assign(generalCollection, dynamicCollections);
+  }
+
+  return generalCollection;
 }
 
-function makeLoader({ schema }: { schema: SCHEMAS }) {
+function makeLoader({
+  schema,
+  contentSchema,
+}: {
+  schema: SCHEMAS;
+  contentSchema?: string;
+}) {
   const { client } = getClient();
 
+  const name = contentSchema ?? schema.toString();
+
   const loader: Loader = {
-    name: `desquidex-${schema.toString()}`,
+    name: `desquidex-${name}`,
     load: async ({ store, parseData }) => {
       switch (schema) {
         case SCHEMAS.APP: {
@@ -54,6 +101,44 @@ function makeLoader({ schema }: { schema: SCHEMAS }) {
           const item = await parseData({
             id: String(news.version),
             data: JSON.parse(JSON.stringify(news)),
+          });
+          const storeEntry: DataEntry = { id: String(item.id), data: item };
+          store.set(storeEntry);
+          break;
+        }
+        case SCHEMAS.CONTENTS: {
+          const contents = await client.contents.getContents(contentSchema!);
+
+          // const referenceIds = contents.items.map((item) => item.id);
+
+          // const query = await client.contents.getAllContentsPost({
+          //   ids: [],
+          // });
+          await Promise.all(
+            contents.items.map(async (x) => {
+              const references = await client.contents.getReferences(
+                contentSchema!,
+                x.id
+              );
+              if (references.total > 0) {
+                x.referenceData = references.items.reduce(
+                  (accumulator, item) => {
+                    accumulator[item.id] = item.data;
+                    return accumulator;
+                  },
+                  {} as {
+                    [key: string]: {
+                      [key: string]: any;
+                    };
+                  }
+                );
+              }
+            })
+          );
+
+          const item = await parseData({
+            id: String(contents.total),
+            data: JSON.parse(JSON.stringify(contents)),
           });
           const storeEntry: DataEntry = { id: String(item.id), data: item };
           store.set(storeEntry);
@@ -96,4 +181,7 @@ async function fetchAll(url: URL, page = 1, results: any[] = []) {
   const totalPages = parseInt(response.headers.get("X-WP-TotalPages") || "1");
   if (page < totalPages) return fetchAll(url, page + 1, results);
   return results;
+}
+function docsSchema(): any {
+  throw new Error("Function not implemented.");
 }
