@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import { marked } from "marked";
 import { SCHEMAS } from "desquidex/schemas";
+import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
 
 const app = (await getCollection(SCHEMAS.APP))?.[0];
 const newsFeature = (await getCollection(SCHEMAS.FEATURES))?.[0];
@@ -12,13 +13,45 @@ await Promise.all(
     feature.text = await marked.parse(feature.text);
   })
 );
+
+interface SlugData {
+  iv: string;
+}
+
+interface Title {
+  iv: string;
+}
+
+interface IntroductionItem {
+  data: {
+    slug: SlugData;
+    title: Title;
+  };
+}
+
+interface IntroductionsResponse {
+  data?: {
+    items?: IntroductionItem[];
+  };
+}
+
+const intros = (
+  await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS)
+)?.[0] as IntroductionsResponse;
 ---
 
 <Layout>
   <main class="max-w-[960px] mx-auto">
-    <h2>
-      <a href="/intro/hotel-directory/">Hotel Directory</a>
-    </h2>
+    {
+      intros.data &&
+        Array.isArray(intros.data.items) &&
+        intros.data.items.map((intro) => (
+          <h2>
+            <a href={`/intro/${intro.data.slug.iv}/`}>{intro.data.title.iv}</a>
+          </h2>
+        ))
+    }
+
     <br />
     <sction>
       <h3>This is the backend info:</h3>
