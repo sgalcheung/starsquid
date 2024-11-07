@@ -12,23 +12,6 @@ export function dataMap(intro: any) {
     return [];
   }
 
-  chapters.forEach((item: any) => {
-    if (
-      typeof intro.referenceData === "object" &&
-      intro.referenceData !== null
-    ) {
-      item.referenceArticles = [];
-      item.articles.forEach((articleId: string) => {
-        if (intro.referenceData[articleId]) {
-          item.referenceArticles.push({
-            id: articleId,
-            ...intro.referenceData[articleId],
-          });
-        }
-      });
-    }
-  });
-
   return chapters.map((sidebarItem: any) => ({
     label: sidebarItem.title!, // Chapter, secondary directory
     items:

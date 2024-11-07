@@ -11,9 +11,9 @@ import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 // import Overview from './Overview.astro'
 import { getArticle, getIntro, getSidebar } from "@/lib/api";
 import { dataMap } from "@/lib/convert";
-import { getFromRedis, storeRedis } from "@/lib/redis";
-import { CATALOGS_CACHE_TIME, COLUMN } from "@/helpers/constants";
+import { COLUMN } from "@/helpers/constants";
 import type { StarlightUserConfig } from "@astrojs/starlight/types";
+import { getIntroFromCache } from "@/lib/services";
 
 export const prerender = false;
 
@@ -42,39 +42,15 @@ const article = articles[0].flatData;
 
 const frontmatter = { title: article.name! };
 
-// const column = "hotel-directory";
-
-// const { intros } = await getIntro(column);
-
-// if (!intros || intros.length !== 1) return [];
-
-// const chapters = intros[0].flatData.chapters!;
-
-// const sidebar = dataMap(chapters);
-
 let catalogs: StarlightUserConfig["sidebar"] = [];
+let intro;
 
 if (Astro.cookies.has(COLUMN)) {
   const cookie = Astro.cookies.get(COLUMN);
   const column = cookie?.value;
   if (column) {
-    const sidebar_str = await getFromRedis(column);
-    if (sidebar_str) {
-      catalogs = JSON.parse(sidebar_str);
-    } else {
-      // Direct access from column name
-      const { intros } = await getIntro(column);
-
-      if (!intros || intros.length !== 1) return Astro.redirect("/404");
-
-      const intro = intros[0].flatData;
-
-      const chapters = intro!.chapters!;
-
-      const catalogs = dataMap(chapters);
-
-      await storeRedis(column, JSON.stringify(catalogs), CATALOGS_CACHE_TIME);
-    }
+    intro = await getIntroFromCache(column);
+    if (!intro) return Astro.redirect("/404");
   }
 } else {
   // Direct access from specific article link
@@ -86,6 +62,8 @@ if (Astro.cookies.has(COLUMN)) {
   // catalogs = dataMap(chapters);
   // await storeRedis(column, JSON.stringify(catalogs), CATALOGS_CACHE_TIME);
 }
+
+catalogs = dataMap(intro);
 ---
 
 <div data-starlight>
