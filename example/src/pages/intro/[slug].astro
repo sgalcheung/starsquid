@@ -2,47 +2,36 @@
 // uri: column/intro/100002201
 // uri: column/intro/new-hotel-offerings
 
-import { getIntro } from "@/lib/api";
 import { CatalogComponent } from "@/components/ShadcnComponents.tsx";
-import Layout from "@/layouts/Layout.astro"
+import Layout from "@/layouts/Layout.astro";
+import { COLUMN } from "@/helpers/constants";
+import { getIntroFromCache } from "@/lib/services";
 import { dataMap } from "@/lib/convert";
-import { storeRedis } from "@/lib/redis";
-import { CATALOGS_CACHE_TIME, COLUMN } from "@/helpers/constants";
-
-
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect("/404");
 
-Astro.cookies.set(COLUMN, slug, {path: '/'});
+Astro.cookies.set(COLUMN, slug, { path: "/" });
 
-const { intros } = await getIntro(slug);
+// load from cached
+const intro = await getIntroFromCache(slug);
 
-if (!intros || intros.length !== 1) return Astro.redirect("/404");
-
-const intro = intros[0].flatData;
+if (!intro) return Astro.redirect("/404");
 
 const chapters = intro!.chapters!;
 
-// console.log(column)
 const catalogs = dataMap(chapters);
-
-await storeRedis(slug, JSON.stringify(catalogs), CATALOGS_CACHE_TIME);
 ---
 
 <!-- <a href=`/${COLUMN_ARTICLE_PATH}/index?cid=${slug}`>start explore</a> -->
-
 <Layout>
-    <div data-intro>
-        <!-- <template data-column-slug={slug}></template>
+  <div data-intro>
+    <!-- <template data-column-slug={slug}></template>
         <template data-catalogs={catalogs}></template> -->
-        <article set:html={intro.description} />
+    <article set:html={intro.description} />
 
-        <CatalogComponent
-        data={catalogs}
-        client:visible
-        />
-    </div>
+    <CatalogComponent data={catalogs} client:visible />
+  </div>
 </Layout>
 
 <!-- <script>

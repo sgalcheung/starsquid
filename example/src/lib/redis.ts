@@ -1,38 +1,58 @@
-import { createClient } from "redis";
+import { createClient, type RedisClientType } from "redis";
 
-const client = await createClient({
+const client: RedisClientType = createClient({
   url: import.meta.env.REDIS_URL,
-})
-  .on("error", (err) => console.log("Redis Client Error", err))
-  .connect();
+});
+
+client.on("error", (err) => console.error("Redis Client Error:", err));
+
+async function connectRedis() {
+  if (!client.isOpen) {
+    try {
+      await client.connect();
+      console.log("Connected to Redis.");
+    } catch (err) {
+      console.error("Failed to connect to Redis:", err);
+      // Optional: Retry logic or error handling here
+    }
+  }
+}
+
+// Ensure the client is connected before performing operations
+async function ensureConnected() {
+  if (!client.isOpen) {
+    await connectRedis();
+  }
+}
 
 export async function storeRedis(
   key: string,
-  token: string,
+  value: string,
   expiresInSeconds: number
-) {
+): Promise<void> {
+  await ensureConnected();
   try {
-    await client.set(key, token, {
-      EX: expiresInSeconds,
-    });
-    console.log("Stored successfully in Redis.");
+    await client.set(key, value, { EX: expiresInSeconds });
+    console.log(
+      `Key "${key}" stored in Redis with expiry of ${expiresInSeconds} seconds.`
+    );
   } catch (error) {
-    console.error("Error storing in Redis:", error);
+    console.error(`Error storing key "${key}" in Redis:`, error);
   }
 }
 
 export async function getFromRedis(key: string): Promise<string | null> {
+  await ensureConnected();
   try {
-    const token = await client.get(key);
-    if (token) {
-      console.log("Token retrieved successfully from Redis.");
-      return token;
-    } else {
-      console.warn("Token not found in Redis or expired.");
-      return null;
-    }
+    const value = await client.get(key);
+    console.log(
+      value
+        ? `Key "${key}" retrieved from Redis.`
+        : `Key "${key}" not found or expired.`
+    );
+    return value;
   } catch (error) {
-    console.error("Error retrieving token from Redis:", error);
+    console.error(`Error retrieving key "${key}" from Redis:`, error);
     return null;
   }
 }
