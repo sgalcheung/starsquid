@@ -1,6 +1,6 @@
 {
   "name": "desquidex",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "generate": "ts-to-zod"
@@ -9,10 +9,19 @@
     "./loaders": "./loaders.ts",
     "./schemas": "./data/models/schemas.ts"
   },
-  "keywords": [],
-  "author": "Sgal Cheung",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "withastro",
+    "astro-loader"
+  ],
+  "author": "Sgal Cheung <sgalculture@outlook.com>",
+  "license": "MIT",
+  "description": "Use your Squidex data in Astro projects",
+  "homepage": "https://sdk--starlight-squidex.netlify.app/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sgalcheung/starlight-squidex/tree/sdk",
+    "directory": "packages/desquidex"
+  },
   "devDependencies": {
     "astro": "5.0.0-beta.2",
     "ts-to-zod": "^3.13.0",

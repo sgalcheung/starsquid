@@ -7,8 +7,7 @@
   },
   "keywords": [],
   "author": "Sgal Cheung",
-  "license": "ISC",
-  "description": "",
+  "license": "MIT",
   "packageManager": "pnpm@9.7.1",
   "pnpm": {
     "overrides": {
