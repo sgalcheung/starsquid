@@ -1,7 +1,33 @@
 ---
-import Layout from "@/layouts/Layout.astro"
+import Layout from "@/layouts/Layout.astro";
+import { getIntros } from "@/lib/api";
+
+const { intros } = await getIntros();
 ---
 
 <Layout>
-    <a href="/intro/hotel-directory/">Hotel Directory</a>
+  <main class="max-w-[960px] mx-auto">
+    {
+      intros &&
+        intros.map((intro) => (
+          <h2>
+            <a href={`/intro/${intro.flatData.slug}/`}>
+              {intro.flatData.title}
+            </a>
+          </h2>
+        ))
+    }
+  </main>
 </Layout>
+
+<style>
+  h2 {
+    font-size: revert;
+    font-weight: revert;
+  }
+
+  a {
+    color: revert;
+    text-decoration: revert;
+  }
+</style>
