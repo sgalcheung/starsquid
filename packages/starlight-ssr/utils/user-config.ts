@@ -1,15 +1,17 @@
 import { z } from "astro/zod";
 import { EntrypointSchema } from "../schemas/entry-point";
 import { PatternSchema } from "../schemas/pattern";
+import { WebHookSecretSchema } from "../schemas/webhook-sercret";
 import { stripLeadingAndTrailingSlashes } from "../libs/path";
 
 const UserConfigSchema = z.object({
   entrypoint: EntrypointSchema(),
   pattern: PatternSchema(),
+  webhooksecret: WebHookSecretSchema(),
 });
 
 // Matches any dynamic route pattern inside square brackets: '[...]' or '[slug]'
-const containsDynamicPattern = /\[.*\]$/; 
+const containsDynamicPattern = /\[.*\]$/;
 
 // Regular expression to check for double slashes
 const containsDoubleSlash = /\/{2,}/;

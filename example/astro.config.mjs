@@ -1,6 +1,6 @@
 // @ts-check
 import starlight from "@astrojs/starlight";
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 // import starlightSSR from "starlight-squidex";
 import starlightSSR from "starlight-ssr";
 
@@ -10,6 +10,9 @@ import { COLUMN_ARTICLE_PATH } from "./src/helpers/constants";
 import react from "@astrojs/react";
 
 import tailwind from "@astrojs/tailwind";
+import { loadEnv } from "vite";
+
+const env = loadEnv("", process.cwd(), "");
 
 // https://astro.build/config
 export default defineConfig({
@@ -23,6 +26,7 @@ export default defineConfig({
         starlightSSR({
           entrypoint: "./src/components/Route.astro",
           pattern: `${COLUMN_ARTICLE_PATH}/[id]`,
+          webhooksecret: env.WEBHOOK_SECRET,
         }),
       ],
     }),
@@ -33,4 +37,14 @@ export default defineConfig({
   ],
 
   adapter: netlify(),
+
+  // not support for now!
+  // env: {
+  //   schema: {
+  //     WEBHOOK_SECRET: envField.string({
+  //       context: "server",
+  //       access: "secret",
+  //     }),
+  //   },
+  // },
 });

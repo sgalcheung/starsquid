@@ -84,7 +84,13 @@ function makeLoader({
 
   const loader: Loader = {
     name: `desquidex-${name}`,
-    load: async ({ store, parseData }) => {
+    load: async ({ store, parseData, logger, refreshContextData, meta }) => {
+
+      if (refreshContextData?.webhookBody) {
+        logger.info("Received incoming webhook");
+        // do something with the webhook body
+      }
+
       switch (schema) {
         case SCHEMAS.APP: {
           const app = await client.apps.getApp();
