@@ -11,6 +11,7 @@ import react from "@astrojs/react";
 
 import tailwind from "@astrojs/tailwind";
 import { loadEnv } from "vite";
+import { refreshContentIntegration } from "desquidex/integrations";
 
 const env = loadEnv("", process.cwd(), "");
 
@@ -26,10 +27,10 @@ export default defineConfig({
         starlightSSR({
           entrypoint: "./src/components/Route.astro",
           pattern: `${COLUMN_ARTICLE_PATH}/[id]`,
-          webhooksecret: env.WEBHOOK_SECRET,
         }),
       ],
     }),
+    refreshContentIntegration(env.WEBHOOK_SECRET), // why have end name Integration?
     react(),
     tailwind({
       applyBaseStyles: false,

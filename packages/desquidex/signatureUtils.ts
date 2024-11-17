@@ -24,14 +24,6 @@ export function verifySignature(
   // Compute the Base64-encoded signature
   const computedSignature = hash.digest("base64");
 
-  // // Convert both signatures to Uint8Array for timingSafeEqual comparison
-  // const computedSignatureBuffer = Uint8Array.from(
-  //   Buffer.from(computedSignature, "hex")
-  // );
-  // const providedSignatureBuffer = Uint8Array.from(
-  //   Buffer.from(signature, "hex")
-  // );
-
   // Convert signatures to buffers for comparison
   const computedSignatureBuffer = Uint8Array.from(
     Buffer.from(computedSignature, "utf-8")

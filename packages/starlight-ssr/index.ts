@@ -1,5 +1,5 @@
 import type { StarlightPlugin } from "@astrojs/starlight/types";
-import { RefreshContentIntegration, starlightSSRIntegration } from "./libs/integration";
+import { starlightSSRIntegration } from "./libs/integration";
 
 import { validateConfig, type StarlightSSRUserConfig } from "./libs/config";
 // import { starlightOpenAPIIntegration } from './libs/integration'
@@ -30,7 +30,6 @@ export default function starlightSSRPlugin(
         const config = validateConfig(logger, userConfig);
 
         addIntegration(starlightSSRIntegration(config));
-        addIntegration(RefreshContentIntegration(config));
       },
     },
   };

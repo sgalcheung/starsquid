@@ -7,7 +7,9 @@
   },
   "exports": {
     "./loaders": "./loaders.ts",
-    "./schemas": "./data/models/schemas.ts"
+    "./schemas": "./data/models/schemas.ts",
+    "./integrations": "./integrations.ts",
+    "./package.json": "./package.json"
   },
   "keywords": [
     "withastro",
