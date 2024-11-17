@@ -26,7 +26,7 @@ const catalogs = dataMap(intro);
   <div data-intro>
     <!-- <template data-column-slug={slug}></template>
         <template data-catalogs={catalogs}></template> -->
-    <article set:html={intro.description} />
+    <article set:html={intro.data.description.iv} />
 
     <CatalogComponent data={catalogs} client:visible />
   </div>
