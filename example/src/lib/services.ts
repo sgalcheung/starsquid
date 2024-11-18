@@ -76,8 +76,6 @@ export async function getIntroFromCache(
   if (intro) {
     catalogs = dataMap(intro);
 
-    // TODO: optimize cache logic, not every load cache, only difference
-    // await storeRedis(slug, JSON.stringify(catalogs), CATALOGS_CACHE_TIMEOUT);
     await setIfChanged(slug, JSON.stringify(catalogs), CATALOGS_CACHE_TIMEOUT);
   }
 
