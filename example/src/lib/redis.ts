@@ -56,3 +56,75 @@ export async function getFromRedis(key: string): Promise<string | null> {
     return null;
   }
 }
+
+/**
+ * Logic-Layer Check
+ * - Ease of Maintenance
+ * - Decoupled Redis Logic
+ * - Custom Business Logic
+ * @param key to update value of the key
+ * @param newValue to update value ot the content
+ * @param expiresInSeconds optional, set the cache timeout
+ */
+export async function setIfChanged(
+  key: string,
+  newValue: string,
+  expiresInSeconds?: number
+): Promise<boolean> {
+  try {
+    await ensureConnected();
+
+    const currentValue = await client.get(key);
+
+    if (currentValue !== newValue) {
+      if (expiresInSeconds && expiresInSeconds > 0) {
+        // Use the options object for TTL
+        await client.set(key, newValue, { EX: expiresInSeconds });
+      } else {
+        await client.set(key, newValue);
+      }
+
+      console.log(
+        `"${key}" updated in Redis with TTL: ${expiresInSeconds ?? "none"}`
+      );
+      return true; // Indicate the key was updated
+    } else {
+      console.log(`"${key}" is already up-to-date, no update needed`);
+      return false; // Indicate no update was made
+    }
+  } catch (error) {
+    console.error(`Error updating "${key}" in Redis:`, error);
+    throw error; // Re-throw the error for upstream handling
+  }
+}
+
+/**
+ * Handling the Check in Redis
+ * - Need for Atomicity
+ * - High Write Frequency
+ * - Distributed Applications
+ * @param key to update value of the key
+ * @param newValue to update value ot the content
+ */
+export async function AtomicUpdate(key: string, newValue: string) {
+  await ensureConnected();
+  const script = `
+    local current = redis.call("GET", KEYS[1])
+    if current ~= ARGV[1] then
+        redis.call("SET", KEYS[1], ARGV[1])
+        return 1
+    else
+        return 0
+    end
+`;
+
+  const result = await client.eval(script, {
+    keys: [key],
+    arguments: [newValue],
+  });
+  if (result === 1) {
+    console.log(`"${key}" updated in Redis`);
+  } else {
+    console.log(`"${key}" no update needed`);
+  }
+}

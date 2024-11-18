@@ -10,10 +10,10 @@ import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 // import Operation from './operation/Operation.astro'
 // import Overview from './Overview.astro'
 import { getArticle, getIntro, getSidebar } from "@/lib/api";
-import { dataMap } from "@/lib/convert";
+// import { dataMap } from "@/lib/convert";
 import { COLUMN } from "@/helpers/constants";
 import type { StarlightUserConfig } from "@astrojs/starlight/types";
-import { getIntroFromCache } from "@/lib/services";
+import { getCatalogs } from "@/lib/services";
 
 export const prerender = false;
 
@@ -43,14 +43,13 @@ const article = articles[0].flatData;
 const frontmatter = { title: article.name! };
 
 let catalogs: StarlightUserConfig["sidebar"] = [];
-let intro;
+// let intro;
 
 if (Astro.cookies.has(COLUMN)) {
   const cookie = Astro.cookies.get(COLUMN);
   const column = cookie?.value;
   if (column) {
-    intro = await getIntroFromCache(column);
-    if (!intro) return Astro.redirect("/404");
+    catalogs = await getCatalogs(column);
   }
 } else {
   // Direct access from specific article link
@@ -63,7 +62,7 @@ if (Astro.cookies.has(COLUMN)) {
   // await storeRedis(column, JSON.stringify(catalogs), CATALOGS_CACHE_TIME);
 }
 
-catalogs = dataMap(intro);
+// catalogs = dataMap(intro);
 ---
 
 <div data-starlight>

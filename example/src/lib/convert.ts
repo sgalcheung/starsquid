@@ -1,4 +1,4 @@
-import type { IntroQuery } from "@/__generated__/graphql";
+// import type { IntroQuery } from "@/__generated__/graphql";
 import { COLUMN_ARTICLE_PATH } from "@/helpers/constants";
 
 // Extract intros[0].flatData.chapters type
@@ -6,11 +6,37 @@ import { COLUMN_ARTICLE_PATH } from "@/helpers/constants";
 //   NonNullable<IntroQuery["intros"]>[0]["flatData"]["chapters"]
 // >;
 
-export function dataMap(intro: any) {
+export interface CatalogType
+  extends Array<{
+    label: string;
+    items: Array<{
+      label: string;
+      link: string;
+    }>;
+  }> {}
+
+export function dataMap(intro: any): CatalogType {
   const chapters = intro.data!.chapters.iv!;
   if (!chapters) {
     return [];
   }
+
+  chapters.forEach((item: any) => {
+    if (
+      typeof intro.referenceData === "object" &&
+      intro.referenceData !== null
+    ) {
+      item.referenceArticles = [];
+      item.articles.forEach((articleId: string) => {
+        if (intro.referenceData[articleId]) {
+          item.referenceArticles.push({
+            id: articleId,
+            ...intro.referenceData[articleId],
+          });
+        }
+      });
+    }
+  });
 
   return chapters.map((sidebarItem: any) => ({
     label: sidebarItem.title!, // Chapter, secondary directory

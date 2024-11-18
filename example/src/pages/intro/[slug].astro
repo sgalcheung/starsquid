@@ -6,7 +6,7 @@ import { CatalogComponent } from "@/components/ShadcnComponents.tsx";
 import Layout from "@/layouts/Layout.astro";
 import { COLUMN } from "@/helpers/constants";
 import { getIntroFromCache } from "@/lib/services";
-import { dataMap } from "@/lib/convert";
+// import { dataMap } from "@/lib/convert";
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect("/404");
@@ -14,11 +14,11 @@ if (!slug) return Astro.redirect("/404");
 Astro.cookies.set(COLUMN, slug, { path: "/" });
 
 // load from cached
-const intro = await getIntroFromCache(slug);
+const { intro, catalogs } = await getIntroFromCache(slug);
 
-if (!intro) return Astro.redirect("/404");
+if (!intro || !catalogs) return Astro.redirect("/404");
 
-const catalogs = dataMap(intro);
+// const catalogs = dataMap(intro);
 ---
 
 <!-- <a href=`/${COLUMN_ARTICLE_PATH}/index?cid=${slug}`>start explore</a> -->
