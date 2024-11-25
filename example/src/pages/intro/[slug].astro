@@ -5,18 +5,21 @@
 import { CatalogComponent } from "@/components/ShadcnComponents.tsx";
 import Layout from "@/layouts/Layout.astro";
 import { COLUMN } from "@/helpers/constants";
-import { getIntroFromCache } from "@/lib/services";
-// import { dataMap } from "@/lib/convert";
+import { getCatalogs } from "@/lib/services";
+import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
+import { getEntry } from "astro:content";
 
 const { slug } = Astro.params;
-if (!slug) return Astro.redirect("/404");
+if (!slug || slug == undefined) return Astro.redirect("/404");
 
 Astro.cookies.set(COLUMN, slug, { path: "/" });
 
 // load from cached
-const { intro, catalogs } = await getIntroFromCache(slug);
+const intro = await getEntry(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS, slug);
+if (!intro) return Astro.redirect("/404");
 
-if (!intro || !catalogs) return Astro.redirect("/404");
+const catalogs = await getCatalogs(intro);
+if (!catalogs) return Astro.redirect("/404");
 
 // const catalogs = dataMap(intro);
 ---
@@ -26,7 +29,7 @@ if (!intro || !catalogs) return Astro.redirect("/404");
   <div data-intro>
     <!-- <template data-column-slug={slug}></template>
         <template data-catalogs={catalogs}></template> -->
-    <article set:html={intro.data.description.iv} />
+    <article set:html={intro.data.data.description.iv} />
 
     <CatalogComponent data={catalogs} client:visible />
   </div>

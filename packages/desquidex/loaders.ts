@@ -9,89 +9,148 @@ import { configService, type Config } from "./configService";
 import { getClient } from "./data/core/client";
 import {
   SCHEMAS,
+  SCHEMAS_CONST,
   appDtoSchema,
+  contentDtoSchema,
   contentsDtoSchema,
+  dataSchema,
   featuresDtoSchema,
+  type SCHEMAS_VALUES,
 } from "./data/models/schemas";
 
 type DataEntry = Parameters<DataStore["set"]>[0];
-// type CollectionSchema = {
-//   [key: string]: CollectionConfig<ZodObject>;
-// };
 
-export function squidexCollections(config: Config) {
+// type DynamicCollectionConfigs<T> = Record<
+//   keyof T,
+//   CollectionConfig<any>
+// >;
+// type Values<T extends Record<string, any>> = T[keyof T];
+// type SquidexSchemaKeys = Values<SquidexSchemaTypes>;
+// export type SquidexCommonSchemaTypes = typeof SCHEMAS_CONST;
+
+// const squidexSchemas = {
+//   ...squidexContentSchemas,
+//   ...SCHEMAS_CONST,
+// } as const;
+
+// export type SquidexSchemaTypes = typeof squidexSchemas;
+// type DynamicCollectionConfigs<T extends Record<string, any>> = Record<
+//   Values<T>,
+//   CollectionConfig<any>
+// >;
+// type DynamicCollectionConfigs = Partial<
+//   Record<SquidexSchemaKeys, CollectionConfig<BaseSchema>>
+// >;
+
+export function squidexCollections<T extends string>(config: Config<T>) {
   configService.setConfig(config);
 
-  const l = (type: SCHEMAS, contentSchema?: string) =>
+  const l = (type: SCHEMAS, schema: BaseSchema, contentSchema?: string) =>
     makeLoader({
-      schema: type,
-      contentSchema: contentSchema,
+      type,
+      schema,
+      contentSchema,
     });
 
-  const generalCollection = {
-    [SCHEMAS.APP]: defineCollection({
-      schema: appDtoSchema,
-      loader: l(SCHEMAS.APP),
-    }),
+  let collections: Record<string, CollectionConfig<BaseSchema>> = {};
 
-    [SCHEMAS.FEATURES]: defineCollection({
-      schema: featuresDtoSchema,
-      loader: l(SCHEMAS.FEATURES),
+  const schemaMapping: Record<SCHEMAS_VALUES, () => any> = {
+    [SCHEMAS.APP]: () => ({
+      [SCHEMAS.APP]: defineCollection({
+        // schema: appDtoSchema,
+        loader: l(SCHEMAS.APP, appDtoSchema),
+      }),
     }),
+    [SCHEMAS.FEATURES]: () => ({
+      [SCHEMAS.FEATURES]: defineCollection({
+        // schema: async () => featuresDtoSchema,
+        loader: l(SCHEMAS.FEATURES, featuresDtoSchema),
+      }),
+    }),
+    [SCHEMAS.CONTENT]: () => {
+      if (config.squidexContentSchemaMapping) {
+        const contentSchemaMapping = config.squidexContentSchemaMapping;
+        // const contentSchemas = Object.keys(config.squidexContentSchemaMapping);
+
+        if (contentSchemaMapping) {
+          type SquidexContentSchemasLiteral = keyof typeof contentSchemaMapping;
+          type T = typeof contentSchemaMapping;
+
+          const schemaKeys = Object.keys(
+            contentSchemaMapping
+          ) as SquidexContentSchemasLiteral[];
+          const schemaValues = Object.values(
+            contentSchemaMapping
+          ) as T[SquidexContentSchemasLiteral][];
+
+          console.log("---------------");
+          schemaKeys.forEach((key) => {
+            const schemaValue = contentSchemaMapping[key];
+            console.log(`${key}: ${schemaValue}`);
+          });
+
+          console.log("---------------");
+          // console.log("All schemas:", schemaValues);
+          // return null;
+
+          let contentCollections: Record<
+            string,
+            CollectionConfig<BaseSchema>
+          >[] = [];
+          schemaKeys.forEach((key) => {
+            const schemaValue = contentSchemaMapping[key];
+            // console.log("value", schemaValue);
+            const contentCollection = {
+              [key]: defineCollection({
+                // schema: contentDtoSchema(config.squidexContentSchemaTypes![0]),
+                loader: l(SCHEMAS.CONTENT, contentDtoSchema(schemaValue), key),
+              }),
+            };
+            contentCollections.push(contentCollection);
+          });
+          return contentCollections;
+        }
+      }
+    },
   };
 
-  // const result = {
-  //   ...generalCollection,
-  // };
+  Object.values(SCHEMAS_CONST).forEach((value) => {
+    const collection = schemaMapping[value]?.();
+    if (Array.isArray(collection)) {
+      collection.forEach((col) => {
+        collections = { ...collections, ...col };
+      });
+    } else {
+      collections = { ...collections, ...collection };
+    }
+  });
 
-  // if (config.squidexContentSchemas) {
-  //   for (const schema of config.squidexContentSchemas) {
-  //     result[schema] = defineCollection({
-  //       schema: contentsDtoSchema,
-  //       loader: l(SCHEMAS.CONTENTS, schema),
-  //     });
-  //   }
-  // }
-
-  if (config.squidexContentSchemas) {
-    const dynamicCollections = config.squidexContentSchemas.reduce(
-      (acc, schema) => {
-        acc[schema] = defineCollection({
-          schema: contentsDtoSchema,
-          loader: l(SCHEMAS.CONTENTS, schema),
-        });
-        return acc;
-      },
-      {} as Record<string, CollectionConfig<BaseSchema>>
-    );
-
-    Object.assign(generalCollection, dynamicCollections);
-  }
-
-  return generalCollection;
+  // console.log(collections);
+  return collections;
 }
 
 function makeLoader({
+  type,
   schema,
   contentSchema,
 }: {
-  schema: SCHEMAS;
+  type: SCHEMAS;
+  schema: BaseSchema;
   contentSchema?: string;
 }) {
   const { client } = getClient();
 
-  const name = contentSchema ?? schema.toString();
+  const name = contentSchema ?? type.toString();
 
   const loader: Loader = {
     name: `desquidex-${name}`,
     load: async ({ store, parseData, logger, refreshContextData, meta }) => {
-
       if (refreshContextData?.webhookBody) {
         logger.info("Received incoming webhook");
         // do something with the webhook body
       }
 
-      switch (schema) {
+      switch (type) {
         case SCHEMAS.APP: {
           const app = await client.apps.getApp();
           const item = await parseData({
@@ -112,82 +171,61 @@ function makeLoader({
           store.set(storeEntry);
           break;
         }
-        case SCHEMAS.CONTENTS: {
+        case SCHEMAS.CONTENT: {
           const contents = await client.contents.getContents(contentSchema!);
+          // console.log("contents", contents);
+          const contentsDtoSchemaT = contentsDtoSchema(dataSchema);
+          const parsedContents = contentsDtoSchemaT.safeParse(contents);
+
+          if (!parsedContents.success) {
+            throw new Error(`Invalid contents data.`);
+          }
+
+          const items = parsedContents.data.items;
+          for (const item of items) {
+            const id = item.data.slug ? item.data.slug.iv.toString() : item.id;
+            const parsedItem = await parseData({
+              id,
+              data: item,
+            });
+            store.set({ id: id, data: parsedItem });
+          }
+          break;
 
           // const referenceIds = contents.items.map((item) => item.id);
 
           // const query = await client.contents.getAllContentsPost({
           //   ids: [],
           // });
-          await Promise.all(
-            contents.items.map(async (x) => {
-              const references = await client.contents.getReferences(
-                contentSchema!,
-                x.id
-              );
-              if (references.total > 0) {
-                x.referenceData = references.items.reduce(
-                  (accumulator, item) => {
-                    accumulator[item.id] = item.data;
-                    return accumulator;
-                  },
-                  {} as {
-                    [key: string]: {
-                      [key: string]: any;
-                    };
-                  }
-                );
-              }
-            })
-          );
 
-          const item = await parseData({
-            id: String(contents.total),
-            data: JSON.parse(JSON.stringify(contents)),
-          });
-          const storeEntry: DataEntry = { id: String(item.id), data: item };
-          store.set(storeEntry);
-          break;
+          // Unuse link query. keep atomic
+          // await Promise.all(
+          //   contents.items.map(async (x) => {
+          //     const references = await client.contents.getReferences(
+          //       contentSchema!,
+          //       x.id
+          //     );
+          //     if (references.total > 0) {
+          //       x.referenceData = references.items.reduce(
+          //         (accumulator, item) => {
+          //           accumulator[item.id] = item.data;
+          //           return accumulator;
+          //         },
+          //         {} as {
+          //           [key: string]: {
+          //             [key: string]: any;
+          //           };
+          //         }
+          //       );
+          //     }
+          //   })
+          // );
         }
         default:
           break;
       }
     },
+    schema: async () => schema,
   };
   return loader;
-}
-
-/**
- * Fetch all pages for a paginated WP endpoint.
- */
-async function fetchAll(url: URL, page = 1, results: any[] = []) {
-  url.searchParams.set("per_page", "100");
-  url.searchParams.set("page", String(page));
-  const response = await fetch(url);
-  let data = await response.json();
-  if (!Array.isArray(data)) {
-    if (typeof data === "object") {
-      data = Object.entries(data).map(([id, val]) => {
-        if (typeof val === "object") return { id, ...val };
-        return { id };
-      });
-    } else {
-      throw new AstroError(
-        "Expected WordPress API to return an array of items.",
-        `Received ${typeof data}:\n\n\`\`\`json\n${JSON.stringify(
-          data,
-          null,
-          2
-        )}\n\`\`\``
-      );
-    }
-  }
-  results.push(...data);
-  const totalPages = parseInt(response.headers.get("X-WP-TotalPages") || "1");
-  if (page < totalPages) return fetchAll(url, page + 1, results);
-  return results;
-}
-function docsSchema(): any {
-  throw new Error("Function not implemented.");
 }

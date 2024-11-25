@@ -13,7 +13,7 @@ import { getArticle, getIntro, getSidebar } from "@/lib/api";
 // import { dataMap } from "@/lib/convert";
 import { COLUMN } from "@/helpers/constants";
 import type { StarlightUserConfig } from "@astrojs/starlight/types";
-import { getCatalogs } from "@/lib/services";
+import { getCatalogsFromRedis } from "@/lib/services";
 
 export const prerender = false;
 
@@ -49,7 +49,7 @@ if (Astro.cookies.has(COLUMN)) {
   const cookie = Astro.cookies.get(COLUMN);
   const column = cookie?.value;
   if (column) {
-    catalogs = await getCatalogs(column);
+    catalogs = await getCatalogsFromRedis(column);
   }
 } else {
   // Direct access from specific article link

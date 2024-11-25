@@ -40,6 +40,17 @@ module.exports = [
     output: "./generated/statusInfoDto.zod.ts",
   },
   {
+    name: "FieldPropertiesDto",
+    input:
+      "node_modules/@squidex/squidex/generated/models/FieldPropertiesDto.d.ts",
+    output: "./generated/fieldPropertiesDto.zod.ts",
+  },
+  {
+    name: "FieldDto",
+    input: "node_modules/@squidex/squidex/generated/models/FieldDto.d.ts",
+    output: "./generated/fieldDto.zod.ts",
+  },
+  {
     name: "ContentsDto",
     input: "node_modules/@squidex/squidex/generated/models/ContentsDto.d.ts",
     output: "./generated/contentsDto.zod.ts",

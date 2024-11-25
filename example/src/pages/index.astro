@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import { marked } from "marked";
 import { SCHEMAS } from "desquidex/schemas";
 import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
@@ -9,47 +9,71 @@ const app = (await getCollection(SCHEMAS.APP))?.[0];
 const newsFeature = (await getCollection(SCHEMAS.FEATURES))?.[0];
 const features = newsFeature.data.features.slice(0, 2);
 await Promise.all(
-  features.map(async (feature: any) => {
+  features.map(async (feature) => {
     feature.text = await marked.parse(feature.text);
   })
 );
 
-interface SlugData {
-  iv: string;
-}
+// const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
 
-interface Title {
-  iv: string;
-}
+// const introductionContentDtoSchema = contentDtoSchema(introductionSchema);
 
-interface IntroductionItem {
-  data: {
-    slug: SlugData;
-    title: Title;
-  };
-}
+// const parsedIntros = intros.map((intro) => {
+//   const validationResult = introductionContentDtoSchema.safeParse(intro.data);
 
-interface IntroductionsResponse {
-  data?: {
-    items?: IntroductionItem[];
-  };
-}
+//   if (!validationResult.success) {
+//     console.error(
+//       `Validation failed for introduction ${intro.id}:`,
+//       validationResult.error.issues
+//     );
+//   }
+//   // else {
+//   //   console.log(
+//   //     `Validation succeeded for intro ${intro.id}:`,
+//   //     validationResult.data
+//   //   );
+//   // }
+//   return validationResult.data;
+// });
 
-const intros = (
-  await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS)
-)?.[0] as IntroductionsResponse;
+// const intros = await getIntroductions();
+const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
+// console.log("intros", intros);
+// console.log("intros", intros[0].chapters);
+
+// const articles = await getArticles();
+// console.log("articles", articles);
+
+// const intros2 = await getCollectionWithSchema(
+//   SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS,
+//   introductionSchemaInstance
+// );
+// console.log("intros2", intros2);
+
+// console.log("intros2[0].data", intros2[0].data);
+// if (intros2[0].data.data) {
+//   console.log("data.data.slug.iv", intros2[0].data.data.slug.iv);
+//   console.log('data.links["self"]', intros2[0].data.links["self"]);
+// }
+
+// const intro = await getEntry(
+//   SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS,
+//   "862331b7-4b8f-4bd7-a3e2-ebf0402154d4"
+// );
+// console.log(intro);
 ---
 
 <Layout>
   <main class="max-w-[960px] mx-auto">
     {
-      intros.data &&
-        Array.isArray(intros.data.items) &&
-        intros.data.items.map((intro) => (
+      intros?.map((intro) => {
+        const { data } = intro.data;
+        return (
           <h2>
-            <a href={`/intro/${intro.data.slug.iv}/`}>{intro.data.title.iv}</a>
+            <a href={`/intro/${data.slug.iv}/`}>{data.title.iv}</a>
           </h2>
-        ))
+        );
+      })
     }
 
     <br />
@@ -65,7 +89,7 @@ const intros = (
       <ul>
         <strong>Change log</strong>
         {
-          features.map((feature: any) => {
+          features.map((feature) => {
             return (
               <li>
                 <p>
@@ -79,7 +103,6 @@ const intros = (
     </sction>
   </main>
 </Layout>
-
 <style>
   h2,
   h3,
