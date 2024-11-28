@@ -1,4 +1,4 @@
-import { configService } from "../../configService";
+import { configService } from "../../configService.js";
 import { SquidexClient } from "@squidex/squidex";
 import { InMemoryTokenStore } from "@squidex/squidex/dist/wrapper/SquidexClient.js";
 

@@ -1,5 +1,5 @@
 import type { AstroIntegration } from "astro";
-import { validateRequest } from "./signatureUtils";
+import { validateRequest } from "./signatureUtils.js";
 
 export function refreshContentIntegration(
   webhookSecret: string

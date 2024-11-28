@@ -7,52 +7,52 @@ module.exports = [
   {
     name: "appDto",
     input: "node_modules/@squidex/squidex/generated/models/AppDto.d.ts",
-    output: "./generated/appDto.zod.ts",
+    output: "./src/__generated__/appDto.zod.ts",
   },
   {
     name: "resourceLink",
     input: "node_modules/@squidex/squidex/generated/models/ResourceLink.d.ts",
-    output: "./generated/resourceLink.zod.ts",
+    output: "./src/__generated__/resourceLink.zod.ts",
   },
   {
     name: "featureDto",
     input: "node_modules/@squidex/squidex/generated/models/FeatureDto.d.ts",
-    output: "./generated/featureDto.zod.ts",
+    output: "./src/__generated__/featureDto.zod.ts",
   },
   {
     name: "featuresDto",
     input: "node_modules/@squidex/squidex/generated/models/FeaturesDto.d.ts",
-    output: "./generated/featuresDto.zod.ts",
+    output: "./src/__generated__/featuresDto.zod.ts",
   },
   {
-    name: "ScheduleJobDto",
+    name: "scheduleJobDto",
     input: "node_modules/@squidex/squidex/generated/models/ScheduleJobDto.d.ts",
-    output: "./generated/scheduleJobDto.zod.ts",
+    output: "./src/__generated__/scheduleJobDto.zod.ts",
   },
   {
-    name: "ContentDto",
+    name: "contentDto",
     input: "node_modules/@squidex/squidex/generated/models/ContentDto.d.ts",
-    output: "./generated/contentDto.zod.ts",
+    output: "./src/__generated__/contentDto.zod.ts",
   },
   {
-    name: "StatusInfoDto",
+    name: "statusInfoDto",
     input: "node_modules/@squidex/squidex/generated/models/StatusInfoDto.d.ts",
-    output: "./generated/statusInfoDto.zod.ts",
+    output: "./src/__generated__/statusInfoDto.zod.ts",
   },
   {
-    name: "FieldPropertiesDto",
+    name: "fieldPropertiesDto",
     input:
       "node_modules/@squidex/squidex/generated/models/FieldPropertiesDto.d.ts",
-    output: "./generated/fieldPropertiesDto.zod.ts",
+    output: "./src/__generated__/fieldPropertiesDto.zod.ts",
   },
   {
-    name: "FieldDto",
+    name: "fieldDto",
     input: "node_modules/@squidex/squidex/generated/models/FieldDto.d.ts",
-    output: "./generated/fieldDto.zod.ts",
+    output: "./src/__generated__/fieldDto.zod.ts",
   },
   {
-    name: "ContentsDto",
+    name: "contentsDto",
     input: "node_modules/@squidex/squidex/generated/models/ContentsDto.d.ts",
-    output: "./generated/contentsDto.zod.ts",
+    output: "./src/__generated__/contentsDto.zod.ts",
   },
 ];

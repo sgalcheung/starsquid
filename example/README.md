@@ -50,3 +50,7 @@ A [Starlight](https://starlight.astro.build) plugin to server render contents, i
 - SSR render contents
 
 > This README format inspired from [starlight-blog/README.md at main · HiDeoo/starlight-blog (github.com)](https://github.com/HiDeoo/starlight-blog/blob/main/README.md)
+
+## Licensing
+
+[MIT Licensed](./LICENSE). Made with ❤️ by [Sgal Cheung](https://github.com/sgalcheung).

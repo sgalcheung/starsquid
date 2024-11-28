@@ -1,14 +1,10 @@
 import { ZodType } from "zod";
 import { z } from "astro/zod";
 import type {
-  ResourceLink,
-  AppDto,
   FeatureDto,
   FeaturesDto,
   ScheduleJobDto,
   StatusInfoDto,
-  ContentDto,
-  ContentsDto,
 } from "@squidex/squidex";
 
 export enum SCHEMAS {
@@ -27,7 +23,7 @@ export const resourceLinkSchema = z.object({
   href: z.string(),
   method: z.string(),
   metadata: z.string().optional().nullable(),
-}) satisfies ZodType<ResourceLink>;
+}); // satisfies ZodType<ResourceLink>;
 
 export const appDtoSchema = z.object({
   links: z.record(resourceLinkSchema),
@@ -44,7 +40,7 @@ export const appDtoSchema = z.object({
   canAccessContent: z.boolean(),
   roleName: z.string().optional().nullable(),
   roleProperties: z.record(z.any()),
-}) satisfies ZodType<AppDto>;
+}); //satisfies ZodType<AppDto>;
 
 export const featureDtoSchema = z.object({
   name: z.string(),

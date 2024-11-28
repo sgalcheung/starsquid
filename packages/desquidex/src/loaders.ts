@@ -1,12 +1,11 @@
-import { AstroError } from "astro/errors";
 import type { DataStore, Loader } from "astro/loaders";
 import {
   defineCollection,
   type BaseSchema,
   type CollectionConfig,
 } from "astro:content";
-import { configService, type Config } from "./configService";
-import { getClient } from "./data/core/client";
+import { configService, type Config } from "./configService.js";
+import { getClient } from "./data/core/client.js";
 import {
   SCHEMAS,
   SCHEMAS_CONST,
@@ -16,7 +15,7 @@ import {
   dataSchema,
   featuresDtoSchema,
   type SCHEMAS_VALUES,
-} from "./data/models/schemas";
+} from "./data/models/schemas.js";
 
 type DataEntry = Parameters<DataStore["set"]>[0];
 
@@ -74,14 +73,14 @@ export function squidexCollections<T extends string>(config: Config<T>) {
 
         if (contentSchemaMapping) {
           type SquidexContentSchemasLiteral = keyof typeof contentSchemaMapping;
-          type T = typeof contentSchemaMapping;
+          // type T = typeof contentSchemaMapping;
 
           const schemaKeys = Object.keys(
             contentSchemaMapping
           ) as SquidexContentSchemasLiteral[];
-          const schemaValues = Object.values(
-            contentSchemaMapping
-          ) as T[SquidexContentSchemasLiteral][];
+          // const schemaValues = Object.values(
+          //   contentSchemaMapping
+          // ) as T[SquidexContentSchemasLiteral][];
 
           console.log("---------------");
           schemaKeys.forEach((key) => {
@@ -111,6 +110,7 @@ export function squidexCollections<T extends string>(config: Config<T>) {
           return contentCollections;
         }
       }
+      return null;
     },
   };
 
@@ -136,7 +136,7 @@ function makeLoader({
 }: {
   type: SCHEMAS;
   schema: BaseSchema;
-  contentSchema?: string;
+  contentSchema?: string | undefined;
 }) {
   const { client } = getClient();
 
@@ -144,7 +144,7 @@ function makeLoader({
 
   const loader: Loader = {
     name: `desquidex-${name}`,
-    load: async ({ store, parseData, logger, refreshContextData, meta }) => {
+    load: async ({ store, parseData, logger, refreshContextData }) => {
       if (refreshContextData?.webhookBody) {
         logger.info("Received incoming webhook");
         // do something with the webhook body
