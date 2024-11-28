@@ -2,47 +2,37 @@
 // uri: column/intro/100002201
 // uri: column/intro/new-hotel-offerings
 
-import { getIntro } from "@/lib/api";
 import { CatalogComponent } from "@/components/ShadcnComponents.tsx";
-import Layout from "@/layouts/Layout.astro"
-import { dataMap } from "@/lib/convert";
-import { storeRedis } from "@/lib/redis";
-import { CATALOGS_CACHE_TIME, COLUMN } from "@/helpers/constants";
-
-
+import Layout from "@/layouts/Layout.astro";
+import { COLUMN } from "@/helpers/constants";
+import { getCatalogs } from "@/lib/services";
+import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
+import { getEntry } from "astro:content";
 
 const { slug } = Astro.params;
-if (!slug) return Astro.redirect("/404");
+if (!slug || slug == undefined) return Astro.redirect("/404");
 
-Astro.cookies.set(COLUMN, slug, {path: '/'});
+Astro.cookies.set(COLUMN, slug, { path: "/" });
 
-const { intros } = await getIntro(slug);
+// load from cached
+const intro = await getEntry(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS, slug);
+if (!intro) return Astro.redirect("/404");
 
-if (!intros || intros.length !== 1) return Astro.redirect("/404");
+const catalogs = await getCatalogs(intro);
+if (!catalogs) return Astro.redirect("/404");
 
-const intro = intros[0].flatData;
-
-const chapters = intro!.chapters!;
-
-// console.log(column)
-const catalogs = dataMap(chapters);
-
-await storeRedis(slug, JSON.stringify(catalogs), CATALOGS_CACHE_TIME);
+// const catalogs = dataMap(intro);
 ---
 
 <!-- <a href=`/${COLUMN_ARTICLE_PATH}/index?cid=${slug}`>start explore</a> -->
-
 <Layout>
-    <div data-intro>
-        <!-- <template data-column-slug={slug}></template>
+  <div data-intro>
+    <!-- <template data-column-slug={slug}></template>
         <template data-catalogs={catalogs}></template> -->
-        <article set:html={intro.description} />
+    <article set:html={intro.data.data.description.iv} />
 
-        <CatalogComponent
-        data={catalogs}
-        client:visible
-        />
-    </div>
+    <CatalogComponent data={catalogs} client:visible />
+  </div>
 </Layout>
 
 <!-- <script>

@@ -1,0 +1,61 @@
+{
+  "name": "desquidex",
+  "version": "0.1.0",
+  "description": "Use your Squidex data in Astro projects",
+  "author": {
+    "email": "sgalculture@outlook.com",
+    "name": "Sgal Cheung",
+    "url": "https://github.com/sgalcheung"
+  },
+  "license": "MIT",
+  "keywords": [
+    "withastro",
+    "astro-loader"
+  ],
+  "homepage": "https://sdk--starlight-squidex.netlify.app/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sgalcheung/starlight-squidex.git",
+    "directory": "packages/desquidex"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "exports": {
+    "./loaders": {
+      "types": "./dist/loaders.d.ts",
+      "default": "./dist/loaders.js"
+    },
+    "./schemas": {
+      "types": "./dist/data/models/schemas.d.ts",
+      "default": "./dist/data/models/schemas.js"
+    },
+    "./integrations": {
+      "types": "./dist/integrations.d.ts",
+      "default": "./dist/integrations.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "generate": "ts-to-zod",
+    "dev": "tsup --watch",
+    "build": "tsup"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "astro": "^5.0.0-beta"
+  },
+  "devDependencies": {
+    "astro": "^5.0.0-beta",
+    "ts-to-zod": "^3.14.1",
+    "tsup": "^8.3.5",
+    "typescript": "^5.5.4",
+    "zod": "^3.23.8"
+  },
+  "dependencies": {
+    "@squidex/squidex": "2.0.0-rc2"
+  }
+}

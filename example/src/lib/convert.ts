@@ -1,22 +1,58 @@
-import type { IntroQuery } from "@/__generated__/graphql";
+// import type { IntroQuery } from "@/__generated__/graphql";
+import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
 import { COLUMN_ARTICLE_PATH } from "@/helpers/constants";
+import { getEntry, type CollectionEntry } from "astro:content";
 
 // Extract intros[0].flatData.chapters type
-type ChaptersType = NonNullable<
-  NonNullable<IntroQuery["intros"]>[0]["flatData"]["chapters"]
->;
+// type ChaptersType = NonNullable<
+//   NonNullable<IntroQuery["intros"]>[0]["flatData"]["chapters"]
+// >;
 
-export function dataMap(chapters: ChaptersType) {
+export interface CatalogType
+  extends Array<{
+    label: string;
+    items: Array<{
+      label: string;
+      link: string;
+    }>;
+  }> {}
+
+export async function dataMap(
+  intro: CollectionEntry<SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS>
+): Promise<CatalogType> {
+  const chapters = intro.data.data.chapters.iv!;
   if (!chapters) {
     return [];
   }
 
-  return chapters.map((sidebarItem) => ({
-    label: sidebarItem.title!, // Chapter, secondary directory
-    items:
-      sidebarItem.articles!.map((item) => ({
-        label: item.flatData.name!,
-        link: `/${COLUMN_ARTICLE_PATH}/${item.id}`,
-      })) ?? [],
-  }));
+  // const articles = await getCollection(SQUIDEX_CONTENT_SCHEMAS.ARTICLES);
+  const articleIds = chapters.flatMap((c) => c.articles);
+  const articles = await Promise.all(
+    articleIds.map(
+      async (id) => await getEntry(SQUIDEX_CONTENT_SCHEMAS.ARTICLES, id)
+    )
+  );
+
+  intro.data.referenceData = intro.data.referenceData || {};
+  intro.data.referenceData.articles = intro.data.referenceData.articles || {};
+
+  // console.log("--before--", intro.data.referenceData.articles);
+  articles.forEach((article) => {
+    intro.data.referenceData!.articles[article.id] = article.data.data;
+  });
+  // console.log("--after--",intro.data.referenceData.articles);
+
+  return chapters.map((sidebarItem) => {
+    return {
+      label: sidebarItem.title!, // Chapter, secondary directory
+      items:
+        sidebarItem.articles.map((id) => {
+          const article = intro.data.referenceData!.articles[id];
+          return {
+            label: article.name.iv!,
+            link: `/${COLUMN_ARTICLE_PATH}/${id}`,
+          };
+        }) ?? [],
+    };
+  });
 }

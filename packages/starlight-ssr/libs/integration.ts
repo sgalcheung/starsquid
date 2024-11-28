@@ -1,5 +1,4 @@
 import type { AstroIntegration } from "astro";
-// import type { Schema } from './schema'
 import { vitePluginStarlightSSRSchemas } from "./vite";
 import type { StarlightSSRUserConfig } from "../utils/user-config";
 

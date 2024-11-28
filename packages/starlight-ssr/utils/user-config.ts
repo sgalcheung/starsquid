@@ -9,7 +9,7 @@ const UserConfigSchema = z.object({
 });
 
 // Matches any dynamic route pattern inside square brackets: '[...]' or '[slug]'
-const containsDynamicPattern = /\[.*\]$/; 
+const containsDynamicPattern = /\[.*\]$/;
 
 // Regular expression to check for double slashes
 const containsDoubleSlash = /\/{2,}/;

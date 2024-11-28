@@ -7,7 +7,7 @@
   },
   "keywords": [],
   "author": "Sgal Cheung",
-  "license": "ISC",
+  "license": "MIT",
   "description": "",
   "dependencies": {
     "dotenv": "^16.4.5"

@@ -1,7 +1,118 @@
 ---
-import Layout from "@/layouts/Layout.astro"
+import Layout from "@/layouts/Layout.astro";
+import { getCollection, getEntry } from "astro:content";
+import { marked } from "marked";
+import { SCHEMAS } from "desquidex/schemas";
+import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
+
+const app = (await getCollection(SCHEMAS.APP))?.[0];
+const newsFeature = (await getCollection(SCHEMAS.FEATURES))?.[0];
+const features = newsFeature.data.features.slice(0, 2);
+await Promise.all(
+  features.map(async (feature) => {
+    feature.text = await marked.parse(feature.text);
+  })
+);
+
+// const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
+
+// const introductionContentDtoSchema = contentDtoSchema(introductionSchema);
+
+// const parsedIntros = intros.map((intro) => {
+//   const validationResult = introductionContentDtoSchema.safeParse(intro.data);
+
+//   if (!validationResult.success) {
+//     console.error(
+//       `Validation failed for introduction ${intro.id}:`,
+//       validationResult.error.issues
+//     );
+//   }
+//   // else {
+//   //   console.log(
+//   //     `Validation succeeded for intro ${intro.id}:`,
+//   //     validationResult.data
+//   //   );
+//   // }
+//   return validationResult.data;
+// });
+
+// const intros = await getIntroductions();
+const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
+// console.log("intros", intros);
+// console.log("intros", intros[0].chapters);
+
+// const articles = await getArticles();
+// console.log("articles", articles);
+
+// const intros2 = await getCollectionWithSchema(
+//   SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS,
+//   introductionSchemaInstance
+// );
+// console.log("intros2", intros2);
+
+// console.log("intros2[0].data", intros2[0].data);
+// if (intros2[0].data.data) {
+//   console.log("data.data.slug.iv", intros2[0].data.data.slug.iv);
+//   console.log('data.links["self"]', intros2[0].data.links["self"]);
+// }
+
+// const intro = await getEntry(
+//   SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS,
+//   "862331b7-4b8f-4bd7-a3e2-ebf0402154d4"
+// );
+// console.log(intro);
 ---
 
 <Layout>
-    <a href="/intro/hotel-directory/">Hotel Directory</a>
+  <main class="max-w-[960px] mx-auto">
+    {
+      intros?.map((intro) => {
+        const { data } = intro.data;
+        return (
+          <h2>
+            <a href={`/intro/${data.slug.iv}/`}>{data.title.iv}</a>
+          </h2>
+        );
+      })
+    }
+
+    <br />
+    <sction>
+      <h3>This is the backend info:</h3>
+      {
+        app && (
+          <p>
+            <strong>App name</strong>: {app.data.name}
+          </p>
+        )
+      }
+      <ul>
+        <strong>Change log</strong>
+        {
+          features.map((feature) => {
+            return (
+              <li>
+                <p>
+                  <em>{feature.name}</em>: <article set:html={feature.text} />
+                </p>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </sction>
+  </main>
 </Layout>
+<style>
+  h2,
+  h3,
+  h4 {
+    font-size: revert;
+    font-weight: revert;
+  }
+
+  a {
+    color: revert;
+    text-decoration: revert;
+  }
+</style>
