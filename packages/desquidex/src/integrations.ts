@@ -1,6 +1,14 @@
 import type { AstroIntegration } from "astro";
 import { validateRequest } from "./signatureUtils.js";
 
+/**
+ * Notice!!! The production environment is not supported.
+ * This API(refreshContent) is for dev only and is not supported in Astro 5.
+ * Astro may support live content updates in production one day, but the API would be different.
+ * reference: https://answers.netlify.com/t/netlify-dont-work-for-my-astro-middleware-endpoint/129673/11
+ * @param webhookSecret 
+ * @returns 
+ */
 export function refreshContentIntegration(
   webhookSecret: string
 ): AstroIntegration {

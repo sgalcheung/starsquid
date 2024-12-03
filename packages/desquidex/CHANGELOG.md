@@ -1,5 +1,17 @@
 # desquidex
 
+## 0.1.1
+
+### Patch Changes
+
+- Support webhooks to refresh content. (Notice!!! The production environment is not supported, [see more](https://answers.netlify.com/t/netlify-dont-work-for-my-astro-middleware-endpoint/129673/11))
+
+## 0.2.0
+
+### Minor Changes
+
+- Support webhooks to refresh content. (Notice!!! The production environment is not supported, [see more](https://answers.netlify.com/t/netlify-dont-work-for-my-astro-middleware-endpoint/129673/11))
+
 ## 0.1.0
 
 ### Minor Changes

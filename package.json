@@ -6,7 +6,8 @@
     "node": ">=18.19.0"
   },
   "scripts": {
-    "changeset": "changeset"
+    "changeset": "changeset",
+    "release": "node scripts/release.mjs"
   },
   "pnpm": {
     "overrides": {
