@@ -1,5 +1,6 @@
 import { spawn } from "node:child_process";
 import { resolve } from "node:path";
+import { parseArgs } from "node:util";
 
 /**
  *
@@ -34,30 +35,12 @@ const run = async (command, ...args) => {
   });
 };
 
-function parseArgs(argv) {
-  const params = {};
-
-  for (let i = 0; i < argv.length; i++) {
-    if (argv[i].startsWith("--")) {
-      const [key, value] = argv[i].includes("=")
-        ? argv[i].slice(2).split("=")
-        : [
-            argv[i].slice(2),
-            argv[i + 1] && !argv[i + 1].startsWith("--") ? argv[++i] : true,
-          ];
-      params[key] = value;
-    } else if (argv[i].includes("=")) {
-      const [key, value] = argv[i].split("=");
-      params[key] = value;
-    }
-  }
-
-  return { ...process.env, ...params };
-}
-
 const main = async () => {
-  const args = process.argv.slice(2);
-  const params = parseArgs(args);
+  const { values } = parseArgs({
+    options: {
+      otp: { type: "string" },
+    },
+  });
 
   await run("pnpm changeset version");
   await run("git add .");
@@ -65,8 +48,8 @@ const main = async () => {
   await run("git push");
   await run("pnpm --filter desquidex build");
   await run("pnpm config set registry https://registry.npmjs.org/");
-  if (params.OTP) {
-    await run(`pnpm changeset publish --otp=${params.OTP}`);
+  if (values.otp) {
+    await run(`pnpm changeset publish --otp=${values.otp}`);
   } else {
     await run("pnpm changeset publish");
   }
