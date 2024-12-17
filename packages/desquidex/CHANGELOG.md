@@ -1,5 +1,11 @@
 # desquidex
 
+## 0.1.2
+
+### Minor Changes
+
+- Upgrade to Astro 5.0.
+
 ## 0.1.1
 
 ### Patch Changes

@@ -47,13 +47,13 @@ const main = async () => {
   await run('git commit -m "chore: update version"');
   await run("git push");
   await run("pnpm --filter desquidex build");
-  await run("pnpm config set registry https://registry.npmjs.org/");
   if (values.otp) {
-    await run(`pnpm changeset publish --otp=${values.otp}`);
+    await run(
+      `pnpm changeset publish --otp=${values.otp} --registry https://registry.npmjs.org/`
+    );
   } else {
-    await run("pnpm changeset publish");
+    await run("pnpm changeset publish --registry https://registry.npmjs.org/");
   }
-  await run("pnpm config set registry https://registry.npmmirror.com");
   await run("git push --follow-tags");
   const tag = (await run("git describe --abbrev=0")).replace("\n", "");
   await run(
