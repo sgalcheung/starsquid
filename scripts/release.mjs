@@ -49,10 +49,12 @@ const main = async () => {
   await run("pnpm --filter desquidex build");
   if (values.otp) {
     await run(
-      `pnpm changeset publish --otp=${values.otp} --registry https://registry.npmjs.org/`
+      `NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ pnpm changeset publish --otp=${values.otp}`
     );
   } else {
-    await run("pnpm changeset publish --registry https://registry.npmjs.org/");
+    await run(
+      "NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ pnpm changeset publish"
+    );
   }
   await run("git push --follow-tags");
   const tag = (await run("git describe --abbrev=0")).replace("\n", "");

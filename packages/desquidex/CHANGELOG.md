@@ -1,8 +1,14 @@
 # desquidex
 
+## 0.1.3
+
+### Patch Changes
+
+- Upgrade to Astro 5.1.1 for fix bug [#2716](https://github.com/withastro/starlight/issues/2716).
+
 ## 0.1.2
 
-### Minor Changes
+### Patch Changes
 
 - Upgrade to Astro 5.0.
 

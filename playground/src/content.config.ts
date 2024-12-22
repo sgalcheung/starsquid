@@ -1,7 +1,7 @@
 import { squidexCollections } from "desquidex/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 import { defineCollection } from "astro:content";
-import { getSquidexContentSchemaMapping } from "./schemas";
+import { getSquidexContentSchemaMapping } from "./content/schemas";
 
 const defaultCollections = squidexCollections({
   squidexUrl: import.meta.env.SQUIDEX_URL,
