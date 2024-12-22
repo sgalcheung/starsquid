@@ -1,6 +1,7 @@
 # DeSquidex
 
-Use your [Squidex](https://squidex.io/) data in Astro projects
+Use your [Squidex](https://squidex.io/) data in Astro projects.
+> Required astro 5.1.1, see issue [#2716](https://github.com/withastro/starlight/issues/2716)
 
 ## Features
 

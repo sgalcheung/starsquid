@@ -1,6 +1,6 @@
 {
   "name": "desquidex",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Use your Squidex data in Astro projects",
   "author": {
     "email": "sgalculture@outlook.com",
@@ -46,10 +46,10 @@
   },
   "type": "module",
   "peerDependencies": {
-    "astro": "^5.0.0"
+    "astro": "^5.1.1"
   },
   "devDependencies": {
-    "astro": "^5.0.8",
+    "astro": "^5.1.1",
     "ts-to-zod": "^3.14.1",
     "tsup": "^8.3.5",
     "typescript": "^5.5.4",
