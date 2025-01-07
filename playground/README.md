@@ -17,28 +17,38 @@ Want to get started immediately? Check out the source code or check out the [exa
 ## 🚀 Project Structure
 
 ```test
-/
-├── README.md -> ./example/README.md
-├── example
+.
+├── LICENSE
+├── README.md -> ./playground/README.md
+├── docs
+│   └── node_modules
+├── netlify
+│   └── functions
+├── netlify.toml
+├── package.json
+├── packages
+│   ├── desquidex
+│   ├── squidex
+│   ├── starlight-squidex
+│   └── starlight-ssr
+├── playground
 │   ├── README.md
 │   ├── astro.config.mjs
 │   ├── codegen.ts
+│   ├── components.json
 │   ├── dist
+│   ├── netlify
 │   ├── node_modules
 │   ├── package.json
 │   ├── public
 │   ├── src
+│   ├── tailwind.config.mjs
 │   └── tsconfig.json
-├── netlify.toml
-├── node_modules
-├── package.json
-├── packages
-│   ├── squidex
-│   ├── starlight-squidex
-│   └── starlight-ssr
 ├── pnpm-lock.yaml
 ├── pnpm-workspace.yaml
-└── screenshot.png
+├── screenshot.png
+└── scripts
+    └── release.mjs
 ```
 
 starlight-squidex has unused, it is squidex and starlight-ssr mixed test product.
