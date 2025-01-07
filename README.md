@@ -1,1 +1,1 @@
-./example/README.md
+./playground/README.md
