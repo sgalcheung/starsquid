@@ -29,6 +29,7 @@
     "desquidex": "^0.1.2",
     "lucide-react": "^0.441.0",
     "marked": "^14.1.3",
+    "preline": "^2.7.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "redis": "^4.7.0",
