@@ -26,12 +26,92 @@ if (!catalogs) return Astro.redirect("/404");
 
 <!-- <a href=`/${COLUMN_ARTICLE_PATH}/index?cid=${slug}`>start explore</a> -->
 <Layout>
-  <div data-intro>
+  <article set:html={intro.data.data.description.iv} />
+  <div data-intro class="flex">
     <!-- <template data-column-slug={slug}></template>
         <template data-catalogs={catalogs}></template> -->
-    <article set:html={intro.data.data.description.iv} />
 
-    <CatalogComponent data={catalogs} client:visible />
+    <div class="w-1/2 p-4">
+      <CatalogComponent data={catalogs} client:visible />
+    </div>
+
+    <div class="w-1/2 p-4">
+      <div class="hs-accordion-group">
+        {
+          catalogs.map((catalog, index) => {
+            return (
+              <div
+                class={`hs-accordion ${
+                  index === 0 ? "active" : ""
+                } bg-white border -mt-px first:rounded-t-lg last:rounded-b-lg dark:bg-neutral-800 dark:border-neutral-700`}
+                id={`hs-basic-nested-heading-${index}`}
+              >
+                <button
+                  class="hs-accordion-toggle hs-accordion-active:text-blue-600 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-gray-800 py-4 px-5 hover:text-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-none dark:focus:text-neutral-400"
+                  aria-expanded={index === 0 ? "true" : "false"}
+                  aria-controls={`hs-basic-nested-collapse-${index}`}
+                >
+                  {catalog.label}
+                  <svg
+                    class="hs-accordion-active:hidden block size-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                  <svg
+                    class="hs-accordion-active:block hidden size-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m18 15-6-6-6 6" />
+                  </svg>
+                </button>
+                <div
+                  id={`hs-basic-nested-collapse-${index}`}
+                  class={`hs-accordion-content w-full overflow-hidden transition-[height] duration-300 ${
+                    index === 0 ? "" : "hidden"
+                  }`}
+                  role="region"
+                  aria-labelledby={`hs-basic-nested-heading-${index}`}
+                >
+                  <div class="hs-accordion-group ps-6">
+                    {catalog.items.map((item) => {
+                      return (
+                        <div class="pb-4 px-5">
+                          <p>
+                            <a
+                              class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-none focus:underline opacity-90"
+                              href={item.link}
+                            >
+                              {item.label}
+                            </a>
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
   </div>
 </Layout>
 
