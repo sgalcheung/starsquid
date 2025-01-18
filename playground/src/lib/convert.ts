@@ -38,7 +38,9 @@ export async function dataMap(
 
   // console.log("--before--", intro.data.referenceData.articles);
   articles.forEach((article) => {
-    intro.data.referenceData!.articles[article.id] = article.data.data;
+    if (article) {
+      intro.data.referenceData!.articles[article.id] = article.data.data;
+    }
   });
   // console.log("--after--",intro.data.referenceData.articles);
 
