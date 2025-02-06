@@ -1,5 +1,11 @@
 # desquidex
 
+## 0.1.5
+
+### Patch Changes
+
+- Used biome to lint and format.
+
 ## 0.1.4
 
 ### Patch Changes
