@@ -18,39 +18,39 @@ const env = loadEnv("", process.cwd(), "");
 
 // https://astro.build/config
 export default defineConfig({
-  output: "server",
+	output: "server",
 
-  integrations: [
-    starlight({
-      prerender: false,
-      title: "My CMS Column",
-      plugins: [
-        // starlightSSR({
-        //   entrypoint: "./src/components/Route.astro",
-        //   pattern: `${COLUMN_ARTICLE_PATH}/[id]`,
-        // }),
-      ],
-    }),
-    injectRouteIntegration({
-      entrypoint: "./src/components/Route.astro",
-      pattern: `${COLUMN_ARTICLE_PATH}/[id]`,
-    }),
-    refreshContentIntegration(env.WEBHOOK_SECRET), // why have end name Integration?
-    react(),
-    tailwind({
-      applyBaseStyles: false,
-    }),
-  ],
+	integrations: [
+		starlight({
+			prerender: false,
+			title: "My CMS Column",
+			plugins: [
+				// starlightSSR({
+				//   entrypoint: "./src/components/Route.astro",
+				//   pattern: `${COLUMN_ARTICLE_PATH}/[id]`,
+				// }),
+			],
+		}),
+		injectRouteIntegration({
+			entrypoint: "./src/components/Route.astro",
+			pattern: `${COLUMN_ARTICLE_PATH}/[id]`,
+		}),
+		refreshContentIntegration(env.WEBHOOK_SECRET), // why have end name Integration?
+		react(),
+		tailwind({
+			applyBaseStyles: false,
+		}),
+	],
 
-  adapter: netlify(),
+	adapter: netlify(),
 
-  // not support for now!
-  // env: {
-  //   schema: {
-  //     WEBHOOK_SECRET: envField.string({
-  //       context: "server",
-  //       access: "secret",
-  //     }),
-  //   },
-  // },
+	// not support for now!
+	// env: {
+	//   schema: {
+	//     WEBHOOK_SECRET: envField.string({
+	//       context: "server",
+	//       access: "secret",
+	//     }),
+	//   },
+	// },
 });

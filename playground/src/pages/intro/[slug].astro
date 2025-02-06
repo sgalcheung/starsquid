@@ -10,7 +10,7 @@ import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
 import { getEntry } from "astro:content";
 
 const { slug } = Astro.params;
-if (!slug || slug == undefined) return Astro.redirect("/404");
+if (!slug || slug === undefined) return Astro.redirect("/404");
 
 Astro.cookies.set(COLUMN, slug, { path: "/" });
 

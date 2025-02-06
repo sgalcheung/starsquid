@@ -9,52 +9,54 @@ import { getEntry, type CollectionEntry } from "astro:content";
 // >;
 
 export interface CatalogType
-  extends Array<{
-    label: string;
-    items: Array<{
-      label: string;
-      link: string;
-    }>;
-  }> {}
+	extends Array<{
+		label: string;
+		items: Array<{
+			label: string;
+			link: string;
+		}>;
+	}> {}
 
 export async function dataMap(
-  intro: CollectionEntry<SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS>
+	intro: CollectionEntry<SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS>,
 ): Promise<CatalogType> {
-  const chapters = intro.data.data.chapters.iv!;
-  if (!chapters) {
-    return [];
-  }
+	const chapters = intro.data.data.chapters?.iv ?? [];
+	if (!chapters) {
+		return [];
+	}
 
-  // const articles = await getCollection(SQUIDEX_CONTENT_SCHEMAS.ARTICLES);
-  const articleIds = chapters.flatMap((c) => c.articles);
-  const articles = await Promise.all(
-    articleIds.map(
-      async (id) => await getEntry(SQUIDEX_CONTENT_SCHEMAS.ARTICLES, id)
-    )
-  );
+	// const articles = await getCollection(SQUIDEX_CONTENT_SCHEMAS.ARTICLES);
+	const articleIds = chapters.flatMap((c) => c.articles);
+	const articles = await Promise.all(
+		articleIds.map(
+			async (id) => await getEntry(SQUIDEX_CONTENT_SCHEMAS.ARTICLES, id),
+		),
+	);
 
-  intro.data.referenceData = intro.data.referenceData || {};
-  intro.data.referenceData.articles = intro.data.referenceData.articles || {};
+	intro.data.referenceData = intro.data.referenceData || {};
+	intro.data.referenceData.articles = intro.data.referenceData.articles || {};
 
-  // console.log("--before--", intro.data.referenceData.articles);
-  articles.forEach((article) => {
+	// console.log("--before--", intro.data.referenceData.articles);
+  for (const article of articles) {
     if (article) {
-      intro.data.referenceData!.articles[article.id] = article.data.data;
+      if (intro.data.referenceData?.articles) {
+        intro.data.referenceData.articles[article.id] = article.data.data;
+      }
     }
-  });
-  // console.log("--after--",intro.data.referenceData.articles);
+  }
+	// console.log("--after--",intro.data.referenceData.articles);
 
-  return chapters.map((sidebarItem) => {
-    return {
-      label: sidebarItem.title!, // Chapter, secondary directory
-      items:
-        sidebarItem.articles.map((id) => {
-          const article = intro.data.referenceData!.articles[id];
-          return {
-            label: article.name.iv!,
-            link: `/${COLUMN_ARTICLE_PATH}/${id}`,
-          };
-        }) ?? [],
-    };
-  });
+	return chapters.map((sidebarItem) => {
+		return {
+			label: sidebarItem.title ?? 'Untitled', // Chapter, secondary directory
+			items:
+				sidebarItem.articles.map((id) => {
+					const article = intro.data.referenceData?.articles[id];
+					return {
+						label: article?.name?.iv ?? 'Unknown',
+						link: `/${COLUMN_ARTICLE_PATH}/${id}`,
+					};
+				}) ?? [],
+		};
+	});
 }

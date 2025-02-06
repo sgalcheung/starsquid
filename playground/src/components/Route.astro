@@ -40,26 +40,26 @@ if (!articles || articles.length !== 1) return Astro.redirect("/404");
 
 const article = articles[0].flatData;
 
-const frontmatter = { title: article.name! };
+const frontmatter = { title: article.name ?? "Untitled" };
 
 let catalogs: StarlightUserConfig["sidebar"] = [];
 // let intro;
 
 if (Astro.cookies.has(COLUMN)) {
-  const cookie = Astro.cookies.get(COLUMN);
-  const column = cookie?.value;
-  if (column) {
-    catalogs = await getCatalogsFromRedis(column);
-  }
+	const cookie = Astro.cookies.get(COLUMN);
+	const column = cookie?.value;
+	if (column) {
+		catalogs = await getCatalogsFromRedis(column);
+	}
 } else {
-  // Direct access from specific article link
-  // TODO: query by article link
-  // const { sidebars } = await getSidebar(id);
-  // if (!sidebars || sidebars.length !== 1) return Astro.redirect("/404");
-  // const sidebar = sidebars[0].flatData;
-  // const chapters = sidebar!.chapters!;
-  // catalogs = dataMap(chapters);
-  // await storeRedis(column, JSON.stringify(catalogs), CATALOGS_CACHE_TIME);
+	// Direct access from specific article link
+	// TODO: query by article link
+	// const { sidebars } = await getSidebar(id);
+	// if (!sidebars || sidebars.length !== 1) return Astro.redirect("/404");
+	// const sidebar = sidebars[0].flatData;
+	// const chapters = sidebar!.chapters!;
+	// catalogs = dataMap(chapters);
+	// await storeRedis(column, JSON.stringify(catalogs), CATALOGS_CACHE_TIME);
 }
 
 // catalogs = dataMap(intro);

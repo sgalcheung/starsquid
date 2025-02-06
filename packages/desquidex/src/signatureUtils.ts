@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 /**
  * Verifies the validity of a signature
@@ -9,39 +9,39 @@ import crypto from "crypto";
  * @returns Whether the signature is valid
  */
 export function verifySignature(
-  payload: string,
-  signature: string,
-  secret: string
+	payload: string,
+	signature: string,
+	secret: string,
 ): boolean {
-  if (!secret) {
-    throw new Error("Secret key is required for signature verification.");
-  }
+	if (!secret) {
+		throw new Error("Secret key is required for signature verification.");
+	}
 
-  // Create the hash using SHA256
-  const hash = crypto.createHash("sha256");
-  hash.update(payload + secret);
+	// Create the hash using SHA256
+	const hash = crypto.createHash("sha256");
+	hash.update(payload + secret);
 
-  // Compute the Base64-encoded signature
-  const computedSignature = hash.digest("base64");
+	// Compute the Base64-encoded signature
+	const computedSignature = hash.digest("base64");
 
-  // Convert signatures to buffers for comparison
-  const computedSignatureBuffer = Uint8Array.from(
-    Buffer.from(computedSignature, "utf-8")
-  );
-  const providedSignatureBuffer = Uint8Array.from(
-    Buffer.from(signature, "utf-8")
-  );
+	// Convert signatures to buffers for comparison
+	const computedSignatureBuffer = Uint8Array.from(
+		Buffer.from(computedSignature, "utf-8"),
+	);
+	const providedSignatureBuffer = Uint8Array.from(
+		Buffer.from(signature, "utf-8"),
+	);
 
-  // Return false if lengths do not match
-  if (computedSignatureBuffer.length !== providedSignatureBuffer.length) {
-    return false;
-  }
+	// Return false if lengths do not match
+	if (computedSignatureBuffer.length !== providedSignatureBuffer.length) {
+		return false;
+	}
 
-  // Perform timing-safe comparison of signatures
-  return crypto.timingSafeEqual(
-    computedSignatureBuffer,
-    providedSignatureBuffer
-  );
+	// Perform timing-safe comparison of signatures
+	return crypto.timingSafeEqual(
+		computedSignatureBuffer,
+		providedSignatureBuffer,
+	);
 }
 
 /**
@@ -52,15 +52,15 @@ export function verifySignature(
  * @returns Whether the signature is valid
  */
 export function validateRequest(
-  headers: Record<string, string | string[] | undefined>,
-  payload: string,
-  secret: string
+	headers: Record<string, string | string[] | undefined>,
+	payload: string,
+	secret: string,
 ): boolean {
-  const signature = headers["x-signature"];
+	const signature = headers["x-signature"];
 
-  if (!signature || typeof signature !== "string") {
-    throw new Error("X-Signature header is missing or invalid.");
-  }
+	if (!signature || typeof signature !== "string") {
+		throw new Error("X-Signature header is missing or invalid.");
+	}
 
-  return verifySignature(payload, signature, secret);
+	return verifySignature(payload, signature, secret);
 }

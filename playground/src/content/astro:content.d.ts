@@ -4,20 +4,20 @@
 // import { z } from "astro/zod";
 
 // declare module "astro:content" {
-  // export async function getCollectionWithSchema<T extends z.ZodTypeAny>(
-  //   collectionName: SQUIDEX_CONTENT_SCHEMAS,
-  //   schema: T,
-  //   filterFn?: (item: z.infer<T>) => boolean
-  // ): Promise<z.infer<T>[]>;
+// export async function getCollectionWithSchema<T extends z.ZodTypeAny>(
+//   collectionName: SQUIDEX_CONTENT_SCHEMAS,
+//   schema: T,
+//   filterFn?: (item: z.infer<T>) => boolean
+// ): Promise<z.infer<T>[]>;
 
-  // export async function getEntryWithSchema<
-  //   T extends z.ZodTypeAny,
-  //   E extends string & {},
-  // >(
-  //   collectionName: SQUIDEX_CONTENT_SCHEMAS,
-  //   schema: T,
-  //   slug: E
-  // ): Promise<z.infer<T> | undefined>;
+// export async function getEntryWithSchema<
+//   T extends z.ZodTypeAny,
+//   E extends string & {},
+// >(
+//   collectionName: SQUIDEX_CONTENT_SCHEMAS,
+//   schema: T,
+//   slug: E
+// ): Promise<z.infer<T> | undefined>;
 
 //   export async function getCollectionWithSchema<
 //     C extends keyof AnyEntryMap,

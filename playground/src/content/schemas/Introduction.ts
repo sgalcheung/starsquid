@@ -2,17 +2,17 @@ import { componentSchema, nonMultilingualSchema } from "./common";
 import { z } from "astro/zod";
 
 const loadNonMultilingualSchema = async () => {
-  const { nonMultilingualSchema } = await import("./common");
-  return nonMultilingualSchema;
+	const { nonMultilingualSchema } = await import("./common");
+	return nonMultilingualSchema;
 };
 
 const chapters = z.array(
-  z
-    .object({
-      title: z.string(),
-      articles: z.array(z.string()),
-    })
-    .merge(componentSchema)
+	z
+		.object({
+			title: z.string(),
+			articles: z.array(z.string()),
+		})
+		.merge(componentSchema),
 );
 // export const introductionSchema = async (): Promise<z.ZodTypeAny> => {
 //   // const nonMultilingualSchema = await loadNonMultilingualSchema();
@@ -25,10 +25,10 @@ const chapters = z.array(
 // };
 
 export const introductionSchema = z.object({
-  title: nonMultilingualSchema(z.string()),
-  description: nonMultilingualSchema(z.string()),
-  chapters: nonMultilingualSchema(chapters),
-  slug: nonMultilingualSchema(z.string()),
+	title: nonMultilingualSchema(z.string()),
+	description: nonMultilingualSchema(z.string()),
+	chapters: nonMultilingualSchema(chapters),
+	slug: nonMultilingualSchema(z.string()),
 });
 
 // export type IntroductionSchemaType = z.infer<typeof introductionSchema>;

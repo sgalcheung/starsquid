@@ -3,39 +3,39 @@ import { SquidexClient } from "@squidex/squidex";
 import { InMemoryTokenStore } from "@squidex/squidex/dist/wrapper/SquidexClient.js";
 
 let singleClient: {
-  client: SquidexClient;
-  create: (app: string) => SquidexClient;
+	client: SquidexClient;
+	create: (app: string) => SquidexClient;
 };
 
 export function getClient() {
-  if (singleClient) {
-    return singleClient;
-  }
+	if (singleClient) {
+		return singleClient;
+	}
 
-  const { squidexUrl, squidexAppName, squidexClientId, squidexClientSecret } =
-    configService.getConfig();
+	const { squidexUrl, squidexAppName, squidexClientId, squidexClientSecret } =
+		configService.getConfig();
 
-  const client = new SquidexClient({
-    appName: squidexAppName!,
-    clientId: squidexClientId!,
-    clientSecret: squidexClientSecret!,
-    url: squidexUrl!,
-    tokenStore: new InMemoryTokenStore(),
-  });
+	const client = new SquidexClient({
+		appName: squidexAppName ?? '',
+		clientId: squidexClientId ?? '',
+		clientSecret: squidexClientSecret ?? '',
+		url: squidexUrl ?? '',
+		tokenStore: new InMemoryTokenStore(),
+	});
 
-  const create = (app: string) => {
-    return new SquidexClient({
-      appName: app!,
-      clientId: squidexClientId!,
-      clientSecret: squidexClientSecret!,
-      url: squidexUrl!,
-      tokenStore: new InMemoryTokenStore(),
-    });
-  };
+	const create = (app: string) => {
+		return new SquidexClient({
+			appName: app ?? '',
+			clientId: squidexClientId ?? '',
+			clientSecret: squidexClientSecret ?? '',
+			url: squidexUrl ?? '',
+			tokenStore: new InMemoryTokenStore(),
+		});
+	};
 
-  singleClient = { client, create };
+	singleClient = { client, create };
 
-  return singleClient;
+	return singleClient;
 }
 
 // export const TIMEOUT_IN_SECONDS = 10;
