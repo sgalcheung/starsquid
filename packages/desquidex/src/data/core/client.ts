@@ -16,19 +16,19 @@ export function getClient() {
 		configService.getConfig();
 
 	const client = new SquidexClient({
-		appName: squidexAppName ?? '',
-		clientId: squidexClientId ?? '',
-		clientSecret: squidexClientSecret ?? '',
-		url: squidexUrl ?? '',
+		appName: squidexAppName ?? "",
+		clientId: squidexClientId ?? "",
+		clientSecret: squidexClientSecret ?? "",
+		url: squidexUrl ?? "",
 		tokenStore: new InMemoryTokenStore(),
 	});
 
 	const create = (app: string) => {
 		return new SquidexClient({
-			appName: app ?? '',
-			clientId: squidexClientId ?? '',
-			clientSecret: squidexClientSecret ?? '',
-			url: squidexUrl ?? '',
+			appName: app ?? "",
+			clientId: squidexClientId ?? "",
+			clientSecret: squidexClientSecret ?? "",
+			url: squidexUrl ?? "",
 			tokenStore: new InMemoryTokenStore(),
 		});
 	};

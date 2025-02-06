@@ -8,10 +8,10 @@
 	"files": {
 		"ignoreUnknown": false,
 		"ignore": [
-      "**/.astro",
+			"**/.astro",
 			"**/public",
 			"**/dist",
-			"**/__generated__",
+			"**/generated",
 			"ts-to-zod.config.cjs"
 		]
 	},

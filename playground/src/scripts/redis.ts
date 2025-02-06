@@ -76,22 +76,22 @@ export async function setIfChanged(
 
 		const currentValue = await client.get(key);
 
-    if (currentValue !== newValue) {
-      if (expiresInSeconds && expiresInSeconds > 0) {
-        // Use the options object for TTL
-        await client.set(key, newValue, { EX: expiresInSeconds });
-      } else {
-        await client.set(key, newValue);
-      }
+		if (currentValue !== newValue) {
+			if (expiresInSeconds && expiresInSeconds > 0) {
+				// Use the options object for TTL
+				await client.set(key, newValue, { EX: expiresInSeconds });
+			} else {
+				await client.set(key, newValue);
+			}
 
-      console.log(
-        `"${key}" updated in Redis with TTL: ${expiresInSeconds ?? "none"}`,
-      );
-      return true; // Indicate the key was updated
-    }
+			console.log(
+				`"${key}" updated in Redis with TTL: ${expiresInSeconds ?? "none"}`,
+			);
+			return true; // Indicate the key was updated
+		}
 
-    console.log(`"${key}" is already up-to-date, no update needed`);
-    return false; // Indicate no update was made
+		console.log(`"${key}" is already up-to-date, no update needed`);
+		return false; // Indicate no update was made
 	} catch (error) {
 		console.error(`Error updating "${key}" in Redis:`, error);
 		throw error; // Re-throw the error for upstream handling

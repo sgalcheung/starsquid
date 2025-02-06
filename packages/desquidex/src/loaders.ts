@@ -53,7 +53,10 @@ export function squidexCollections<T extends string>(config: Config<T>) {
 
 	let collections: Record<string, CollectionConfig<BaseSchema>> = {};
 
-	const schemaMapping: Record<SCHEMAS_VALUES, () => Record<string, CollectionConfig<BaseSchema>> | null> = {
+	const schemaMapping: Record<
+		SCHEMAS_VALUES,
+		() => Record<string, CollectionConfig<BaseSchema>> | null
+	> = {
 		[SCHEMAS.APP]: () => ({
 			[SCHEMAS.APP]: defineCollection({
 				// schema: appDtoSchema,
@@ -83,10 +86,10 @@ export function squidexCollections<T extends string>(config: Config<T>) {
 					// ) as T[SquidexContentSchemasLiteral][];
 
 					console.log("---------------");
-          for (const key of schemaKeys) {
-            const schemaValue = contentSchemaMapping[key];
-            console.log(`${key}: ${schemaValue}`);
-          }
+					for (const key of schemaKeys) {
+						const schemaValue = contentSchemaMapping[key];
+						console.log(`${key}: ${schemaValue}`);
+					}
 
 					console.log("---------------");
 					// console.log("All schemas:", schemaValues);
@@ -96,17 +99,17 @@ export function squidexCollections<T extends string>(config: Config<T>) {
 						string,
 						CollectionConfig<BaseSchema>
 					>[] = [];
-          for (const key of schemaKeys) {
-            const schemaValue = contentSchemaMapping[key];
-            // console.log("value", schemaValue);
-            const contentCollection = {
-              [key]: defineCollection({
-                // schema: contentDtoSchema(config.squidexContentSchemaTypes![0]),
-                loader: l(SCHEMAS.CONTENT, contentDtoSchema(schemaValue), key),
-              }),
-            };
-            contentCollections.push(contentCollection);
-          }
+					for (const key of schemaKeys) {
+						const schemaValue = contentSchemaMapping[key];
+						// console.log("value", schemaValue);
+						const contentCollection = {
+							[key]: defineCollection({
+								// schema: contentDtoSchema(config.squidexContentSchemaTypes![0]),
+								loader: l(SCHEMAS.CONTENT, contentDtoSchema(schemaValue), key),
+							}),
+						};
+						contentCollections.push(contentCollection);
+					}
 					return contentCollections;
 				}
 			}
@@ -114,16 +117,16 @@ export function squidexCollections<T extends string>(config: Config<T>) {
 		},
 	};
 
-  for (const value of Object.values(SCHEMAS_CONST)) {
-    const collection = schemaMapping[value]?.();
-    if (Array.isArray(collection)) {
-      for (const col of collection) {
-        collections = { ...collections, ...col };
-      }
-    } else {
-      collections = { ...collections, ...collection };
-    }
-  }
+	for (const value of Object.values(SCHEMAS_CONST)) {
+		const collection = schemaMapping[value]?.();
+		if (Array.isArray(collection)) {
+			for (const col of collection) {
+				collections = { ...collections, ...col };
+			}
+		} else {
+			collections = { ...collections, ...collection };
+		}
+	}
 
 	// console.log(collections);
 	return collections;

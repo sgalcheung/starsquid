@@ -4,8 +4,8 @@ import type {
 	ArticleQuery,
 	IntroQuery,
 	SidebarQuery,
-} from "../__generated__/graphql";
-import { graphql } from "../__generated__";
+} from "generated/gql/graphql";
+import { graphql } from "generated/gql";
 
 function buildUrl(url: string) {
 	let modifiedUrl = url;

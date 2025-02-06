@@ -1,4 +1,3 @@
-// import type { IntroQuery } from "@/__generated__/graphql";
 import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
 import { COLUMN_ARTICLE_PATH } from "@/helpers/constants";
 import { getEntry, type CollectionEntry } from "astro:content";
@@ -37,23 +36,23 @@ export async function dataMap(
 	intro.data.referenceData.articles = intro.data.referenceData.articles || {};
 
 	// console.log("--before--", intro.data.referenceData.articles);
-  for (const article of articles) {
-    if (article) {
-      if (intro.data.referenceData?.articles) {
-        intro.data.referenceData.articles[article.id] = article.data.data;
-      }
-    }
-  }
+	for (const article of articles) {
+		if (article) {
+			if (intro.data.referenceData?.articles) {
+				intro.data.referenceData.articles[article.id] = article.data.data;
+			}
+		}
+	}
 	// console.log("--after--",intro.data.referenceData.articles);
 
 	return chapters.map((sidebarItem) => {
 		return {
-			label: sidebarItem.title ?? 'Untitled', // Chapter, secondary directory
+			label: sidebarItem.title ?? "Untitled", // Chapter, secondary directory
 			items:
 				sidebarItem.articles.map((id) => {
 					const article = intro.data.referenceData?.articles[id];
 					return {
-						label: article?.name?.iv ?? 'Unknown',
+						label: article?.name?.iv ?? "Unknown",
 						link: `/${COLUMN_ARTICLE_PATH}/${id}`,
 					};
 				}) ?? [],

@@ -45,22 +45,25 @@ export const CatalogComponent: React.FC<{
 	data: CatalogComponentProps["data"];
 }> = ({ data }) => {
 	return (
-    <Accordion type="single" collapsible className="w-full">
-      {data.map((item) => {
-        return (
-          <AccordionItem key={item.label} value={item.label}>
-            <AccordionTrigger>{item.label}</AccordionTrigger>
-            {/* Render multiple clickable contents per trigger */}
-            {item.items.map((subItem) => (
-              <AccordionContent key={subItem.link}>
-                <a href={subItem.link} className="text-blue-500 hover:underline">
-                  {subItem.label}
-                </a>
-              </AccordionContent>
-            ))}
-          </AccordionItem>
-        );
-      })}
-    </Accordion>
+		<Accordion type="single" collapsible className="w-full">
+			{data.map((item) => {
+				return (
+					<AccordionItem key={item.label} value={item.label}>
+						<AccordionTrigger>{item.label}</AccordionTrigger>
+						{/* Render multiple clickable contents per trigger */}
+						{item.items.map((subItem) => (
+							<AccordionContent key={subItem.link}>
+								<a
+									href={subItem.link}
+									className="text-blue-500 hover:underline"
+								>
+									{subItem.label}
+								</a>
+							</AccordionContent>
+						))}
+					</AccordionItem>
+				);
+			})}
+		</Accordion>
 	);
 };

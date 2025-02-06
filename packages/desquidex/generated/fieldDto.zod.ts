@@ -2,8 +2,8 @@
 import { z } from "zod";
 
 // import { fieldPropertiesDtoSchema } from "./fieldPropertiesDto.zod";
-import { resourceLinkSchema } from "./resourceLink.zod.js";
-import { fieldPropertiesDtoSchema } from "./fieldPropertiesDto.zod.js";
+import { resourceLinkSchema } from "./resourceLink.zod.ts";
+import { fieldPropertiesDtoSchema } from "./fieldPropertiesDto.zod.ts";
 
 const nestedFieldDtoSchema = z.any();
 

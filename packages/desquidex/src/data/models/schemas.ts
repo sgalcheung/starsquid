@@ -125,7 +125,9 @@ export const contentDtoSchema = <T extends z.ZodTypeAny>(schema: T) =>
 	});
 //satisfies ZodType<ContentDto>;
 
-export const contentsDtoSchema = <T>(schema: z.ZodType<T, z.ZodTypeDef, unknown>) =>
+export const contentsDtoSchema = <T>(
+	schema: z.ZodType<T, z.ZodTypeDef, unknown>,
+) =>
 	z.object({
 		links: z.record(resourceLinkSchema),
 		total: z.number(),
