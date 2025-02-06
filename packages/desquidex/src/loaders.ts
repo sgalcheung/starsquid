@@ -95,10 +95,10 @@ export function squidexCollections<T extends string>(config: Config<T>) {
 					// console.log("All schemas:", schemaValues);
 					// return null;
 
-					const contentCollections: Record<
+					let contentCollections: Record<
 						string,
 						CollectionConfig<BaseSchema>
-					>[] = [];
+					> = {};
 					for (const key of schemaKeys) {
 						const schemaValue = contentSchemaMapping[key];
 						// console.log("value", schemaValue);
@@ -108,7 +108,7 @@ export function squidexCollections<T extends string>(config: Config<T>) {
 								loader: l(SCHEMAS.CONTENT, contentDtoSchema(schemaValue), key),
 							}),
 						};
-						contentCollections.push(contentCollection);
+						contentCollections = { ...contentCollections, ...contentCollection };
 					}
 					return contentCollections;
 				}
