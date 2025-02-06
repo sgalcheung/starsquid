@@ -1,26 +1,11 @@
 import { inspect } from "node:util";
-import { executeOperation } from "./graphql";
+import { GRAPHQL_URL, executeOperation } from "./graphql";
 import type {
 	ArticleQuery,
 	IntroQuery,
 	SidebarQuery,
 } from "generated/gql/graphql";
 import { graphql } from "generated/gql";
-
-function buildUrl(url: string) {
-	let modifiedUrl = url;
-	if (modifiedUrl.length > 0 && modifiedUrl.startsWith("/")) {
-		modifiedUrl = modifiedUrl.slice(1);
-	}
-
-	const result = `${import.meta.env.SQUIDEX_URL}/${modifiedUrl}`;
-
-	return result;
-}
-
-const GRAPHQL_URI = `api/content/${import.meta.env.SQUIDEX_APP_NAME}/graphql`;
-
-const GRAPHQL_URL = buildUrl(GRAPHQL_URI);
 
 export async function getIntro(slug: string | undefined): Promise<IntroQuery> {
 	const query = graphql(`

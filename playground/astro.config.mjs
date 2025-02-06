@@ -1,3 +1,4 @@
+import "dotenv/config";
 // @ts-check
 import starlight from "@astrojs/starlight";
 import { defineConfig, envField } from "astro/config";

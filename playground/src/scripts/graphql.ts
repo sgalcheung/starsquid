@@ -33,3 +33,6 @@ export async function executeOperation<TResult, TVariables>(
 		throw error;
 	}
 }
+
+// biome-ignore lint/style/noNonNullAssertion: Always defined This environment variable is guaranteed to be set
+export const GRAPHQL_URL = process.env.SQUIDEX_GRAPHQL_URL!;
