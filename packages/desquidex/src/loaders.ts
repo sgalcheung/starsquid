@@ -184,7 +184,7 @@ function makeLoader({
 					const parsedContents = contentsDtoSchemaT.safeParse(contents);
 
 					if (!parsedContents.success) {
-						throw new Error("Invalid contents data.");
+						throw new Error(`Invalid contents data.\n${parsedContents.error}`);
 					}
 
 					const items = parsedContents.data.items;
