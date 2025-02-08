@@ -11,7 +11,7 @@ const defaultCollections = squidexCollections({
 	// squidexContentSchemas: SQUIDEX_CONTENT_SCHEMAS,
 	// squidexContentSchemaTypes: [introductionSchema],
 	// squidexContentSchemaMapping: SQUIDEXCONTENTSCHEMAMAPPING,
-	squidexContentSchemaMapping: await getSquidexContentSchemaMapping(),
+	squidexContentSchemaMapping: getSquidexContentSchemaMapping(),
 });
 // TODO: when support custom default collection, remove this.
 export const collections = {
