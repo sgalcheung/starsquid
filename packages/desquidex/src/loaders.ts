@@ -12,7 +12,6 @@ import {
 	appDtoSchema,
 	contentDtoSchema,
 	contentsDtoSchema,
-	dataSchema,
 	featuresDtoSchema,
 	type SCHEMAS_VALUES,
 } from "./data/models/schemas.js";
@@ -105,10 +104,13 @@ export function squidexCollections<T extends string>(config: Config<T>) {
 						const contentCollection = {
 							[key]: defineCollection({
 								// schema: contentDtoSchema(config.squidexContentSchemaTypes![0]),
-								loader: l(SCHEMAS.CONTENT, contentDtoSchema(schemaValue), key),
+								loader: l(SCHEMAS.CONTENT, schemaValue, key),
 							}),
 						};
-						contentCollections = { ...contentCollections, ...contentCollection };
+						contentCollections = {
+							...contentCollections,
+							...contentCollection,
+						};
 					}
 					return contentCollections;
 				}
@@ -176,26 +178,35 @@ function makeLoader({
 				}
 				case SCHEMAS.CONTENT: {
 					if (!contentSchema) {
-						throw new Error("Content schema is not defined.");
+						throw new Error(`Content schema is not defined for type: ${type}.`);
 					}
 					const contents = await client.contents.getContents(contentSchema);
-					// console.log("contents", contents);
-					const contentsDtoSchemaT = contentsDtoSchema(dataSchema);
-					const parsedContents = await contentsDtoSchemaT.safeParseAsync(contents);
+					const parsedContentsSchema = contentsDtoSchema(schema);
+					const parsedContents =
+						await parsedContentsSchema.safeParseAsync(contents);
 
 					if (!parsedContents.success) {
-						throw new Error(`Invalid contents data.\n${parsedContents.error}`);
+						throw new Error(
+							`Invalid contents data for schema "${contentSchema}".\nError: ${parsedContents.error}\nData: ${JSON.stringify(contents, null, 2)}`,
+						);
 					}
 
-					const items = parsedContents.data.items;
-					for (const item of items) {
-						const id = item.data.slug ? item.data.slug.iv.toString() : item.id;
-						const parsedItem = await parseData({
-							id,
-							data: item,
-						});
-						store.set({ id: id, data: parsedItem });
-					}
+					const parsedItems = parsedContents.data.items;
+					await Promise.all(
+						parsedItems.map(async (item) => {
+							const data = item.data as { slug?: { iv: string } };
+							// const data = item as ParsedItemType;
+							const id = data.slug ? data.slug.iv.toString() : item.id;
+							const parsedItem = await parseData({
+								id,
+								data: item,
+							});
+							store.set({
+								id: id,
+								data: parsedItem,
+							});
+						}),
+					);
 					break;
 
 					// const referenceIds = contents.items.map((item) => item.id);
@@ -231,7 +242,7 @@ function makeLoader({
 					break;
 			}
 		},
-		schema: async () => schema,
+		schema: async () => (contentSchema ? contentDtoSchema(schema) : schema),
 	};
 	return loader;
 }
