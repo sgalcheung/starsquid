@@ -181,7 +181,7 @@ function makeLoader({
 					const contents = await client.contents.getContents(contentSchema);
 					// console.log("contents", contents);
 					const contentsDtoSchemaT = contentsDtoSchema(dataSchema);
-					const parsedContents = contentsDtoSchemaT.safeParse(contents);
+					const parsedContents = await contentsDtoSchemaT.safeParseAsync(contents);
 
 					if (!parsedContents.success) {
 						throw new Error(`Invalid contents data.\n${parsedContents.error}`);
