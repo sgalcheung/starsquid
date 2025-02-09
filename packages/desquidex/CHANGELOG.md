@@ -1,5 +1,13 @@
 # desquidex
 
+## 0.1.6
+
+### Patch Changes
+
+- - Improve error handling in makeLoader by including detailed parsing error message
+  - Refactor makeLoader to use safeParseAsync for asynchronous content validation
+  - Fix contentdto schema parsed bug.
+
 ## 0.1.5
 
 ### Patch Changes
