@@ -16,7 +16,10 @@ export enum SQUIDEX_CONTENT_SCHEMAS {
 // 	};
 // };
 
-export const getSquidexContentSchemaMapping: () => Record<SQUIDEX_CONTENT_SCHEMAS, z.ZodTypeAny> = () => {
+export const getSquidexContentSchemaMapping: () => Record<
+	SQUIDEX_CONTENT_SCHEMAS,
+	z.ZodTypeAny
+> = () => {
 	return {
 		[SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS]: introductionSchema,
 		[SQUIDEX_CONTENT_SCHEMAS.ARTICLES]: articleSchema,

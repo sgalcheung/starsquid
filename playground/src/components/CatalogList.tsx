@@ -33,9 +33,7 @@ export default function CatalogList({ catalogs }: CatalogListProps) {
 						<span className="text-lg font-medium">{course.label}</span>
 						<span
 							className={`transition-transform${
-								openSections.includes(index)
-									? " transform rotate-180"
-									: ""
+								openSections.includes(index) ? " transform rotate-180" : ""
 							}`}
 						>
 							{/* We'll replace this with an Astro Icon */}
