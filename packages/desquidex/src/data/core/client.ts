@@ -12,7 +12,6 @@ let singleClient: SquidexClientWrapper | null =
 	null;
 
 export function getClient() {
-	console.log("getClient()");
 	if (singleClient) {
 		console.log("Returning existing SquidexClient instance");
 		return singleClient;
