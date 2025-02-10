@@ -8,10 +8,7 @@
 		"url": "https://github.com/sgalcheung"
 	},
 	"license": "MIT",
-	"keywords": [
-		"withastro",
-		"astro-loader"
-	],
+	"keywords": ["withastro", "astro-loader"],
 	"homepage": "https://sdk--starlight-squidex.netlify.app/",
 	"repository": {
 		"type": "git",
@@ -34,11 +31,13 @@
 		"./integrations": {
 			"types": "./dist/integrations.d.ts",
 			"default": "./dist/integrations.js"
+		},
+		"./client": {
+			"types": "./dist/data/core/client.d.ts",
+			"default": "./dist/data/core/client.js"
 		}
 	},
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"scripts": {
 		"generate": "ts-to-zod",
 		"dev": "tsup --watch",
@@ -46,6 +45,7 @@
 	},
 	"type": "module",
 	"peerDependencies": {
+		"@squidex/squidex": "*",
 		"astro": "^5.1.1"
 	},
 	"devDependencies": {
