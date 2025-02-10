@@ -32,5 +32,15 @@
 		"formatter": {
 			"quoteStyle": "double"
 		}
-	}
+	},
+	"overrides": [
+		{
+			"include": ["package.json"],
+			"json": {
+				"formatter": {
+					"lineWidth": 1
+				}
+			}
+		}
+	]
 }
