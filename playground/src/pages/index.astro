@@ -9,9 +9,9 @@ const app = (await getCollection(SCHEMAS.APP))?.[0];
 const newsFeature = (await getCollection(SCHEMAS.FEATURES))?.[0];
 const features = newsFeature.data.features.slice(0, 2);
 await Promise.all(
-	features.map(async (feature) => {
-		feature.text = await marked.parse(feature.text);
-	}),
+  features.map(async (feature) => {
+    feature.text = await marked.parse(feature.text);
+  })
 );
 
 // const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
@@ -64,14 +64,44 @@ const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
 ---
 
 <Layout>
-  <main class="max-w-[960px] mx-auto">
+  <main class="max-w-[960px] mx-auto my-10">
+    <div class="flex justify-between items-center">
+      <h1 class="text-4xl dark:text-white">
+        Welcome to the Starlight Squidex Playground
+      </h1>
+      <a
+        type="button"
+        href="/docs/"
+        class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+      >
+        Docs
+        <svg
+          class="shrink-0 size-4"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+
+    <br />
+
     {
       intros?.map((intro) => {
         const { data } = intro.data;
         return (
           <h2 class="text-3xl dark:text-white">
             <a
-              class="text-blue-600 hover:underline hover:decoration-gray-800 focus:outline-none focus:underline focus:decoration-gray-800 dark:decoration-white"
+              class="text-blue-600 hover:underline hover:decoration-blue-800 focus:outline-none focus:underline focus:decoration-blue-800 dark:decoration-white"
               href={`/intro/${data.slug.iv}/`}
             >
               {data.title.iv}
@@ -163,6 +193,6 @@ const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
 
   a {
     color: revert;
-    text-decoration: revert;
+    /* text-decoration: revert; */
   }
 </style>

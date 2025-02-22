@@ -24,7 +24,26 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			prerender: false,
-			title: "My CMS Column",
+			title: "Starlight Squidex",
+			social: {
+				github: "https://github.com/sgalcheung/starlight-squidex",
+			},
+			sidebar: [
+				{
+					label: "Get Started",
+					items: [
+						{
+							label: "Prerequisites",
+							link: "/docs/get-started/prerequisites/",
+						},
+						{
+							label: "Quickstarted",
+							link: "/docs/get-started/quick-started/",
+						},
+					],
+				},
+				{ label: "Demo", link: "/" },
+			],
 			plugins: [
 				// starlightSSR({
 				//   entrypoint: "./src/components/Route.astro",

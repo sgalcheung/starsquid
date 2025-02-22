@@ -2,6 +2,7 @@ import { squidexCollections } from "desquidex/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 import { defineCollection } from "astro:content";
 import { getSquidexContentSchemaMapping } from "./content/schemas";
+import { docsLoader } from '@astrojs/starlight/loaders';
 
 const defaultCollections = squidexCollections({
 	squidexUrl: import.meta.env.SQUIDEX_URL,
@@ -13,8 +14,8 @@ const defaultCollections = squidexCollections({
 	// squidexContentSchemaMapping: SQUIDEXCONTENTSCHEMAMAPPING,
 	squidexContentSchemaMapping: getSquidexContentSchemaMapping(),
 });
-// TODO: when support custom default collection, remove this.
+
 export const collections = {
 	...defaultCollections,
-	docs: defineCollection({ schema: docsSchema() }),
+  docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }),
 };
