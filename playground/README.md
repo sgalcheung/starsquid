@@ -2,8 +2,8 @@
   <h1>💜 starlight-squidex ❤️</h1>
   <p>Starlight plugin to pull articles from Squidex(3rd-party API) to your documentation.</p>
   <p>
-    <a href="./screenshot.png" title="Screenshot of starlight-squidex">
-      <img alt="Screenshot of starlight-squidex" src="./screenshot.png" width="520" />
+    <a href="/screenshot.gif" title="Screenshot of starlight-squidex">
+      <img alt="Screenshot of starlight-squidex" src="/screenshot.gif" width="520" />
     </a>
   </p>
 </div>
