@@ -1,6 +1,7 @@
 ---
 import StarlightPage from "@/components/StarlightPage.astro";
 import { getArticle } from "@/scripts/api";
+import { marked } from "marked";
 
 const { slug } = Astro.params;
 
@@ -11,11 +12,17 @@ if (!articles || articles.length !== 1) {
   return context.redirect("/404");
 }
 
-const article = articles[0].flatData;
+let article = articles[0].flatData;
+if (article.content) {
+  article = {
+    ...article,
+    content: await marked.parse(article.content),
+  };
+}
 
 const frontmatter = { title: article.name ?? "Untitled" };
 ---
 
 <StarlightPage {frontmatter}>
-  {article.content}
+  <Fragment set:html={article.content}>
 </StarlightPage>
