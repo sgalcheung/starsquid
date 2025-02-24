@@ -6,14 +6,14 @@ import { defineConfig, envField } from "astro/config";
 // import starlightSSR from "starlight-ssr";
 
 import netlify from "@astrojs/netlify";
-import { COLUMN_ARTICLE_PATH } from "./src/helpers/constants";
+// import { COLUMN_ARTICLE_PATH } from "./src/helpers/constants";
 
 import react from "@astrojs/react";
 
 import tailwind from "@astrojs/tailwind";
 import { loadEnv } from "vite";
 import { refreshContentIntegration } from "desquidex/integrations";
-import injectRouteIntegration from "./src/integrations/inject-route";
+// import injectRouteIntegration from "./src/integrations/inject-route";
 
 const env = loadEnv("", process.cwd(), "");
 
@@ -44,17 +44,15 @@ export default defineConfig({
 				},
 				{ label: "Demo", link: "/" },
 			],
-			plugins: [
-				// starlightSSR({
-				//   entrypoint: "./src/components/Route.astro",
-				//   pattern: `${COLUMN_ARTICLE_PATH}/[id]`,
-				// }),
-			],
+			routeMiddleware: "./src/routeMiddleware.ts",
+			components: {
+				StarlightPage: "./src/components/StarlightPage.astro",
+			},
 		}),
-		injectRouteIntegration({
-			entrypoint: "./src/components/Route.astro",
-			pattern: `${COLUMN_ARTICLE_PATH}/[id]`,
-		}),
+		// injectRouteIntegration({
+		// 	entrypoint: "./src/components/Route.astro",
+		// 	pattern: `${COLUMN_ARTICLE_PATH}/[id]`,
+		// }),
 		refreshContentIntegration(env.WEBHOOK_SECRET), // why have end name Integration?
 		react(),
 		tailwind({

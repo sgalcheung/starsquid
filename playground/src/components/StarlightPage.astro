@@ -1,0 +1,13 @@
+---
+import Default from "@astrojs/starlight/components/StarlightPage.astro";
+
+interface frontmatter {
+  title: string;
+}
+
+const { frontmatter } = Astro.props;
+
+const { sidebar } = { sidebar: [] };
+---
+
+<Default {frontmatter} {sidebar}><slot /></Default>

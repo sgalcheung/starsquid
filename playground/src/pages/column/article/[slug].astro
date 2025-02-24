@@ -1,0 +1,21 @@
+---
+import StarlightPage from "@/components/StarlightPage.astro";
+import { getArticle } from "@/scripts/api";
+
+const { slug } = Astro.params;
+
+// console.time("getArticle ExecutionTime");
+const { articles } = await getArticle(slug);
+// console.timeEnd("getArticle ExecutionTime");
+if (!articles || articles.length !== 1) {
+  return context.redirect("/404");
+}
+
+const article = articles[0].flatData;
+
+const frontmatter = { title: article.name ?? "Untitled" };
+---
+
+<StarlightPage {frontmatter}>
+  {article.content}
+</StarlightPage>
