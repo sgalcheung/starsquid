@@ -42,6 +42,12 @@ importers:
       '@astrojs/check':
         specifier: ^0.9.4
         version: 0.9.4(prettier@3.0.3)(typescript@5.7.2)
+      '@astrojs/markdoc':
+        specifier: ^0.12.9
+        version: 0.12.9(@types/react@18.3.9)(astro@5.3.0(@netlify/blobs@8.1.1)(@types/node@22.9.0)(jiti@2.4.2)(rollup@4.34.8)(typescript@5.7.2)(yaml@2.5.1))(react@18.3.1)
+      '@astrojs/markdown-remark':
+        specifier: ^6.1.0
+        version: 6.1.0
       '@astrojs/mdx':
         specifier: 4.0.8
         version: 4.0.8(astro@5.3.0(@netlify/blobs@8.1.1)(@types/node@22.9.0)(jiti@2.4.2)(rollup@4.34.8)(typescript@5.7.2)(yaml@2.5.1))
@@ -84,12 +90,18 @@ importers:
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
+      github-slugger:
+        specifier: ^2.0.0
+        version: 2.0.0
       lucide-react:
         specifier: ^0.441.0
         version: 0.441.0(react@18.3.1)
       marked:
         specifier: ^14.1.3
         version: 14.1.3
+      marked-gfm-heading-id:
+        specifier: ^4.1.1
+        version: 4.1.1(marked@14.1.3)
       preline:
         specifier: ^2.7.0
         version: 2.7.0
@@ -102,6 +114,15 @@ importers:
       redis:
         specifier: ^4.7.0
         version: 4.7.0
+      rehype-stringify:
+        specifier: ^10.0.1
+        version: 10.0.1
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      remark-rehype:
+        specifier: ^11.1.1
+        version: 11.1.1
       tailwind-merge:
         specifier: ^2.5.2
         version: 2.5.2
@@ -114,6 +135,12 @@ importers:
       typescript:
         specifier: ^5.5.4
         version: 5.7.2
+      unified:
+        specifier: ^11.0.5
+        version: 11.0.5
+      vfile:
+        specifier: ^6.0.3
+        version: 6.0.3
       vite:
         specifier: ^5.4.5
         version: 5.4.8(@types/node@22.9.0)
@@ -177,6 +204,12 @@ packages:
         optional: true
       prettier-plugin-astro:
         optional: true
+
+  '@astrojs/markdoc@0.12.9':
+    resolution: {integrity: sha512-BiM4G8n5+4WUe3JZ45b13ojHai4WKomGtNlZZtEKZiXzrLAkdP0WAYp9vVB2RCt2DVN12LMDc/FzhYfQ1IupaA==}
+    engines: {node: ^18.17.1 || ^20.3.0 || >=22.0.0}
+    peerDependencies:
+      astro: ^5.0.0
 
   '@astrojs/markdown-remark@6.0.1':
     resolution: {integrity: sha512-CTSYijj25NfxgZi15TU3CwPwgyD1/7yA3FcdcNmB9p94nydupiUbrIiq3IqeTp2m5kCVzxbPZeC7fTwEOaNyGw==}
@@ -1443,6 +1476,18 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  '@markdoc/markdoc@0.4.0':
+    resolution: {integrity: sha512-fSh4P3Y4E7oaKYc2oNzSIJVPDto7SMzAuQN1Iyx53UxzleA6QzRdNWRxmiPqtVDaDi5dELd2yICoG91csrGrAw==}
+    engines: {node: '>=14.7.0'}
+    peerDependencies:
+      '@types/react': '*'
+      react: '*'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      react:
+        optional: true
+
   '@mdx-js/mdx@3.1.0':
     resolution: {integrity: sha512-/QxEhPAvGwbQmy1Px8F899L5Uc2KZ6JtXwlCgJmjSTBedwOZkByYcBG4GceIGPXRDsmfxhHazuS+hlOShRLeDw==}
 
@@ -2067,8 +2112,17 @@ packages:
   '@types/js-yaml@4.0.9':
     resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
 
+  '@types/linkify-it@5.0.0':
+    resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
+
+  '@types/markdown-it@12.2.3':
+    resolution: {integrity: sha512-GKMHFfv3458yYy+v/N8gjufHO6MSZKCOXpZc5GXIWWy8uldwfmPn98vp81gZ5f9SVw8YYBctgfJ22a2d7AOMeQ==}
+
   '@types/mdast@4.0.4':
     resolution: {integrity: sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA==}
+
+  '@types/mdurl@2.0.0':
+    resolution: {integrity: sha512-RGdgjQUZba5p6QEFAVx2OGb8rQDL/cPRG7GiedRzMcJ1tYnUANBncjbSB1NRGwbvjcPeikRABz2nshyPk1bhWg==}
 
   '@types/mdx@2.0.13':
     resolution: {integrity: sha512-+OWZQfAYyio6YkJb3HLxDrvnx6SWWDbC0zVPfBRzUk0/nqoDyf6dNxQi3eArPe8rJ473nobTMQ/8Zk+LxJ+Yuw==}
@@ -2729,6 +2783,19 @@ packages:
   dlv@1.1.3:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
 
+  dom-serializer@2.0.0:
+    resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==}
+
+  domelementtype@2.3.0:
+    resolution: {integrity: sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw==}
+
+  domhandler@5.0.3:
+    resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
+    engines: {node: '>= 4'}
+
+  domutils@3.2.2:
+    resolution: {integrity: sha512-6kZKyUajlDuqlHKVX1w7gyslj9MPIXzIFiz/rGu35uC1wMi+kMhQwGhl4lt9unC9Vb9INnY9Z3/ZA3+FhASLaw==}
+
   dot-case@3.0.4:
     resolution: {integrity: sha512-Kv5nKlh6yRrdrGvxeJ2e5y2eRUpkUosIW4A2AS38zwSz27zu7ufDwQPi5Jhs3XAlGNetl3bmnGhQsMtkKJnj3w==}
 
@@ -2772,6 +2839,10 @@ packages:
 
   entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
+    engines: {node: '>=0.12'}
+
+  entities@6.0.0:
+    resolution: {integrity: sha512-aKstq2TDOndCn4diEyp9Uq/Flu2i1GlLkc6XIDQSDMuaFE3OPW5OphLCyQ5SpSJZTb4reN+kTcYru5yIfXoRPw==}
     engines: {node: '>=0.12'}
 
   env-paths@2.2.1:
@@ -3160,6 +3231,9 @@ packages:
   html-whitespace-sensitive-tag-names@3.0.0:
     resolution: {integrity: sha512-KlClZ3/Qy5UgvpvVvDomGhnQhNWH5INE8GwvSIQ9CWt1K0zbbXrl7eN5bWaafOZgtmO3jMPwUqmrmEwinhPq1w==}
 
+  htmlparser2@10.0.0:
+    resolution: {integrity: sha512-TwAZM+zE5Tq3lrEHvOlvwgj1XLWQCtaaibSN11Q+gGBAS7Y1uZSWwXXRe4iF6OXnaq1riyQAPFOBtYc77Mxq0g==}
+
   http-cache-semantics@4.1.1:
     resolution: {integrity: sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==}
 
@@ -3532,6 +3606,11 @@ packages:
 
   markdown-table@3.0.3:
     resolution: {integrity: sha512-Z1NL3Tb1M9wH4XESsCDEksWoKTdlUafKc4pt0GRwjUyXaCFZ+dc3g2erqB6zm3szA2IUSi7VnPI+o/9jnxh9hw==}
+
+  marked-gfm-heading-id@4.1.1:
+    resolution: {integrity: sha512-EeQZieAQmsI6c2tWLx0ETd0VjPwLV8qi+HT0dIsfVMERm0rCIuXfRvZXJbo1SgUi++lmuR1LVY+QzgNiLNvVpw==}
+    peerDependencies:
+      marked: '>=13 <16'
 
   marked@14.1.3:
     resolution: {integrity: sha512-ZibJqTULGlt9g5k4VMARAktMAjXoVnnr+Y3aCqW1oDftcV4BA3UmrBifzXoZyenHRk75csiPu9iwsTj4VNBT0g==}
@@ -5455,6 +5534,21 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
+  '@astrojs/markdoc@0.12.9(@types/react@18.3.9)(astro@5.3.0(@netlify/blobs@8.1.1)(@types/node@22.9.0)(jiti@2.4.2)(rollup@4.34.8)(typescript@5.7.2)(yaml@2.5.1))(react@18.3.1)':
+    dependencies:
+      '@astrojs/internal-helpers': 0.5.1
+      '@astrojs/markdown-remark': 6.1.0
+      '@astrojs/prism': 3.2.0
+      '@markdoc/markdoc': 0.4.0(@types/react@18.3.9)(react@18.3.1)
+      astro: 5.3.0(@netlify/blobs@8.1.1)(@types/node@22.9.0)(jiti@2.4.2)(rollup@4.34.8)(typescript@5.7.2)(yaml@2.5.1)
+      esbuild: 0.24.2
+      github-slugger: 2.0.0
+      htmlparser2: 10.0.0
+    transitivePeerDependencies:
+      - '@types/react'
+      - react
+      - supports-color
+
   '@astrojs/markdown-remark@6.0.1':
     dependencies:
       '@astrojs/prism': 3.2.0
@@ -6407,7 +6501,7 @@ snapshots:
     dependencies:
       '@ctrl/tinycolor': 4.1.0
       hast-util-select: 6.0.2
-      hast-util-to-html: 9.0.3
+      hast-util-to-html: 9.0.5
       hast-util-to-text: 4.0.2
       hastscript: 9.0.0
       postcss: 8.4.49
@@ -6993,6 +7087,12 @@ snapshots:
       - encoding
       - supports-color
 
+  '@markdoc/markdoc@0.4.0(@types/react@18.3.9)(react@18.3.1)':
+    optionalDependencies:
+      '@types/markdown-it': 12.2.3
+      '@types/react': 18.3.9
+      react: 18.3.1
+
   '@mdx-js/mdx@3.1.0(acorn@8.14.0)':
     dependencies:
       '@types/estree': 1.0.6
@@ -7559,9 +7659,21 @@ snapshots:
 
   '@types/js-yaml@4.0.9': {}
 
+  '@types/linkify-it@5.0.0':
+    optional: true
+
+  '@types/markdown-it@12.2.3':
+    dependencies:
+      '@types/linkify-it': 5.0.0
+      '@types/mdurl': 2.0.0
+    optional: true
+
   '@types/mdast@4.0.4':
     dependencies:
       '@types/unist': 3.0.3
+
+  '@types/mdurl@2.0.0':
+    optional: true
 
   '@types/mdx@2.0.13': {}
 
@@ -8447,6 +8559,24 @@ snapshots:
 
   dlv@1.1.3: {}
 
+  dom-serializer@2.0.0:
+    dependencies:
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      entities: 4.5.0
+
+  domelementtype@2.3.0: {}
+
+  domhandler@5.0.3:
+    dependencies:
+      domelementtype: 2.3.0
+
+  domutils@3.2.2:
+    dependencies:
+      dom-serializer: 2.0.0
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+
   dot-case@3.0.4:
     dependencies:
       no-case: 3.0.4
@@ -8483,6 +8613,8 @@ snapshots:
       strip-ansi: 6.0.1
 
   entities@4.5.0: {}
+
+  entities@6.0.0: {}
 
   env-paths@2.2.1: {}
 
@@ -9123,6 +9255,13 @@ snapshots:
 
   html-whitespace-sensitive-tag-names@3.0.0: {}
 
+  htmlparser2@10.0.0:
+    dependencies:
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      domutils: 3.2.2
+      entities: 6.0.0
+
   http-cache-semantics@4.1.1: {}
 
   http-proxy-agent@7.0.2:
@@ -9477,6 +9616,11 @@ snapshots:
   markdown-extensions@2.0.0: {}
 
   markdown-table@3.0.3: {}
+
+  marked-gfm-heading-id@4.1.1(marked@14.1.3):
+    dependencies:
+      github-slugger: 2.0.0
+      marked: 14.1.3
 
   marked@14.1.3: {}
 
@@ -9926,7 +10070,7 @@ snapshots:
   micromark@4.0.0:
     dependencies:
       '@types/debug': 4.1.12
-      debug: 4.3.7(supports-color@8.1.1)
+      debug: 4.4.0
       decode-named-character-reference: 1.0.2
       devlop: 1.1.0
       micromark-core-commonmark: 2.0.1

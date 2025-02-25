@@ -1,13 +1,17 @@
 ---
 import Default from "@astrojs/starlight/components/StarlightPage.astro";
+import type { MarkdownHeading } from "astro";
 
-interface frontmatter {
-  title: string;
+export interface Props {
+  frontmatter: {
+    title: string;
+  };
+  headings: MarkdownHeading[];
 }
 
-const { frontmatter } = Astro.props;
+const { frontmatter, headings } = Astro.props;
 
 const { sidebar } = { sidebar: [] };
 ---
 
-<Default {frontmatter} {sidebar}><slot /></Default>
+<Default {frontmatter} {sidebar} {headings}><slot /></Default>
