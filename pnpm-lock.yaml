@@ -85,8 +85,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       desquidex:
-        specifier: ^0.2.0
-        version: 0.2.0(@squidex/squidex@2.0.0-rc2)(astro@5.3.0(@netlify/blobs@8.1.1)(@types/node@22.9.0)(jiti@2.4.2)(rollup@4.34.8)(typescript@5.7.2)(yaml@2.5.1))
+        specifier: workspace:*
+        version: link:../packages/desquidex
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
@@ -2732,12 +2732,6 @@ packages:
   dequal@2.0.3:
     resolution: {integrity: sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==}
     engines: {node: '>=6'}
-
-  desquidex@0.2.0:
-    resolution: {integrity: sha512-EuoNf8ss6K4HHhXBgEdCKYUcmbYRIAccewsWrwUSNSkUum0J1CygP2+QA0ggW9RpTYan7+rGIiuFNdKdukC8VA==}
-    peerDependencies:
-      '@squidex/squidex': '*'
-      astro: ^5.1.1
 
   destr@2.0.3:
     resolution: {integrity: sha512-2N3BOUU4gYMpTP24s5rF5iP7BDr7uNTCs4ozw3kf/eKfvWSIu93GEBi5m427YoyJoeOzQ5smuu4nNAPGb8idSQ==}
@@ -8523,11 +8517,6 @@ snapshots:
   dependency-graph@0.11.0: {}
 
   dequal@2.0.3: {}
-
-  desquidex@0.2.0(@squidex/squidex@2.0.0-rc2)(astro@5.3.0(@netlify/blobs@8.1.1)(@types/node@22.9.0)(jiti@2.4.2)(rollup@4.34.8)(typescript@5.7.2)(yaml@2.5.1)):
-    dependencies:
-      '@squidex/squidex': 2.0.0-rc2
-      astro: 5.3.0(@netlify/blobs@8.1.1)(@types/node@22.9.0)(jiti@2.4.2)(rollup@4.34.8)(typescript@5.7.2)(yaml@2.5.1)
 
   destr@2.0.3: {}
 
