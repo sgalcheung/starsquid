@@ -1,6 +1,5 @@
 import { defineRouteMiddleware, type StarlightRouteData } from "@astrojs/starlight/route-data";
 import { COLUMN, COLUMN_ARTICLE_PATH } from "./helpers/constants";
-// import { getArticle } from "@/scripts/api";
 import { getCatalogsFromRedis } from "@/scripts/services";
 
 export const onRequest = defineRouteMiddleware(async (context) => {
@@ -15,14 +14,6 @@ export const onRequest = defineRouteMiddleware(async (context) => {
   }
 
   const starlightRoute = context.locals.starlightRoute;
-
-
-  // const { articles } = await getArticle(article_id);
-  // if (!articles || articles.length !== 1) {
-  //   return context.redirect('/404');
-  // }
-
-  // const article = articles[0].flatData;
 
   const column_name = context.cookies.get(COLUMN)?.value;
   if (!column_name) {
@@ -44,9 +35,6 @@ export const onRequest = defineRouteMiddleware(async (context) => {
     collapsed: false,
     badge: undefined,
   }));
-
-  // starlightRoute.entry.data.title = article.name ?? "Untitled";
-  // starlightRoute.entry.body = article.content ?? "";
   
   usePageTitleInTOC(starlightRoute);
   // console.log(starlightRoute);

@@ -6,7 +6,7 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import { VFile } from "vfile";
 import Slugger from 'github-slugger';
 
-import { marked, type TokensList } from 'marked';
+import { marked } from 'marked';
 import { gfmHeadingId } from "marked-gfm-heading-id";
 
 export async function markdownToHtml(markdown: string): Promise<VFile> {
