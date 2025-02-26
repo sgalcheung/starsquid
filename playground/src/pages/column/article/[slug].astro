@@ -9,7 +9,7 @@ const { slug } = Astro.params;
 const { articles } = await getArticle(slug);
 // console.timeEnd("getArticle ExecutionTime");
 if (!articles || articles.length !== 1) {
-  return context.redirect("/404");
+	return context.redirect("/404");
 }
 
 let article = articles[0].flatData;
@@ -21,15 +21,15 @@ const frontmatter = { title: article.name ?? "Untitled" };
 console.time("markdown ExecutionTime");
 let result = undefined;
 if (article.content) {
-  // result = await markdownToHtml(article.content);
+	// result = await markdownToHtml(article.content);
 
-  result = await generateMarkdownWithToc(article.content);
+	result = await generateMarkdownWithToc(article.content);
 
-  article = {
-    ...article,
-    // content: String(result.value),
-    content: String(result.html),
-  };
+	article = {
+		...article,
+		// content: String(result.value),
+		content: String(result.html),
+	};
 }
 
 console.timeEnd("markdown ExecutionTime");

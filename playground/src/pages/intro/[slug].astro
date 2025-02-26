@@ -20,10 +20,10 @@ const intro = await getEntry(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS, slug);
 if (!intro) return Astro.redirect("/404");
 
 intro.data.data = {
-  ...intro.data.data,
-  description: {
-    iv: await marked.parse(intro.data.data.description.iv),
-  },
+	...intro.data.data,
+	description: {
+		iv: await marked.parse(intro.data.data.description.iv),
+	},
 };
 
 const catalogs = await getCatalogs(intro);

@@ -3,10 +3,10 @@ import Default from "@astrojs/starlight/components/StarlightPage.astro";
 import type { MarkdownHeading } from "astro";
 
 export interface Props {
-  frontmatter: {
-    title: string;
-  };
-  headings: MarkdownHeading[];
+	frontmatter: {
+		title: string;
+	};
+	headings: MarkdownHeading[];
 }
 
 const { frontmatter, headings } = Astro.props;

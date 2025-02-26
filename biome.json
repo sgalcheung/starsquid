@@ -12,7 +12,8 @@
 			"**/public",
 			"**/dist",
 			"**/generated",
-			"ts-to-zod.config.cjs"
+			"ts-to-zod.config.cjs",
+			".netlify"
 		]
 	},
 	"formatter": {

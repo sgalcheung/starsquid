@@ -9,9 +9,9 @@ export interface Config<T extends string = string> {
 }
 
 class ConfigService<T extends string = string> {
-  private config: Config<T> = {
-    squidexContentSchemaMapping: {} as Record<T, z.ZodTypeAny>,
-  };
+	private config: Config<T> = {
+		squidexContentSchemaMapping: {} as Record<T, z.ZodTypeAny>,
+	};
 
 	setConfig(config: Config<T>) {
 		if (!config.squidexUrl) throw new Error("Missing `squidexUrl` in config.");

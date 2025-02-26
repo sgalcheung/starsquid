@@ -9,9 +9,9 @@ const app = (await getCollection(SCHEMAS.APP))?.[0];
 const newsFeature = (await getCollection(SCHEMAS.FEATURES))?.[0];
 const features = newsFeature.data.features.slice(0, 2);
 await Promise.all(
-  features.map(async (feature) => {
-    feature.text = await marked.parse(feature.text);
-  })
+	features.map(async (feature) => {
+		feature.text = await marked.parse(feature.text);
+	}),
 );
 
 // const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
