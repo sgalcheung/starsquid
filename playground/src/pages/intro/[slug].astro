@@ -8,6 +8,7 @@ import { COLUMN } from "@/helpers/constants";
 import { getCatalogs } from "@/scripts/services";
 import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
 import { getEntry } from "astro:content";
+import { marked } from "marked";
 
 const { slug } = Astro.params;
 if (!slug || slug === undefined) return Astro.redirect("/404");
@@ -17,6 +18,13 @@ Astro.cookies.set(COLUMN, slug, { path: "/" });
 // load from cached
 const intro = await getEntry(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS, slug);
 if (!intro) return Astro.redirect("/404");
+
+intro.data.data = {
+  ...intro.data.data,
+  description: {
+    iv: await marked.parse(intro.data.data.description.iv),
+  },
+};
 
 const catalogs = await getCatalogs(intro);
 if (!catalogs) return Astro.redirect("/404");
@@ -28,7 +36,7 @@ if (!catalogs) return Astro.redirect("/404");
 <Layout>
   <main class="mx-auto max-w-[85rem] w-full px-4 sm:px-6 lg:px-8">
     <div class="flex flex-row">
-      <article class="w-full" set:html={intro.data.data.description.iv} />
+      <Fragment set:html={intro.data.data.description.iv} />
     </div>
 
     <div data-intro class="flex">

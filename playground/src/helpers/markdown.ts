@@ -72,7 +72,7 @@ export function extractHeadings(markdown: string): MarkdownHeading[] {
   return headings;
 }
 
-export function generateMarkdownWithToc(markdown: string) {
+export async function generateMarkdownWithToc(markdown: string) {
   const headings = extractHeadings(markdown);
 
   const options = {
@@ -81,7 +81,7 @@ export function generateMarkdownWithToc(markdown: string) {
 
   marked.use(gfmHeadingId(options));
 
-  const html = marked.parse(markdown);
+  const html = await marked.parse(markdown);
 
   return { html, headings };
 }

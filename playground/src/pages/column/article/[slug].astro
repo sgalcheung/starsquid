@@ -23,7 +23,7 @@ let result = undefined;
 if (article.content) {
   // result = await markdownToHtml(article.content);
 
-  result = generateMarkdownWithToc(article.content);
+  result = await generateMarkdownWithToc(article.content);
 
   article = {
     ...article,
@@ -33,7 +33,7 @@ if (article.content) {
 }
 
 console.timeEnd("markdown ExecutionTime");
-// marked 0.683ms
+// marked 2.642ms
 // remark 2.791ms
 
 // const headings = result?.data.astro?.headings ?? [];
