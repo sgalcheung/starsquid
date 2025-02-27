@@ -33,6 +33,7 @@ export default defineConfig({
 						},
 					],
 				},
+				{ label: "Changelog", link: "/docs/changelog/" },
 				{ label: "Demo", link: "/" },
 			],
 			routeMiddleware: "./src/routeMiddleware.ts",

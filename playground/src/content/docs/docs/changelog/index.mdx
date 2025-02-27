@@ -1,0 +1,9 @@
+---
+title: Changelog
+---
+
+
+import changelog from '../../../../../../packages/desquidex/CHANGELOG.md?raw';
+import { marked } from 'marked';
+
+<Fragment set:html={marked.parse(changelog)} />
