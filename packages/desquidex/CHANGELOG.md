@@ -1,5 +1,12 @@
 # desquidex
 
+## 0.2.2
+
+### Patch Changes
+
+- Update Config interface and ConfigService class for improved type handling
+  Change import z from "astro/zod" to "astro:content"
+
 ## 0.2.1
 
 ### Patch Changes

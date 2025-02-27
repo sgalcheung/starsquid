@@ -1,6 +1,6 @@
 {
 	"name": "desquidex",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "Use your Squidex data in Astro projects",
 	"author": {
 		"email": "sgalculture@outlook.com",
