@@ -33,6 +33,7 @@ export default defineConfig({
 						},
 					],
 				},
+        { label: "Features", autogenerate: { directory: '/docs/features' }, },
 				{ label: "Changelog", link: "/docs/changelog/" },
 				{ label: "Demo", link: "/" },
 			],
