@@ -4,14 +4,16 @@ import { defineConfig, envField } from "astro/config";
 import netlify from "@astrojs/netlify";
 
 import react from "@astrojs/react";
-import tailwind from "@astrojs/tailwind";
 import { loadEnv } from "vite";
 import { refreshContentIntegration } from "desquidex/integrations";
+
+import tailwindcss from "@tailwindcss/vite";
 
 const env = loadEnv("", process.cwd(), "");
 
 export default defineConfig({
   output: "server",
+
   integrations: [
     starlight({
       prerender: false,
@@ -56,12 +58,7 @@ export default defineConfig({
     }),
     refreshContentIntegration(env.WEBHOOK_SECRET), // only support for developing environment
     react(),
-    tailwind({
-      applyBaseStyles: false,
-    }),
   ],
-
-  adapter: netlify(),
 
   // not support for now!
   // env: {
@@ -72,4 +69,9 @@ export default defineConfig({
   //     }),
   //   },
   // },
+  adapter: netlify(),
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });

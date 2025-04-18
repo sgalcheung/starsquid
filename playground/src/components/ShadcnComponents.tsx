@@ -14,9 +14,9 @@ interface AccordionComponentProps {
 	}[];
 }
 
-export const AccordionComponent: React.FC<{
-	data: AccordionComponentProps["data"];
-}> = ({ data }) => {
+export function AccordionComponent({
+	data
+}: AccordionComponentProps) {
 	return (
 		<Accordion type="single" collapsible className="w-full">
 			{data.map((item, index) => {
