@@ -30,9 +30,13 @@ export default defineConfig({
         //   lang: "zh-CN",
         // },
       },
-      social: {
-        github: "https://github.com/sgalcheung/starlight-squidex",
-      },
+      social: [
+        {
+          icon: "github",
+          label: "Github",
+          href: "https://github.com/sgalcheung/starlight-squidex",
+        },
+      ],
       sidebar: [
         {
           label: "Get Started",
