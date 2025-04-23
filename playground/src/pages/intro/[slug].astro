@@ -4,11 +4,11 @@
 
 import { CatalogComponent } from "@/components/ShadcnComponents.tsx";
 import Layout from "@/layouts/Layout.astro";
-import { COLUMN } from "@/helpers/constants";
-import { getCatalogs } from "@/scripts/services";
+import { CATALOGS_CACHE_TIMEOUT, COLUMN } from "@/helpers/constants";
 import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
 import { getEntry } from "astro:content";
 import { Markdown } from "astro-remote";
+import { dataMap } from "../../scripts/convert";
 
 const { slug } = Astro.params;
 if (!slug || slug === undefined) return Astro.redirect("/404");
@@ -19,7 +19,12 @@ Astro.cookies.set(COLUMN, slug, { path: "/" });
 const intro = await getEntry(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS, slug);
 if (!intro) return Astro.redirect("/404");
 
-const catalogs = await getCatalogs(intro);
+const catalogs = await dataMap(intro);
+
+Astro.session?.set(intro.data.data.slug.iv, JSON.stringify(catalogs), {
+  ttl: CATALOGS_CACHE_TIMEOUT,
+});
+
 if (!catalogs) return Astro.redirect("/404");
 
 // const catalogs = dataMap(intro);

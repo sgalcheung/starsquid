@@ -74,7 +74,13 @@ export default defineConfig({
   //   },
   // },
   adapter: netlify(),
-
+  session: {
+    driver: "redis",
+    options: {
+      url: env.REDIS_URL,
+    },
+    ttl: 3600,
+  },
   vite: {
     plugins: [tailwindcss()],
   },
