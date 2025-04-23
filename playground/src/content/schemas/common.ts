@@ -1,5 +1,10 @@
 import { z } from "astro/zod";
 
+export enum SQUIDEX_CONTENT_SCHEMAS {
+  INTRODUCTIONS = "introductions",
+  // ARTICLES = "articles",
+}
+
 export const idSchema = z.object({
 	id: z.string(),
 });

@@ -1,24 +1,22 @@
 import { z } from "astro/zod";
 import { nonMultilingualSchema } from "./common";
+import { squidexClient } from "../../scripts/clinet";
+import { contentDtoSchema } from "desquidex/schemas";
+import type { CollectionEntry } from "astro:content";
 
-const loadNonMultilingualSchema = async () => {
-	const { nonMultilingualSchema } = await import("./common");
-	return nonMultilingualSchema;
-};
+type articleData = CollectionEntry<'article'>["data"];
 
-// export const articleSchema = async (): Promise<z.ZodTypeAny> => {
-//   const nonMultilingualSchema = await loadNonMultilingualSchema();
-//   return await z.object({
-//     name: nonMultilingualSchema(z.string()),
-//     content: nonMultilingualSchema(z.string()),
-//   });
-// };
-
-export const articleSchema = z.object({
-	name: nonMultilingualSchema(z.string()),
-	content: nonMultilingualSchema(z.string()),
+export const articleSchema: articleData = z.object({
+  name: nonMultilingualSchema(z.string()),
+  content: nonMultilingualSchema(z.string()),
 });
 
-// export type ArticleSchemaType = z.infer<typeof articleSchema>;
 
-// export const articleSchemaInstance = await articleSchema();
+export async function getArticleById(id: string) {
+  const article = await squidexClient.contents.getContent("articles", id);
+  const parsedContentsSchema = contentDtoSchema(articleSchema);
+  const parsedContents =
+    await parsedContentsSchema.safeParseAsync(article);
+  const result= parsedContents.success ? parsedContents.data : null;
+  return result;
+}

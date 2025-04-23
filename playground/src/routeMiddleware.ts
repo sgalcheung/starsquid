@@ -4,8 +4,7 @@ import {
 } from "@astrojs/starlight/route-data";
 import { CATALOGS_CACHE_TIMEOUT, COLUMN, COLUMN_ARTICLE_PATH } from "./helpers/constants";
 import { dataMap, type CatalogType } from "./scripts/convert";
-import { getEntry } from "astro:content";
-import { SQUIDEX_CONTENT_SCHEMAS } from "./content/schemas";
+import { getIntroductionBySlug } from "./content/schemas/Introduction";
 
 export const onRequest = defineRouteMiddleware(async (context) => {
   // Get the base path and id of the current URL
@@ -30,7 +29,7 @@ export const onRequest = defineRouteMiddleware(async (context) => {
   let catalogs = JSON.parse(sessionData) as CatalogType;
 
   if (!catalogs || catalogs.length === 0) {
-    const intro = await getEntry(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS, column_name);
+    const intro = await getIntroductionBySlug(column_name);
     if (intro) {
       catalogs = await dataMap(intro);
       context.session?.set(

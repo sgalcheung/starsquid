@@ -5,32 +5,28 @@
 import { CatalogComponent } from "@/components/ShadcnComponents.tsx";
 import Layout from "@/layouts/Layout.astro";
 import { CATALOGS_CACHE_TIMEOUT, COLUMN } from "@/helpers/constants";
-import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
-import { getEntry } from "astro:content";
 import { Markdown } from "astro-remote";
 import { dataMap } from "../../scripts/convert";
+import { getIntroductionBySlug } from "@/content/schemas/Introduction";
 
 const { slug } = Astro.params;
 if (!slug || slug === undefined) return Astro.redirect("/404");
 
 Astro.cookies.set(COLUMN, slug, { path: "/" });
 
-// load from cached
-const intro = await getEntry(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS, slug);
+const intro = await getIntroductionBySlug(slug);
 if (!intro) return Astro.redirect("/404");
 
 const catalogs = await dataMap(intro);
+
+if (!catalogs) return Astro.redirect("/404");
 
 Astro.session?.set(intro.data.data.slug.iv, JSON.stringify(catalogs), {
   ttl: CATALOGS_CACHE_TIMEOUT,
 });
 
-if (!catalogs) return Astro.redirect("/404");
-
-// const catalogs = dataMap(intro);
 ---
 
-<!-- <a href=`/${COLUMN_ARTICLE_PATH}/index?cid=${slug}`>start explore</a> -->
 <Layout>
   <main class="mx-auto max-w-[85rem] w-full px-4 sm:px-6 lg:px-8">
     <div class="flex flex-row">
@@ -38,9 +34,6 @@ if (!catalogs) return Astro.redirect("/404");
     </div>
 
     <div data-intro class="flex">
-      <!-- <template data-column-slug={slug}></template>
-        <template data-catalogs={catalogs}></template> -->
-
       <div class="w-1/2 p-4">
         <CatalogComponent data={catalogs} client:visible />
       </div>
@@ -125,25 +118,3 @@ if (!catalogs) return Astro.redirect("/404");
     </div>
   </main>
 </Layout>
-
-<!-- <script>
-    import { getElement } from '@/helpers/dom.js';
-
-    for (const intro of document.querySelectorAll('[data-intro]')) {
-        const data_column_slug = getElement('[data-column-slug]', HTMLElement, intro);
-
-        if (data_column_slug.dataset.slug) {
-            const slug = data_column_slug.dataset.slug;
-        
-            localStorage.setItem('column', slug);
-        }
-
-        const data_catalogs = getElement('[data-catalogs]', HTMLElement, intro);
-
-        if (data_catalogs.dataset.catalogs) {
-            const catalogs = data_catalogs.dataset.catalogs;
-        
-            localStorage.setItem('catalogs', catalogs);
-        }
-    }
-</script> -->
