@@ -50,6 +50,8 @@ export interface MarkdownHeading {
 	text: string;
 }
 
+
+// TODO: wait astro-remote to support TOC, then remove this
 /**
  * Extracting TOC from Markdown
  * @param markdown Markdown Content

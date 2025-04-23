@@ -1,18 +1,13 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { getCollection, getEntry } from "astro:content";
-import { marked } from "marked";
 import { SCHEMAS } from "desquidex/schemas";
 import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas";
+import { Markdown } from "astro-remote";
 
 const app = (await getCollection(SCHEMAS.APP))?.[0];
 const newsFeature = (await getCollection(SCHEMAS.FEATURES))?.[0];
 const features = newsFeature.data.features.slice(0, 2);
-await Promise.all(
-	features.map(async (feature) => {
-		feature.text = await marked.parse(feature.text);
-	}),
-);
 
 // const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
 
@@ -162,7 +157,7 @@ const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
                   {feature.name}
                 </h3>
                 <p class="mt-1 text-sm text-gray-600 dark:text-neutral-400">
-                  <article set:html={feature.text} />
+                  <Markdown content={feature.text} />
                 </p>
                 <button
                   type="button"
