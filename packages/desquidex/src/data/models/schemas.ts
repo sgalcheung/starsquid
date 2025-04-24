@@ -1,8 +1,13 @@
 import type { ZodType } from "zod";
 import { z } from "astro/zod";
 import type {
+  AppDto,
 	FeatureDto,
 	FeaturesDto,
+	FieldDto,
+	FieldPropertiesDto,
+	NestedFieldDto,
+	ResourceLink,
 	ScheduleJobDto,
 	StatusInfoDto,
 } from "@squidex/squidex";
@@ -22,25 +27,25 @@ export type SCHEMAS_VALUES = (typeof SCHEMAS_CONST)[keyof typeof SCHEMAS_CONST];
 export const resourceLinkSchema = z.object({
 	href: z.string(),
 	method: z.string(),
-	metadata: z.string().optional().nullable(),
-}); // satisfies ZodType<ResourceLink>;
+  metadata: z.string().nullable(),
+}) satisfies ZodType<ResourceLink>;
 
 export const appDtoSchema = z.object({
-	links: z.record(resourceLinkSchema),
+	links: z.record(z.string(), resourceLinkSchema),
 	id: z.string(),
 	name: z.string(),
-	label: z.string().optional().nullable(),
-	description: z.string().optional().nullable(),
+	label: z.string().nullable(),
+	description: z.string().nullable(),
 	version: z.number(),
 	created: z.coerce.date(),
 	lastModified: z.coerce.date(),
-	teamId: z.string().optional().nullable(),
+	teamId: z.string().nullable(),
 	permissions: z.array(z.string()),
 	canAccessApi: z.boolean(),
 	canAccessContent: z.boolean(),
-	roleName: z.string().optional().nullable(),
+	roleName: z.string().nullable(),
 	roleProperties: z.record(z.any()),
-}); //satisfies ZodType<AppDto>;
+}) satisfies ZodType<AppDto>;
 
 export const featureDtoSchema = z.object({
 	name: z.string(),
@@ -51,8 +56,6 @@ export const featuresDtoSchema = z.object({
 	features: z.array(featureDtoSchema),
 	version: z.number(),
 }) satisfies ZodType<FeaturesDto>;
-
-// export type FeaturesDocument = z.infer<typeof featuresDtoSchema>;
 
 export const scheduleJobDtoSchema = z.object({
 	id: z.string(),
@@ -68,21 +71,29 @@ export const statusInfoDtoSchema = z.object({
 }) satisfies ZodType<StatusInfoDto>;
 
 const fieldPropertiesDtoSchema = z.object({
-	label: z.string().optional().nullable(),
-	hints: z.string().optional().nullable(),
-	placeholder: z.string().optional().nullable(),
-	isRequired: z.boolean().optional(),
-	isRequiredOnPublish: z.boolean().optional(),
-	isHalfWidth: z.boolean().optional(),
-	editorUrl: z.string().optional().nullable(),
-	tags: z.array(z.string()).optional().nullable(),
+	label: z.string().nullable(),
+	hints: z.string().nullable(),
+	placeholder: z.string().nullable(),
+	isRequired: z.boolean(),
+	isRequiredOnPublish: z.boolean(),
+	isHalfWidth: z.boolean(),
+	editorUrl: z.string().nullable(),
+	tags: z.array(z.string()).nullable(),
 	fieldType: z.string(),
-});
+}) satisfies ZodType<FieldPropertiesDto>;
 
-const nestedFieldDtoSchema = z.any().optional();
+const nestedFieldDtoSchema = z.object({
+  links: z.record(resourceLinkSchema),
+  fieldId: z.number(),
+  name: z.string(),
+  isHidden: z.boolean(),
+  isLocked: z.boolean(),
+  isDisabled: z.boolean(),
+  properties: fieldPropertiesDtoSchema,
+}) satisfies ZodType<NestedFieldDto>;
 
 const fieldDtoSchema = z.object({
-	links: z.record(resourceLinkSchema),
+	links: z.record(z.string(), resourceLinkSchema),
 	fieldId: z.number(),
 	name: z.string(),
 	isHidden: z.boolean(),
@@ -90,23 +101,16 @@ const fieldDtoSchema = z.object({
 	isDisabled: z.boolean(),
 	partitioning: z.string(),
 	properties: fieldPropertiesDtoSchema,
-	nested: z.array(nestedFieldDtoSchema).optional().nullable(),
-});
-
-export const dataSchema = z.record(
-	z.string(),
-	z.object({
-		iv: z.union([z.string(), z.array(z.unknown())]),
-	}),
-);
+	nested: z.array(nestedFieldDtoSchema).nullable(),
+}) satisfies ZodType<FieldDto>;
 
 export const contentDtoSchema = <T extends z.ZodTypeAny>(schema: T) =>
 	z.object({
-		links: z.record(resourceLinkSchema),
+		links: z.record(z.string(), resourceLinkSchema),
 		id: z.string(),
 		createdBy: z.string(),
 		lastModifiedBy: z.string(),
-		data: schema,
+		data: schema.nullable(),
 		referenceData: z.record(z.record(z.any())).optional(),
 		created: z.coerce.date(),
 		lastModified: z.coerce.date(),
@@ -125,13 +129,24 @@ export const contentDtoSchema = <T extends z.ZodTypeAny>(schema: T) =>
 	});
 //satisfies ZodType<ContentDto>;
 
+// Helper type to infer the content DTO schema for a specific data type
+export type ContentDtoType<T extends z.ZodTypeAny> = z.infer<ReturnType<typeof contentDtoSchema<T>>>;
+
+/**
+ * A schema for a collection of content items.
+ * The generic type `T` represents the shape of the data schema for individual content items.
+ */
+// Temporarily disable the export or remove if unused
 export const contentsDtoSchema = <T>(
 	schema: z.ZodType<T, z.ZodTypeDef, unknown>,
 ) =>
 	z.object({
-		links: z.record(resourceLinkSchema),
+		links: z.record(z.string(), resourceLinkSchema),
 		total: z.number(),
 		items: z.array(contentDtoSchema(schema)),
 		statuses: z.array(statusInfoDtoSchema),
 	});
 //satisfies ZodType<ContentsDto>;
+
+export type ContentsDtoType<T extends z.ZodTypeAny> = z.infer<
+  ReturnType<typeof contentsDtoSchema<T>>>;

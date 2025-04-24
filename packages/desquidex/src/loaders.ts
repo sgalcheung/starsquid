@@ -1,248 +1,262 @@
 import type { DataStore, Loader } from "astro/loaders";
 import {
-	defineCollection,
-	type BaseSchema,
-	type CollectionConfig,
+  defineCollection,
+  type BaseSchema,
+  type CollectionConfig,
 } from "astro:content";
 import { configService, type Config } from "./configService.js";
 import { getClient } from "./data/core/client.js";
 import {
-	SCHEMAS,
-	SCHEMAS_CONST,
-	appDtoSchema,
-	contentDtoSchema,
-	contentsDtoSchema,
-	featuresDtoSchema,
-	type SCHEMAS_VALUES,
+  SCHEMAS,
+  SCHEMAS_CONST,
+  appDtoSchema,
+  contentDtoSchema,
+  contentsDtoSchema,
+  featuresDtoSchema,
+  type SCHEMAS_VALUES,
 } from "./data/models/schemas.js";
+import type { ResourceLink } from "@squidex/squidex";
 
 type DataEntry = Parameters<DataStore["set"]>[0];
 
-// type DynamicCollectionConfigs<T> = Record<
-//   keyof T,
-//   CollectionConfig<any>
-// >;
-// type Values<T extends Record<string, any>> = T[keyof T];
-// type SquidexSchemaKeys = Values<SquidexSchemaTypes>;
-// export type SquidexCommonSchemaTypes = typeof SCHEMAS_CONST;
-
-// const squidexSchemas = {
-//   ...squidexContentSchemas,
-//   ...SCHEMAS_CONST,
-// } as const;
-
-// export type SquidexSchemaTypes = typeof squidexSchemas;
-// type DynamicCollectionConfigs<T extends Record<string, any>> = Record<
-//   Values<T>,
-//   CollectionConfig<any>
-// >;
-// type DynamicCollectionConfigs = Partial<
-//   Record<SquidexSchemaKeys, CollectionConfig<BaseSchema>>
-// >;
-
 export function squidexCollections<T extends string>(config: Config<T>) {
-	configService.setConfig(config);
+  configService.setConfig(config);
 
-	const l = (type: SCHEMAS, schema: BaseSchema, contentSchema?: string) =>
-		makeLoader({
-			type,
-			schema,
-			contentSchema,
-		});
+  const l = (type: SCHEMAS, schema: BaseSchema, contentSchema?: string) =>
+    makeLoader({
+      type,
+      schema,
+      contentSchema,
+    });
 
-	let collections: Record<string, CollectionConfig<BaseSchema>> = {};
+  let collections: Record<string, CollectionConfig<BaseSchema>> = {};
 
-	const schemaMapping: Record<
-		SCHEMAS_VALUES,
-		() => Record<string, CollectionConfig<BaseSchema>> | null
-	> = {
-		[SCHEMAS.APP]: () => ({
-			[SCHEMAS.APP]: defineCollection({
-				// schema: appDtoSchema,
-				loader: l(SCHEMAS.APP, appDtoSchema),
-			}),
-		}),
-		[SCHEMAS.FEATURES]: () => ({
-			[SCHEMAS.FEATURES]: defineCollection({
-				// schema: async () => featuresDtoSchema,
-				loader: l(SCHEMAS.FEATURES, featuresDtoSchema),
-			}),
-		}),
-		[SCHEMAS.CONTENT]: () => {
-			if (config.squidexContentSchemaMapping) {
-				const contentSchemaMapping = config.squidexContentSchemaMapping;
-				// const contentSchemas = Object.keys(config.squidexContentSchemaMapping);
+  const schemaMapping: Record<
+    SCHEMAS_VALUES,
+    () => Record<string, CollectionConfig<BaseSchema>> | null
+  > = {
+    [SCHEMAS.APP]: () => ({
+      [SCHEMAS.APP]: defineCollection({
+        // schema: appDtoSchema,
+        loader: l(SCHEMAS.APP, appDtoSchema),
+      }),
+    }),
+    [SCHEMAS.FEATURES]: () => ({
+      [SCHEMAS.FEATURES]: defineCollection({
+        // schema: async () => featuresDtoSchema,
+        loader: l(SCHEMAS.FEATURES, featuresDtoSchema),
+      }),
+    }),
+    [SCHEMAS.CONTENT]: () => {
+      if (config.squidexContentSchemaMapping) {
+        const contentSchemaMapping = config.squidexContentSchemaMapping;
+        // const contentSchemas = Object.keys(config.squidexContentSchemaMapping);
 
-				if (contentSchemaMapping) {
-					type SquidexContentSchemasLiteral = keyof typeof contentSchemaMapping;
-					// type T = typeof contentSchemaMapping;
+        if (contentSchemaMapping) {
+          type SquidexContentSchemasLiteral = keyof typeof contentSchemaMapping;
+          // type T = typeof contentSchemaMapping;
 
-					const schemaKeys = Object.keys(
-						contentSchemaMapping,
-					) as SquidexContentSchemasLiteral[];
-					// const schemaValues = Object.values(
-					//   contentSchemaMapping
-					// ) as T[SquidexContentSchemasLiteral][];
+          const schemaKeys = Object.keys(
+            contentSchemaMapping,
+          ) as SquidexContentSchemasLiteral[];
+          // const schemaValues = Object.values(
+          //   contentSchemaMapping
+          // ) as T[SquidexContentSchemasLiteral][];
 
-					console.log("---------------");
-					for (const key of schemaKeys) {
-						const schemaValue = contentSchemaMapping[key];
-						console.log(`${key}: ${schemaValue}`);
-					}
+          console.log("---------------");
+          for (const key of schemaKeys) {
+            const schemaValue = contentSchemaMapping[key];
+            console.log(`${key}: ${schemaValue}`);
+          }
 
-					console.log("---------------");
-					// console.log("All schemas:", schemaValues);
-					// return null;
+          console.log("---------------");
+          // console.log("All schemas:", schemaValues);
+          // return null;
 
-					let contentCollections: Record<
-						string,
-						CollectionConfig<BaseSchema>
-					> = {};
-					for (const key of schemaKeys) {
-						const schemaValue = contentSchemaMapping[key];
-						// console.log("value", schemaValue);
-						const contentCollection = {
-							[key]: defineCollection({
-								// schema: contentDtoSchema(config.squidexContentSchemaTypes![0]),
-								loader: l(SCHEMAS.CONTENT, schemaValue, key),
-							}),
-						};
-						contentCollections = {
-							...contentCollections,
-							...contentCollection,
-						};
-					}
-					return contentCollections;
-				}
-			}
-			return null;
-		},
-	};
+          let contentCollections: Record<
+            string,
+            CollectionConfig<BaseSchema>
+          > = {};
+          for (const key of schemaKeys) {
+            const schemaValue = contentSchemaMapping[key];
+            // console.log("value", schemaValue);
+            const contentCollection = {
+              [key]: defineCollection({
+                // schema: contentDtoSchema(config.squidexContentSchemaTypes![0]),
+                loader: l(SCHEMAS.CONTENT, schemaValue, key),
+              }),
+            };
+            contentCollections = {
+              ...contentCollections,
+              ...contentCollection,
+            };
+          }
+          return contentCollections;
+        }
+      }
+      return null;
+    },
+  };
 
-	for (const value of Object.values(SCHEMAS_CONST)) {
-		const collection = schemaMapping[value]?.();
-		if (Array.isArray(collection)) {
-			for (const col of collection) {
-				collections = { ...collections, ...col };
-			}
-		} else {
-			collections = { ...collections, ...collection };
-		}
-	}
+  for (const value of Object.values(SCHEMAS_CONST)) {
+    const collection = schemaMapping[value]?.();
+    if (Array.isArray(collection)) {
+      for (const col of collection) {
+        collections = { ...collections, ...col };
+      }
+    } else {
+      collections = { ...collections, ...collection };
+    }
+  }
 
-	// console.log(collections);
-	return collections;
+  // console.log(collections);
+  return collections;
 }
 
 function makeLoader({
-	type,
-	schema,
-	contentSchema,
+  type,
+  schema,
+  contentSchema,
 }: {
-	type: SCHEMAS;
-	schema: BaseSchema;
-	contentSchema?: string | undefined;
+  type: SCHEMAS;
+  schema: BaseSchema;
+  contentSchema?: string | undefined;
 }) {
-	const { client } = getClient();
+  const { client } = getClient();
 
-	const name = contentSchema ?? type.toString();
+  const name = contentSchema ?? type.toString();
 
-	const loader: Loader = {
-		name: `desquidex-${name}`,
-		load: async ({ store, parseData, logger, refreshContextData }) => {
-			if (refreshContextData?.webhookBody) {
-				logger.info("Received incoming webhook");
-				// do something with the webhook body
-			}
+  const loader: Loader = {
+    name: `desquidex-${name}`,
+    load: async ({ store, parseData, logger, refreshContextData }) => {
+      if (refreshContextData?.webhookBody) {
+        logger.info("Received incoming webhook");
+        // do something with the webhook body
+      }
 
-			switch (type) {
-				case SCHEMAS.APP: {
-					const app = await client.apps.getApp();
-					const item = await parseData({
-						id: String(app.id),
-						data: JSON.parse(JSON.stringify(app)),
-					});
-					const storeEntry: DataEntry = { id: String(item.id), data: item };
-					store.set(storeEntry);
-					break;
-				}
-				case SCHEMAS.FEATURES: {
-					const news = await client.news.getNews({ version: 1 });
-					const item = await parseData({
-						id: String(news.version),
-						data: JSON.parse(JSON.stringify(news)),
-					});
-					const storeEntry: DataEntry = { id: String(item.id), data: item };
-					store.set(storeEntry);
-					break;
-				}
-				case SCHEMAS.CONTENT: {
-					if (!contentSchema) {
-						throw new Error(`Content schema is not defined for type: ${type}.`);
-					}
-					const contents = await client.contents.getContents(contentSchema);
-					const parsedContentsSchema = contentsDtoSchema(schema);
-					const parsedContents =
-						await parsedContentsSchema.safeParseAsync(contents);
+      switch (type) {
+        case SCHEMAS.APP: {
+          const app = await client.apps.getApp();
+          // Ensure app.links is an object with string keys, fix satisfies.
+          if (app.links && typeof app.links === "object") {
+            for (const key of Object.keys(app.links)) {
+              const link = app.links[key] as ResourceLink;
+              if (link && typeof link === "object" && !("metadata" in link) || link.metadata === undefined) {
+                link.metadata = null;
+              }
+            }
+          }
+          if (!app.label) app.label = null;
+          if (!app.description) app.description = null;
+          if (!app.teamId) app.teamId = null;
+          if (!app.roleName) app.roleName = null;
 
-					if (!parsedContents.success) {
-						throw new Error(
-							`Invalid contents data for schema "${contentSchema}".\nError: ${parsedContents.error}\nData: ${JSON.stringify(contents, null, 2)}`,
-						);
-					}
+          const item = await parseData({
+            id: String(app.id),
+            data: JSON.parse(JSON.stringify(app)),
+          });
+          const storeEntry: DataEntry = { id: String(item.id), data: item };
+          store.set(storeEntry);
+          break;
+        }
+        case SCHEMAS.FEATURES: {
+          const news = await client.news.getNews({ version: 1 });
+          const item = await parseData({
+            id: String(news.version),
+            data: JSON.parse(JSON.stringify(news)),
+          });
+          const storeEntry: DataEntry = { id: String(item.id), data: item };
+          store.set(storeEntry);
+          break;
+        }
+        case SCHEMAS.CONTENT: {
+          if (!contentSchema) {
+            throw new Error(`Content schema is not defined for type: ${type}.`);
+          }
+          const contents = await client.contents.getContents(contentSchema);
 
-					const parsedItems = parsedContents.data.items;
-					await Promise.all(
-						parsedItems.map(async (item) => {
-							const data = item.data as { slug?: { iv: string } };
-							// const data = item as ParsedItemType;
-							const id = data.slug ? data.slug.iv.toString() : item.id;
-							const parsedItem = await parseData({
-								id,
-								data: item,
-							});
-							store.set({
-								id: id,
-								data: parsedItem,
-							});
-						}),
-					);
-					break;
+          // Ensure app.links is an object with string keys, fix satisfies.
+          if (contents.links && typeof contents.links === "object") {
+            for (const key of Object.keys(contents.links)) {
+              const link = contents.links[key] as ResourceLink;
+              if (link && typeof link === "object" && !link.metadata) {
+                link.metadata = null;
+              }
+            }
+          }
+          for (const item of contents.items) {
+            if (item.links && typeof item.links === "object") {
+              for (const key of Object.keys(item.links)) {
+                const link = item.links[key] as ResourceLink;
+                if (link && typeof link === "object" && !link.metadata) {
+                  link.metadata = null;
+                }
+              }
+            }
+          }
 
-					// const referenceIds = contents.items.map((item) => item.id);
+          const parsedContentsSchema = contentsDtoSchema(schema);
+          const parsedContents =
+            await parsedContentsSchema.safeParseAsync(contents);
 
-					// const query = await client.contents.getAllContentsPost({
-					//   ids: [],
-					// });
+          if (!parsedContents.success) {
+            throw new Error(
+              `Invalid contents data for schema "${contentSchema}".\nError: ${parsedContents.error}\nData: ${JSON.stringify(contents, null, 2)}`,
+            );
+          }
 
-					// Unuse link query. keep atomic
-					// await Promise.all(
-					//   contents.items.map(async (x) => {
-					//     const references = await client.contents.getReferences(
-					//       contentSchema!,
-					//       x.id
-					//     );
-					//     if (references.total > 0) {
-					//       x.referenceData = references.items.reduce(
-					//         (accumulator, item) => {
-					//           accumulator[item.id] = item.data;
-					//           return accumulator;
-					//         },
-					//         {} as {
-					//           [key: string]: {
-					//             [key: string]: any;
-					//           };
-					//         }
-					//       );
-					//     }
-					//   })
-					// );
-				}
-				default:
-					break;
-			}
-		},
-		schema: async () => (contentSchema ? contentDtoSchema(schema) : schema),
-	};
-	return loader;
+          const parsedItems = parsedContents.data.items;
+          await Promise.all(
+            parsedItems.map(async (item) => {
+              const data = item.data as { slug?: { iv: string } };
+              // const data = item as ParsedItemType;
+              const id = data.slug ? data.slug.iv.toString() : item.id;
+              const parsedItem = await parseData({
+                id,
+                data: item,
+              });
+              store.set({
+                id: id,
+                data: parsedItem,
+              });
+            }),
+          );
+          break;
+
+          // const referenceIds = contents.items.map((item) => item.id);
+
+          // const query = await client.contents.getAllContentsPost({
+          //   ids: [],
+          // });
+
+          // Unuse link query. keep atomic
+          // await Promise.all(
+          //   contents.items.map(async (x) => {
+          //     const references = await client.contents.getReferences(
+          //       contentSchema!,
+          //       x.id
+          //     );
+          //     if (references.total > 0) {
+          //       x.referenceData = references.items.reduce(
+          //         (accumulator, item) => {
+          //           accumulator[item.id] = item.data;
+          //           return accumulator;
+          //         },
+          //         {} as {
+          //           [key: string]: {
+          //             [key: string]: any;
+          //           };
+          //         }
+          //       );
+          //     }
+          //   })
+          // );
+        }
+        default:
+          break;
+      }
+    },
+    schema: async () => (contentSchema ? contentDtoSchema(schema) : schema),
+  };
+  return loader;
 }
