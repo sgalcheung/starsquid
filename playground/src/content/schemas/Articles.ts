@@ -1,22 +1,27 @@
 import { z } from "astro/zod";
-import { nonMultilingualSchema } from "./common";
-import { squidexClient } from "../../scripts/clinet";
-import { contentDtoSchema } from "desquidex/schemas";
-import type { CollectionEntry } from "astro:content";
+import { getSchema, nonMultilingualSchema } from "./common";
+import type { ContentDtoType } from "desquidex/schemas";
+import { getContentById, getContentByIds } from "@/scripts/clinet";
 
-type articleData = CollectionEntry<'article'>["data"];
-
-export const articleSchema: articleData = z.object({
+export const articleDataSchema = z.object({
   name: nonMultilingualSchema(z.string()),
   content: nonMultilingualSchema(z.string()),
 });
 
+export const articleSchema = getSchema(articleDataSchema);
+
+export type ArticleSchemaType = ContentDtoType<typeof articleSchema>;
+
 
 export async function getArticleById(id: string) {
-  const article = await squidexClient.contents.getContent("articles", id);
-  const parsedContentsSchema = contentDtoSchema(articleSchema);
-  const parsedContents =
-    await parsedContentsSchema.safeParseAsync(article);
-  const result= parsedContents.success ? parsedContents.data : null;
+  const result = await getContentById("articles", articleDataSchema, id);
+  if (!result) {
+    throw new Error(`Article with id ${id} not found`);
+  }
+  return result as ArticleSchemaType;
+}
+
+export async function getArticleByIds(ids: string[]) {
+  const result = await getContentByIds("articles", articleDataSchema, ids);
   return result;
 }

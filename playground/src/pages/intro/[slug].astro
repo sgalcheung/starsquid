@@ -4,27 +4,23 @@
 
 import { CatalogComponent } from "@/components/ShadcnComponents.tsx";
 import Layout from "@/layouts/Layout.astro";
-import { CATALOGS_CACHE_TIMEOUT, COLUMN } from "@/helpers/constants";
+import { COLUMN } from "@/helpers/constants";
 import { Markdown } from "astro-remote";
-import { dataMap } from "../../scripts/convert";
 import { getIntroductionBySlug } from "@/content/schemas/Introduction";
+import type { CatalogType } from "@/scripts/convert";
 
 const { slug } = Astro.params;
 if (!slug || slug === undefined) return Astro.redirect("/404");
 
-Astro.cookies.set(COLUMN, slug, { path: "/" });
-
 const intro = await getIntroductionBySlug(slug);
-if (!intro) return Astro.redirect("/404");
+if (!intro || !intro.data.data || intro.data.data.slug.iv !== slug) return Astro.redirect("/404");
 
-const catalogs = await dataMap(intro);
+const sessionData = await Astro.session?.get(slug);
+const catalogs = JSON.parse(sessionData) as CatalogType;
 
 if (!catalogs) return Astro.redirect("/404");
 
-Astro.session?.set(intro.data.data.slug.iv, JSON.stringify(catalogs), {
-  ttl: CATALOGS_CACHE_TIMEOUT,
-});
-
+Astro.cookies.set(COLUMN, slug, { path: "/" });
 ---
 
 <Layout>

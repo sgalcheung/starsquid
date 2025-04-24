@@ -1,4 +1,6 @@
 import { z } from "astro/zod";
+import type { BaseSchema } from "astro:content";
+import { contentDtoSchema } from "desquidex/schemas";
 
 export enum SQUIDEX_CONTENT_SCHEMAS {
   INTRODUCTIONS = "introductions",
@@ -18,4 +20,8 @@ export function nonMultilingualSchema<T extends z.ZodTypeAny>(schema: T) {
 	return z.object({
 		iv: schema,
 	});
+}
+
+export function getSchema (schema: BaseSchema) {
+  return contentDtoSchema(schema);
 }
