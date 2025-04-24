@@ -81,6 +81,26 @@ export default defineConfig({
     },
     ttl: 3600,
   },
+  env: {
+    schema: {
+      SQUIDEX_URL: envField.string({
+        context: "client",
+        access: "public",
+      }),
+      SQUIDEX_APP_NAME: envField.string({
+        context: "client",
+        access: "public",
+      }),
+      SQUIDEX_CLIENT_ID: envField.string({
+        context: "client",
+        access: "public",
+      }),
+      SQUIDEX_CLIENT_SECRET: envField.string({
+        context: "client",
+        access: "public",
+      }),
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
   },
