@@ -1,5 +1,12 @@
 # desquidex
 
+## 0.2.3
+
+### Patch Changes
+
+- - Update output paths in ts-to-zod configuration to remove src prefix and add nestedFieldDto.
+  - Enhance schema definitions and loader logic for improved data handling.
+
 ## 0.2.2
 
 ### Patch Changes
