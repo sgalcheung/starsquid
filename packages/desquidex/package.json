@@ -38,7 +38,11 @@
 		"./client": {
 			"types": "./dist/data/core/client.d.ts",
 			"default": "./dist/data/core/client.js"
-		}
+		},
+    "./api": {
+      "types": "./dist/data/core/api.d.ts",
+      "default": "./dist/data/core/api.js"
+    }
 	},
 	"files": [
 		"dist"

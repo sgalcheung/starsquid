@@ -1,17 +1,21 @@
 import type { z } from "astro:content";
 
 export interface Config<T extends string = string> {
-	squidexAppName?: string;
-	squidexClientId?: string;
-	squidexClientSecret?: string;
-	squidexUrl?: string;
+	squidexAppName: string;
+	squidexClientId: string;
+	squidexClientSecret: string;
+	squidexUrl: string;
 	squidexContentSchemaMapping?: Record<T, z.ZodTypeAny>;
 }
 
 class ConfigService<T extends string = string> {
 	private config: Config<T> = {
-		squidexContentSchemaMapping: {} as Record<T, z.ZodTypeAny>,
-	};
+    squidexContentSchemaMapping: {} as Record<T, z.ZodTypeAny>,
+    squidexAppName: "",
+    squidexClientId: "",
+    squidexClientSecret: "",
+    squidexUrl: ""
+  };
 
 	setConfig(config: Config<T>) {
 		if (!config.squidexUrl) throw new Error("Missing `squidexUrl` in config.");

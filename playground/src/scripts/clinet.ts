@@ -1,11 +1,17 @@
 import type { BaseSchema } from "astro:content";
-import { getClient } from "desquidex/client";
+// import { getClient } from "desquidex/client";
+import { SquidexClientFactory } from "desquidex/api";
 import { contentDtoSchema, contentsDtoSchema } from "desquidex/schemas";
 
-// const squidexClient = getClient().client;
+const squidexClient = SquidexClientFactory(
+  import.meta.env.SQUIDEX_APP_NAME,
+  import.meta.env.SQUIDEX_CLIENT_ID,
+  import.meta.env.SQUIDEX_CLIENT_SECRET,
+  import.meta.env.SQUIDEX_URL
+);
 
 export async function getContentByIds(schemaName: string, schema: BaseSchema, ids: string[]) {
-  const contents = await getClient().client.contents.getContents(schemaName);
+  const contents = await squidexClient.contents.getContents(schemaName);
   contents.items = contents.items.filter((item) => ids.includes(item.id));
   const parsedContentsSchema = contentsDtoSchema(schema);
   const parsedContents =
@@ -15,7 +21,7 @@ export async function getContentByIds(schemaName: string, schema: BaseSchema, id
 }
 
 export async function getContentById(schemaName: string, schema: BaseSchema, id: string) {
-  const content = await getClient().client.contents.getContent(schemaName, id);
+  const content = await squidexClient.contents.getContent(schemaName, id);
 
   // fix satisfies.
   if (content.links && typeof content.links === "object") {

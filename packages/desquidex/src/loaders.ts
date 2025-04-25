@@ -5,7 +5,7 @@ import {
   type CollectionConfig,
 } from "astro:content";
 import { configService, type Config } from "./configService.js";
-import { getClient } from "./data/core/client.js";
+// import { getClient } from "./data/core/client.js";
 import {
   SCHEMAS,
   SCHEMAS_CONST,
@@ -16,17 +16,20 @@ import {
   type SCHEMAS_VALUES,
 } from "./data/models/schemas.js";
 import type { ResourceLink } from "@squidex/squidex";
+import { SquidexClientFactory } from "./data/core/api.js";
 
 type DataEntry = Parameters<DataStore["set"]>[0];
 
 export function squidexCollections<T extends string>(config: Config<T>) {
   configService.setConfig(config);
+  const client = SquidexClientFactory(config.squidexAppName, config.squidexClientId, config.squidexClientSecret, config.squidexUrl);
 
   const l = (type: SCHEMAS, schema: BaseSchema, contentSchema?: string) =>
     makeLoader({
       type,
       schema,
       contentSchema,
+      client,
     });
 
   let collections: Record<string, CollectionConfig<BaseSchema>> = {};
@@ -117,12 +120,14 @@ function makeLoader({
   type,
   schema,
   contentSchema,
+  client,
 }: {
   type: SCHEMAS;
   schema: BaseSchema;
   contentSchema?: string | undefined;
+  client: ReturnType<typeof SquidexClientFactory>;
 }) {
-  const { client } = getClient();
+  // const { client } = getClient();
 
   const name = contentSchema ?? type.toString();
 
