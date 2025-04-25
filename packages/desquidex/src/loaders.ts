@@ -4,8 +4,6 @@ import {
   type BaseSchema,
   type CollectionConfig,
 } from "astro:content";
-import { configService, type Config } from "./configService.js";
-// import { getClient } from "./data/core/client.js";
 import {
   SCHEMAS,
   SCHEMAS_CONST,
@@ -17,12 +15,17 @@ import {
 } from "./data/models/schemas.js";
 import type { ResourceLink } from "@squidex/squidex";
 import { SquidexClientFactory } from "./data/core/api.js";
+import type { LoaderCollectionOpts } from "./type.js";
 
 type DataEntry = Parameters<DataStore["set"]>[0];
 
-export function squidexCollections<T extends string>(config: Config<T>) {
-  configService.setConfig(config);
-  const client = SquidexClientFactory(config.squidexAppName, config.squidexClientId, config.squidexClientSecret, config.squidexUrl);
+export function squidexCollections<T extends string>(config: LoaderCollectionOpts<T>) {
+  if (config.squidexClient) {
+    console.log("Using provided Squidex client");
+  } else {
+    console.log("Creating new Squidex client");
+  }
+  const client = config.squidexClient ?? SquidexClientFactory(config.squidexAppName, config.squidexClientId, config.squidexClientSecret, config.squidexUrl);
 
   const l = (type: SCHEMAS, schema: BaseSchema, contentSchema?: string) =>
     makeLoader({
@@ -112,7 +115,6 @@ export function squidexCollections<T extends string>(config: Config<T>) {
     }
   }
 
-  // console.log(collections);
   return collections;
 }
 
@@ -127,8 +129,6 @@ function makeLoader({
   contentSchema?: string | undefined;
   client: ReturnType<typeof SquidexClientFactory>;
 }) {
-  // const { client } = getClient();
-
   const name = contentSchema ?? type.toString();
 
   const loader: Loader = {
