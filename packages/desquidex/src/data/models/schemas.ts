@@ -1,4 +1,3 @@
-import type { ZodType } from "zod";
 import { z } from "astro/zod";
 import type {
   AppDto,
@@ -28,7 +27,7 @@ export const resourceLinkSchema = z.object({
 	href: z.string(),
 	method: z.string(),
   metadata: z.string().nullable(),
-}) satisfies ZodType<ResourceLink>;
+}) satisfies z.ZodType<ResourceLink>;
 
 export const appDtoSchema = z.object({
 	links: z.record(z.string(), resourceLinkSchema),
@@ -45,17 +44,17 @@ export const appDtoSchema = z.object({
 	canAccessContent: z.boolean(),
 	roleName: z.string().nullable(),
 	roleProperties: z.record(z.any()),
-}) satisfies ZodType<AppDto>;
+}) satisfies z.ZodType<AppDto>;
 
 export const featureDtoSchema = z.object({
 	name: z.string(),
 	text: z.string(),
-}) satisfies ZodType<FeatureDto>;
+}) satisfies z.ZodType<FeatureDto>;
 
 export const featuresDtoSchema = z.object({
 	features: z.array(featureDtoSchema),
 	version: z.number(),
-}) satisfies ZodType<FeaturesDto>;
+}) satisfies z.ZodType<FeaturesDto>;
 
 export const scheduleJobDtoSchema = z.object({
 	id: z.string(),
@@ -63,12 +62,12 @@ export const scheduleJobDtoSchema = z.object({
 	dueTime: z.coerce.date(),
 	color: z.string(),
 	scheduledBy: z.string(),
-}) satisfies ZodType<ScheduleJobDto>;
+}) satisfies z.ZodType<ScheduleJobDto>;
 
 export const statusInfoDtoSchema = z.object({
 	status: z.string(),
 	color: z.string(),
-}) satisfies ZodType<StatusInfoDto>;
+}) satisfies z.ZodType<StatusInfoDto>;
 
 const fieldPropertiesDtoSchema = z.object({
 	label: z.string().nullable(),
@@ -80,7 +79,7 @@ const fieldPropertiesDtoSchema = z.object({
 	editorUrl: z.string().nullable(),
 	tags: z.array(z.string()).nullable(),
 	fieldType: z.string(),
-}) satisfies ZodType<FieldPropertiesDto>;
+}) satisfies z.ZodType<FieldPropertiesDto>;
 
 const nestedFieldDtoSchema = z.object({
   links: z.record(resourceLinkSchema),
@@ -90,7 +89,7 @@ const nestedFieldDtoSchema = z.object({
   isLocked: z.boolean(),
   isDisabled: z.boolean(),
   properties: fieldPropertiesDtoSchema,
-}) satisfies ZodType<NestedFieldDto>;
+}) satisfies z.ZodType<NestedFieldDto>;
 
 const fieldDtoSchema = z.object({
 	links: z.record(z.string(), resourceLinkSchema),
@@ -102,7 +101,7 @@ const fieldDtoSchema = z.object({
 	partitioning: z.string(),
 	properties: fieldPropertiesDtoSchema,
 	nested: z.array(nestedFieldDtoSchema).nullable(),
-}) satisfies ZodType<FieldDto>;
+}) satisfies z.ZodType<FieldDto>;
 
 export const contentDtoSchema = <T extends z.ZodTypeAny>(schema: T) =>
 	z.object({
@@ -127,7 +126,7 @@ export const contentDtoSchema = <T extends z.ZodTypeAny>(schema: T) =>
 		isDeleted: z.boolean(),
 		version: z.number(),
 	});
-//satisfies ZodType<ContentDto>;
+//satisfies z.ZodType<ContentDto>;
 
 // Helper type to infer the content DTO schema for a specific data type
 export type ContentDtoType<T extends z.ZodTypeAny> = z.infer<ReturnType<typeof contentDtoSchema<T>>>;
@@ -146,7 +145,7 @@ export const contentsDtoSchema = <T>(
 		items: z.array(contentDtoSchema(schema)),
 		statuses: z.array(statusInfoDtoSchema),
 	});
-//satisfies ZodType<ContentsDto>;
+//satisfies z.ZodType<ContentsDto>;
 
 export type ContentsDtoType<T extends z.ZodTypeAny> = z.infer<
   ReturnType<typeof contentsDtoSchema<T>>>;
