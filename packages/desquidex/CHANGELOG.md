@@ -1,5 +1,11 @@
 # desquidex
 
+## 0.3.0
+
+### Minor Changes
+
+- Refactor the call to SquidexClient to implement a singleton.
+
 ## 0.2.3
 
 ### Patch Changes
