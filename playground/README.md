@@ -20,34 +20,46 @@ Want to get started immediately? Check out the source code or check out the [exa
 .
 ├── LICENSE
 ├── README.md -> ./playground/README.md
-├── docs
-│   └── node_modules
-├── netlify
-│   └── functions
-├── netlify.toml
+├── biome.json
+├── node_modules
 ├── package.json
 ├── packages
-│   ├── desquidex
-│   ├── squidex
-│   ├── starlight-squidex
-│   └── starlight-ssr
+└── desquidex
+    ├── CHANGELOG.md
+    ├── README.md
+    ├── astro.d.ts
+    ├── dist
+    ├── generated
+    ├── node_modules
+    ├── package.json
+    ├── src
+    ├── ts-to-zod.config.cjs
+    ├── tsconfig.base.json
+    ├── tsconfig.json
+    └── tsup.config.ts
 ├── playground
+│   ├── CHANGELOG.md
 │   ├── README.md
 │   ├── astro.config.mjs
 │   ├── codegen.ts
 │   ├── components.json
 │   ├── dist
-│   ├── netlify
+│   ├── generated
 │   ├── node_modules
 │   ├── package.json
 │   ├── public
 │   ├── src
-│   ├── tailwind.config.mjs
 │   └── tsconfig.json
 ├── pnpm-lock.yaml
 ├── pnpm-workspace.yaml
+├── screenshot.gif
 ├── screenshot.png
 └── scripts
+    ├── cmd
+    ├── index.js
+    ├── jsconfig.json
+    ├── node_modules
+    ├── package.json
     └── release.mjs
 ```
 
@@ -57,9 +69,15 @@ starlight-squidex has unused, it is squidex and starlight-ssr mixed test product
 
 A [Starlight](https://starlight.astro.build) plugin to server render contents, it is experment, more features are under development.
 
-- SSR render contents
 
-> This README format inspired from [starlight-blog/README.md at main · HiDeoo/starlight-blog (github.com)](https://github.com/HiDeoo/starlight-blog/blob/main/README.md)
+- SSR render contents
+- Refresh(Inprogress)
+- Singleton
+[See detail](https://starlight-squidex.netlify.app/docs)
+
+> [!IMPORTANT]
+> This package inspired from [dewp](https://github.com/delucis/dewp).
+> This README format inspired from [starlight-blog](https://github.com/HiDeoo/starlight-blog/blob/main/packages/starlight-blog/README.md).
 
 ## Licensing
 
