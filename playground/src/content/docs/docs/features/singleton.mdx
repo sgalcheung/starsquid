@@ -1,0 +1,44 @@
+---
+title: Singleton
+---
+
+### Using singleton
+We can create a client instance in a host program, rather than in desquidex, so we can more flexibly manage the client.
+Initialize a Squidex client using `SquidexClientFactory` method from module `"desquidex/schemas"`.
+```ts
+// /src/scripts/client.ts
+export const squidexClient = SquidexClientFactory(
+  import.meta.env.SQUIDEX_APP_NAME,
+  import.meta.env.SQUIDEX_CLIENT_ID,
+  import.meta.env.SQUIDEX_CLIENT_SECRET,
+  import.meta.env.SQUIDEX_URL
+);
+```
+
+Then passing the squidexClient. It will use you already initialize client to fetch data from Squidex. That means it won't create a new instance of SquidexClient, which implements the singletong feature, and you can also use this singleton to do more things, such as fetch data in real time.
+```ts
+// src/content.config.ts
+import { squidexCollections } from "desquidex/loaders";
+import { squidexClient } from "./scripts/client";
+
+export const collections = squidexCollections({
+  squidexUrl: import.meta.env.SQUIDEX_URL,
+  squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
+  squidexClientId: import.meta.env.SQUIDEX_CLIENT_ID,
+  squidexClientSecret: import.meta.env.SQUIDEX_CLIENT_SECRET,
+  squidexClient: squidexClient,
+});
+```
+
+### How does singleton work?
+import singletonRelationship from "./singleton-relationship.png"
+import {Image} from "astro:assets"
+
+<div align="center">
+  <p>
+    <Image alt="the relationship between App, Collection and Squidex Client." class="sm:float-right sm:ms-8 h-[400px] object-cover" width={700} src={singletonRelationship} />
+  </p>
+  <p>The relationship between App, Collection and Squidex Client.</p>
+</div>
+
+> Factory writing inspired by [astro-ghostcms-loader](https://github.com/MatthiesenXYZ/ghostcms-loader).
