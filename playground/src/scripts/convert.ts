@@ -1,5 +1,5 @@
 import { COLUMN_ARTICLE_PATH } from "@/helpers/constants";
-import { getEntry, type CollectionEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 import type { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas/common";
 import { getArticleById } from "@/content/schemas/Articles";
 

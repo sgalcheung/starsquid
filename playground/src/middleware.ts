@@ -1,5 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
-import { CATALOGS_CACHE_TIMEOUT, COLUMN } from "@/helpers/constants";
+import { CATALOGS_CACHE_TIMEOUT } from "@/helpers/constants";
 import { dataMap, type CatalogType } from "@/scripts/convert";
 import { getIntroductionBySlug } from "@/content/schemas/Introduction";
 

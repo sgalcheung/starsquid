@@ -19,7 +19,7 @@ export function AccordionComponent({
 }: AccordionComponentProps) {
 	return (
 		<Accordion type="single" collapsible className="w-full">
-			{data.map((item, index) => {
+			{data.map((item) => {
 				return (
 					<AccordionItem key={item.title} value={item.title}>
 						<AccordionTrigger>{item.title}</AccordionTrigger>
