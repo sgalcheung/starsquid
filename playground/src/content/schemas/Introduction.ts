@@ -1,4 +1,4 @@
-import { getCollection, getEntry } from "astro:content";
+import { getCollection, getEntry, reference } from "astro:content";
 import { componentSchema, nonMultilingualSchema, SQUIDEX_CONTENT_SCHEMAS } from "./common";
 import { z } from "astro/zod";
 
@@ -16,6 +16,7 @@ export const introductionSchema = z.object({
   description: nonMultilingualSchema(z.string()),
   chapters: nonMultilingualSchema(chapters),
   slug: nonMultilingualSchema(z.string()),
+  author: nonMultilingualSchema(z.array(reference(SQUIDEX_CONTENT_SCHEMAS.AUTHORS))),
 });
 
 export async function getAllIntroductions() {
