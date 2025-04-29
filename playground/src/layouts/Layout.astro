@@ -1,16 +1,12 @@
 ---
 import "@/styles/global.css";
+import BaseHead from "@/components/BaseHead.astro";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
-
-    <meta name="generator" content={Astro.generator} />
-    <title>💜 starlight-squidex ❤️</title>
+    <BaseHead />
   </head>
   <body>
     <slot />

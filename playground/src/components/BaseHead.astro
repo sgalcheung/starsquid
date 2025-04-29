@@ -1,0 +1,65 @@
+<meta charset="UTF-8" />
+<meta name="description" content="Astro description" />
+<meta name="viewport" content="width=device-width" />
+
+<meta name="generator" content={Astro.generator} />
+<title>💜 starlight-squidex ❤️</title>
+
+<!-- Repeating a little bit of code here to make sure this is inlined properly -->
+<script is:inline transition:persist>
+  const modes = ["dark", "light", "system"];
+
+  const DEFAULT_THEME_MODE = "system";
+  const THEME_KEY = "theme";
+
+  function isMode(input) {
+    return modes.includes(input);
+  }
+
+  function getColorMode() {
+    const preferenceRaw = document.cookie.match(/theme=(.+);?/)?.[1];
+    const isValid = preferenceRaw && isMode(preferenceRaw);
+
+    let preference = isValid ? preferenceRaw : DEFAULT_THEME_MODE;
+
+    if (!isValid) {
+      setThemeDisplay(DEFAULT_THEME_MODE);
+    }
+
+    return preference;
+  }
+
+  function setKnownTheme(theme) {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    document.cookie = `${THEME_KEY}=${theme}; SameSite=lax; Path=/; Max-Age=31536000`;
+  }
+
+  function setThemeDisplay(mode) {
+    if (mode === "system") {
+      const shouldBeDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      setKnownTheme(shouldBeDark ? "dark" : "light");
+    } else {
+      setKnownTheme(mode);
+    }
+  }
+
+  function addThemeChangeListener(f) {
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (e) => {
+        console.info(`Theme was changed`);
+        const darkModeOn = e.matches;
+        f(darkModeOn ? "dark" : "light");
+      });
+  }
+
+  const theme = getColorMode();
+  addThemeChangeListener(setKnownTheme);
+  setThemeDisplay(theme);
+</script>

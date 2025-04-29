@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 import { SCHEMAS } from "desquidex/schemas";
 import { Markdown } from "astro-remote";
 import { getAllIntroductions } from "@/content/schemas/Introduction";
+import Navbar from "@/components/Navbar.astro";
 
 const app = (await getCollection(SCHEMAS.APP))?.[0];
 const newsFeature = (await getCollection(SCHEMAS.FEATURES))?.[0];
@@ -13,6 +14,7 @@ const intros = await getAllIntroductions();
 ---
 
 <Layout>
+  <Navbar />
   <main class="mx-auto max-w-[85rem] w-full px-4 sm:px-6 lg:px-8 my-10">
     <div class="flex justify-between items-center">
       <h1 class="text-4xl dark:text-white">
@@ -47,15 +49,17 @@ const intros = await getAllIntroductions();
     {
       intros?.map((intro) => {
         const { data } = intro.data;
-        return data && (
-          <h2 class="text-3xl dark:text-white">
-            <a
-              class="text-blue-600 hover:underline hover:decoration-blue-800 focus:outline-hidden focus:underline focus:decoration-blue-800 dark:decoration-white"
-              href={`/intro/${data.slug.iv}/`}
-            >
-              {data.title.iv}
-            </a>
-          </h2>
+        return (
+          data && (
+            <h2 class="text-3xl dark:text-white">
+              <a
+                class="text-blue-600 hover:underline hover:decoration-blue-800 focus:outline-hidden focus:underline focus:decoration-blue-800 dark:decoration-white"
+                href={`/intro/${data.slug.iv}/`}
+              >
+                {data.title.iv}
+              </a>
+            </h2>
+          )
         );
       })
     }

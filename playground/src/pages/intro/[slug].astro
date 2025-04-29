@@ -8,12 +8,14 @@ import { COLUMN } from "@/helpers/constants";
 import { Markdown } from "astro-remote";
 import { getIntroductionBySlug } from "@/content/schemas/Introduction";
 import type { CatalogType } from "@/scripts/convert";
+import Navbar from "@/components/Navbar.astro";
 
 const { slug } = Astro.params;
 if (!slug || slug === undefined) return Astro.redirect("/404");
 
 const intro = await getIntroductionBySlug(slug);
-if (!intro || !intro.data.data || intro.data.data.slug.iv !== slug) return Astro.redirect("/404");
+if (!intro || !intro.data.data || intro.data.data.slug.iv !== slug)
+  return Astro.redirect("/404");
 
 const sessionData = await Astro.session?.get(slug);
 const catalogs = JSON.parse(sessionData) as CatalogType;
@@ -24,6 +26,7 @@ Astro.cookies.set(COLUMN, slug, { path: "/" });
 ---
 
 <Layout>
+  <Navbar />
   <main class="mx-auto max-w-[85rem] w-full px-4 sm:px-6 lg:px-8">
     <div class="flex flex-row">
       <Markdown content={intro.data.data.description.iv ?? ""} />
