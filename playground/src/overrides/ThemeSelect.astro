@@ -1,0 +1,21 @@
+---
+import Default from "@astrojs/starlight/components/ThemeSelect.astro";
+---
+
+<Default />
+
+<script>
+  type Theme = "auto" | "dark" | "light";
+  const parseTheme = (theme: unknown): Theme =>
+    theme === "auto" || theme === "dark" || theme === "light" ? theme : "auto";
+
+  const themeSelect = document.querySelector("starlight-theme-select");
+  if (themeSelect) {
+    themeSelect.querySelector("select")?.addEventListener("change", (e) => {
+      if (e.currentTarget instanceof HTMLSelectElement) {
+        const theme = parseTheme(e.currentTarget.value);
+        document.cookie = `theme=${theme}; SameSite=lax; Path=/; Max-Age=31536000`;
+      }
+    });
+  }
+</script>

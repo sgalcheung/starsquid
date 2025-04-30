@@ -47,6 +47,7 @@ export function toggleTheme(): Mode {
 		? "light"
 		: "dark";
 	setThemeDisplay(nextTheme);
+  setStarlightTheme(nextTheme);
 	return nextTheme;
 }
 
@@ -65,3 +66,13 @@ export function initializeTheme(): Mode {
 	setThemeDisplay(theme);
 	return theme;
 }
+
+/**
+ * An extra handler for the starlight, keeping two sites in the dark mode sync.
+ */
+function setStarlightTheme(mode: Mode): void {
+  const theme = mode === 'dark' || mode === 'light' ? mode : 'auto';
+  const storageKey = 'starlight-theme';
+  localStorage.setItem(storageKey, theme === 'light' || theme === 'dark' ? theme : '');
+}
+

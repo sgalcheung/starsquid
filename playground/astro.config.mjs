@@ -57,7 +57,7 @@ export default defineConfig({
       ],
       routeMiddleware: "./src/routeMiddleware.ts",
       components: {
-        StarlightPage: "./src/components/StarlightPage.astro",
+        ThemeSelect: "./src/overrides/ThemeSelect.astro",
       },
     }),
     refreshContentIntegration(env.WEBHOOK_SECRET), // only support for developing environment
