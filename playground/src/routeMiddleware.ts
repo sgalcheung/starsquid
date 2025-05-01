@@ -25,7 +25,20 @@ export const onRequest = defineRouteMiddleware(async (context) => {
   if (!column_name) {
     return;
   }
-  const sessionData = await context.session?.get(column_name) || '[]';
+  let sessionData = await context.session?.get(column_name) || '[]';
+
+  // Determine whether is current column.
+  const isCurrent = sessionData.includes(article_id);
+  if (!isCurrent) {
+    const entries = await context.session?.entries();
+    if (entries) {
+      const currentColumnSessionData = entries.find(([key, value]) =>
+        JSON.stringify(value).includes(article_id)
+      );
+      sessionData = currentColumnSessionData ? currentColumnSessionData[1] : '[]';
+    }
+  }
+
   let catalogs = JSON.parse(sessionData) as CatalogType;
 
   if (!catalogs || catalogs.length === 0) {
