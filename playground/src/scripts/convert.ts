@@ -1,7 +1,7 @@
 import { COLUMN_ARTICLE_PATH } from "@/helpers/constants";
 import type { CollectionEntry } from "astro:content";
 import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas/common";
-import { getArticleById } from "@/content/schemas/Articles";
+// import { getArticleById } from "@/content/schemas/Articles";
 import { getIntroductionReferencesById } from "@/content/schemas/Introduction";
 
 export interface CatalogType
