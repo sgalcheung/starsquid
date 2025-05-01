@@ -1,6 +1,7 @@
 import { getCollection, getEntry, reference } from "astro:content";
 import { componentSchema, nonMultilingualSchema, SQUIDEX_CONTENT_SCHEMAS } from "./common";
 import { z } from "astro/zod";
+import { getReferencesById } from "@/scripts/clinet";
 
 const chapters = z.array(
   z
@@ -19,6 +20,10 @@ export const introductionSchema = z.object({
   author: nonMultilingualSchema(z.array(reference(SQUIDEX_CONTENT_SCHEMAS.AUTHORS))),
 });
 
+const introductionReferencesSchema = z.object({
+  name: nonMultilingualSchema(z.string()),
+});
+
 export async function getAllIntroductions() {
   const introductions = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
   return introductions
@@ -28,4 +33,12 @@ export async function getAllIntroductions() {
 export async function getIntroductionBySlug(slug: string) {
   const introduction = await getEntry(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS, slug);
   return introduction;
+}
+
+export async function getIntroductionReferencesById(id: string) {
+  const references = await getReferencesById(
+    SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS, 
+    introductionReferencesSchema, 
+    id);
+  return references;
 }

@@ -1,6 +1,6 @@
 import { defineMiddleware } from "astro:middleware";
 import { CATALOGS_CACHE_TIMEOUT } from "@/helpers/constants";
-import { dataMap, type CatalogType } from "@/scripts/convert";
+import { getCatalog, type CatalogType } from "@/scripts/convert";
 import { getIntroductionBySlug } from "@/content/schemas/Introduction";
 
 // `context` and `next` are automatically typed
@@ -22,7 +22,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if (!catalogs || catalogs.length === 0) {
     const intro = await getIntroductionBySlug(column_name);
     if (intro) {
-      catalogs = await dataMap(intro);
+      catalogs = await getCatalog(intro);
       context.session?.set(
         column_name,
         JSON.stringify(catalogs),

@@ -3,7 +3,7 @@ import {
   type StarlightRouteData,
 } from "@astrojs/starlight/route-data";
 import { CATALOGS_CACHE_TIMEOUT, COLUMN, COLUMN_ARTICLE_PATH } from "./helpers/constants";
-import { dataMap, type CatalogType } from "./scripts/convert";
+import { getCatalog, type CatalogType } from "./scripts/convert";
 import { getIntroductionBySlug } from "./content/schemas/Introduction";
 
 export const onRequest = defineRouteMiddleware(async (context) => {
@@ -31,7 +31,7 @@ export const onRequest = defineRouteMiddleware(async (context) => {
   if (!catalogs || catalogs.length === 0) {
     const intro = await getIntroductionBySlug(column_name);
     if (intro) {
-      catalogs = await dataMap(intro);
+      catalogs = await getCatalog(intro);
       context.session?.set(
         column_name,
         JSON.stringify(catalogs),

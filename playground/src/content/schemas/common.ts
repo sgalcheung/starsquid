@@ -5,7 +5,7 @@ import { contentDtoSchema } from "desquidex/schemas";
 export enum SQUIDEX_CONTENT_SCHEMAS {
   AUTHORS = "authors",
   INTRODUCTIONS = "introductions",
-  // ARTICLES = "articles",
+  ARTICLES = "articles",
 }
 
 export const idSchema = z.object({
