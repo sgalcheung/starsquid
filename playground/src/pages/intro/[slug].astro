@@ -7,7 +7,6 @@ import Layout from "@/layouts/Layout.astro";
 import { COLUMN } from "@/helpers/constants";
 import { Markdown } from "astro-remote";
 import { getIntroductionBySlug } from "@/content/schemas/Introduction";
-import type { CatalogType } from "@/scripts/convert";
 import Navbar from "@/components/Navbar.astro";
 
 const { slug } = Astro.params;
@@ -17,8 +16,7 @@ const intro = await getIntroductionBySlug(slug);
 if (!intro || !intro.data.data || intro.data.data.slug.iv !== slug)
   return Astro.redirect("/404");
 
-const sessionData = await Astro.session?.get(slug);
-const catalogs = JSON.parse(sessionData) as CatalogType;
+const catalogs = Astro.locals.catalogs;
 
 if (!catalogs) return Astro.redirect("/404");
 

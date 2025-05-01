@@ -1,5 +1,11 @@
 /// <reference path="../.astro/types.d.ts" />
 
+declare namespace App {
+  interface Locals {
+    catalogs: import('./scripts/convert').CatalogType; 
+  }
+}
+
 interface ImportMetaEnv {
 	readonly SQUIDEX_APP_NAME: string;
 	readonly SQUIDEX_CLIENT_ID: string;

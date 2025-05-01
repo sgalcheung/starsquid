@@ -2,7 +2,7 @@ import {
   defineRouteMiddleware,
   type StarlightRouteData,
 } from "@astrojs/starlight/route-data";
-import { CATALOGS_CACHE_TIMEOUT, COLUMN, COLUMN_ARTICLE_PATH } from "./helpers/constants";
+import { COLUMN, COLUMN_ARTICLE_PATH } from "./helpers/constants";
 import { getCatalog, type CatalogType } from "./scripts/convert";
 import { getIntroductionBySlug } from "./content/schemas/Introduction";
 
@@ -20,6 +20,7 @@ export const onRequest = defineRouteMiddleware(async (context) => {
   }
 
   const starlightRoute = context.locals.starlightRoute;
+  console.log(context.locals.catalogs);
 
   const column_name = context.cookies.get(COLUMN)?.value;
   if (!column_name) {
@@ -48,7 +49,6 @@ export const onRequest = defineRouteMiddleware(async (context) => {
       context.session?.set(
         column_name,
         JSON.stringify(catalogs),
-        { ttl: CATALOGS_CACHE_TIMEOUT, }
       );
     }
   }

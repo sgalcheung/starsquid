@@ -79,7 +79,6 @@ export default defineConfig({
     options: {
       url: env.REDIS_URL,
     },
-    ttl: 3600,
   },
   env: {
     schema: {
