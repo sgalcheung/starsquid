@@ -1,15 +1,23 @@
 import type { APIContext } from "astro";
 import { getCatalog, type CatalogType } from "@/scripts/convert";
 import { getIntroductionBySlug } from "@/content/schemas/Introduction";
+import { COLUMN } from "@/helpers/constants";
 
 export async function loadCatalogFromSession(
   context: APIContext
 ): Promise<CatalogType> {
-  const filterUri = ["/intro", "/column"];
-  if (!filterUri.some(uri => context.url.pathname.startsWith(uri))) return [];
-  const slug = context.params.slug;
+  const { pathname } = context.url;
+  if (!pathname.startsWith("/intro") && !pathname.startsWith("/column")) {
+    return [];
+  }
 
-  const column_name = slug;
+  let column_name: string | undefined;
+  if (pathname.startsWith("/intro")) {
+    column_name = context.params.slug;
+  }
+  if (pathname.startsWith("/column")) {
+    column_name = context.cookies.get(COLUMN)?.value;
+  }
   if (!column_name) {
     return [];
   }
