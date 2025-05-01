@@ -5,53 +5,39 @@ import {
 import { COLUMN, COLUMN_ARTICLE_PATH } from "./helpers/constants";
 import { getCatalog, type CatalogType } from "./scripts/convert";
 import { getIntroductionBySlug } from "./content/schemas/Introduction";
+import type { APIContext } from "astro";
 
 export const onRequest = defineRouteMiddleware(async (context) => {
   // Get the base path and id of the current URL
   // e.g. `/column/article/40539a53-1b28-43ba-82eb-e7f27537a550` returns `column/article` and `40539a53-1b28-43ba-82eb-e7f27537a550`
   const parts = context.url.pathname
     .split("/")
-    .filter((part) => part.length > 0);
-  const column_article = parts.slice(0, 2).join("/");
-  const article_id = parts[2];
+    .filter(Boolean);
+  const [first, second, article_id] = parts;
+  const column_article = `${first}/${second}`;
 
   if (column_article !== COLUMN_ARTICLE_PATH) {
     return;
   }
 
   const starlightRoute = context.locals.starlightRoute;
-  console.log(context.locals.catalogs);
 
+  let sessionData = context.locals.catalogs;
+
+  // Check if current article is in the current sessionData
+  const isCurrent = sessionData.some(category =>
+    category.items.some(item =>
+      item.link.includes(article_id)
+    )
+  );
+
+  // Fallback: load from session if not current or column name is missing
   const column_name = context.cookies.get(COLUMN)?.value;
-  if (!column_name) {
-    return;
-  }
-  let sessionData = await context.session?.get(column_name) || '[]';
-
-  // Determine whether is current column.
-  const isCurrent = sessionData.includes(article_id);
-  if (!isCurrent) {
-    const entries = await context.session?.entries();
-    if (entries) {
-      const currentColumnSessionData = entries.find(([key, value]) =>
-        JSON.stringify(value).includes(article_id)
-      );
-      sessionData = currentColumnSessionData ? currentColumnSessionData[1] : '[]';
-    }
+  if (!isCurrent || !column_name) {
+    sessionData = await findSessionDataByArticleId(context, article_id);
   }
 
-  let catalogs = JSON.parse(sessionData) as CatalogType;
-
-  if (!catalogs || catalogs.length === 0) {
-    const intro = await getIntroductionBySlug(column_name);
-    if (intro) {
-      catalogs = await getCatalog(intro);
-      context.session?.set(
-        column_name,
-        JSON.stringify(catalogs),
-      );
-    }
-  }
+  const catalogs = sessionData;
 
   starlightRoute.sidebar = catalogs.map((catalog) => ({
     type: "group",
@@ -78,3 +64,19 @@ function usePageTitleInTOC(starlightRoute: StarlightRouteData) {
     overviewLink.text = starlightRoute.entry.data.title;
   }
 }
+
+async function findSessionDataByArticleId(context: APIContext, article_id: string): Promise<CatalogType> {
+  const entries = await context.session?.entries();
+  if (!entries) return [];
+
+  const matched = entries.find(([_, value]) =>
+    JSON.stringify(value).includes(article_id)
+  );
+
+  try {
+    return matched ? JSON.parse(matched[1]) : [];
+  } catch {
+    return [];
+  }
+}
+
