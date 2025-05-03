@@ -1,4 +1,4 @@
-# DeSquidex
+# StarSquid
 
 Use your [Squidex](https://squidex.io/) data in Astro projects.
 
