@@ -1,4 +1,4 @@
-# desquidex
+# starsquid
 
 ## 0.3.0
 

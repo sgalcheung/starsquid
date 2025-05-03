@@ -1,6 +1,6 @@
 import { z } from "astro/zod";
 import { getSchema, nonMultilingualSchema, SQUIDEX_CONTENT_SCHEMAS } from "./common";
-import type { ContentDtoType } from "desquidex/schemas";
+import type { ContentDtoType } from "starsquid/schemas";
 import { getContentById, getContentByIds, getReferencing } from "@/scripts/clinet";
 import { introductionDataSchema } from "./Introduction";
 

@@ -1,16 +1,22 @@
 {
-	"extends": "astro/tsconfigs/strict",
-	"compilerOptions": {
-		"strict": true,
-		"strictNullChecks": true,
-		"baseUrl": ".",
-		"verbatimModuleSyntax": true,
-		"paths": {
-			"@/*": ["./src/*"]
-		},
-		"jsx": "react-jsx",
-		"jsxImportSource": "react"
-	},
-	"include": [".astro/types.d.ts", "**/*"],
-	"exclude": ["dist"]
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "jsx": "preserve",
+  },
+  "include": [
+    ".astro/types.d.ts",
+    "**/*"
+  ],
+  "exclude": [
+    "dist"
+  ]
 }

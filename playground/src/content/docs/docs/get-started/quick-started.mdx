@@ -6,202 +6,208 @@ title: Quick Started
 import { Steps, Aside, Tabs, TabItem } from "@astrojs/starlight/components";
 
 ### Installation
+
 <Steps>
 
-1. Desquidex is an Astro loader. Install it using your favorite package manager:
-    <Tabs syncKey="pkg">
+1. StarSquid is an Astro loader. Install it using your favorite package manager:
 
-    <TabItem label="npm">
+   <Tabs syncKey="pkg">
 
-      ```sh
-      npm i desquidex
-      ```
+   <TabItem label="npm">
 
-    </TabItem>
+   ```sh
+   npm i starsquid
+   ```
 
-    <TabItem label="pnpm">
+   </TabItem>
 
-      ```sh
-      pnpm add desquidex
-      ```
+   <TabItem label="pnpm">
 
-    </TabItem>
+   ```sh
+   pnpm add starsquid
+   ```
 
-    <TabItem label="Yarn">
+   </TabItem>
 
-      ```sh
-      yarn add desquidex
-      ```
+   <TabItem label="Yarn">
 
-    </TabItem>
+   ```sh
+   yarn add starsquid
+   ```
 
-    </Tabs>
+   </TabItem>
+
+   </Tabs>
 
 </Steps>
 
 ### Configure
+
 <Steps>
 
 2. Configure the loader to support dynamic refresh in the `astro.config.mjs` file.
 
-    <Aside slot="preview">
-      This feature only supports the development environment, not for production environment, [see detailed description](https://answers.netlify.com/t/netlify-dont-work-for-my-astro-middleware-endpoint/129673/11).
-    </Aside>
+   <Aside slot="preview">
+     This feature only supports the development environment, not for production
+     environment, [see detailed
+     description](https://answers.netlify.com/t/netlify-dont-work-for-my-astro-middleware-endpoint/129673/11).
+   </Aside>
 
-    ```diff lang="js"
-    // astro.config.mjs
-    import { defineConfig } from 'astro/config'
-    +import { refreshContentIntegration } from'desquidex/integrations'
+   ```diff lang="js"
+   // astro.config.mjs
+   import { defineConfig } from 'astro/config'
+   +import { refreshContentIntegration } from'starsquid/integrations'
 
-    export default defineConfig({
-    +  integrations: [refreshContentIntegration("https://webhook")],
-    });
-    ```
+   export default defineConfig({
+   +  integrations: [refreshContentIntegration("https://webhook")],
+   });
+   ```
 
-3. Desquidex uses Astro’s content collections, which are configured in the `src/content.config.ts` file.
+3. StarSquid uses Astro’s content collections, which are configured in the `src/content.config.ts` file.
 
-    Add squidexCollections and configure squidex necessary params to init the default collections(app, features, and content as a custom content template):
+   Add squidexCollections and configure squidex necessary params to init the default collections(app, features, and content as a custom content template):
 
-    ```ts
-    // src/content.config.ts
-    import { squidexCollections } from "desquidex/loaders";
+   ```ts
+   // src/content.config.ts
+   import { squidexCollections } from "starsquid/loaders";
 
-    export const collections = squidexCollections({
-      squidexUrl: import.meta.env.SQUIDEX_URL,
-      squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
-      squidexClientId: import.meta.env.SQUIDEX_CLIENT_ID,
-      squidexClientSecret: import.meta.env.SQUIDEX_CLIENT_SECRET,
-    });
-    ```
+   export const collections = squidexCollections({
+     squidexUrl: import.meta.env.SQUIDEX_URL,
+     squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
+     squidexClientId: import.meta.env.SQUIDEX_CLIENT_ID,
+     squidexClientSecret: import.meta.env.SQUIDEX_CLIENT_SECRET,
+   });
+   ```
 
 </Steps>
 
 ### Usage
+
 <Steps>
 
 4. Use the app collection in your `index.astro` frontmatter:
 
-    ```astro title="src/pages/index.astro"
-      ---
-      import { getCollection } from "astro:content";
-      import { SCHEMAS } from "desquidex/schemas";
+   ```astro title="src/pages/index.astro"
+     ---
+     import { getCollection } from "astro:content";
+     import { SCHEMAS } from "starsquid/schemas";
 
-      const app = (await getCollection(SCHEMAS.APP))?.[0];
-      console.log(app);
-      ---
-      ```
+     const app = (await getCollection(SCHEMAS.APP))?.[0];
+     console.log(app);
+     ---
+   ```
 
-      Start up your app, you will notice the output log, which is the detail of your Squidex app. Magical, look back at what we to do, only reference a package of desquidex, define a collection, very convenient to use:
+   Start up your app, you will notice the output log, which is the detail of your Squidex app. Magical, look back at what we to do, only reference a package of starsquid, define a collection, very convenient to use:
 
-      ```json
-      {
-        id: 'guid',
-        data: {
-          links: { ping: [Object], assets: [Object], settings: [Object] },
-          id: 'guid',
-          name: '<your app name>,
-          version: 27,
-          created: 2024-08-12T10:45:08.000Z,
-          lastModified: 2024-09-05T09:38:37.000Z,
-          permissions: [],
-          canAccessApi: false,
-          canAccessContent: true,
-          roleProperties: {}
-        },
-        collection: 'app'
-      }
-      ```
+   ```json
+   {
+     id: 'guid',
+     data: {
+       links: { ping: [Object], assets: [Object], settings: [Object] },
+       id: 'guid',
+       name: '<your app name>,
+       version: 27,
+       created: 2024-08-12T10:45:08.000Z,
+       lastModified: 2024-09-05T09:38:37.000Z,
+       permissions: [],
+       canAccessApi: false,
+       canAccessContent: true,
+       roleProperties: {}
+     },
+     collection: 'app'
+   }
+   ```
 
 </Steps>
 
 ### Custom Schema
+
 <Steps>
 
 5. Define custom schema
 
-    For example, the article has two string property name and content.
+   For example, the article has two string property name and content.
 
-    ```ts
-    // src/content/schemas/common.ts
-    import { z } from "astro/zod";
+   ```ts
+   // src/content/schemas/common.ts
+   import { z } from "astro/zod";
 
-    export enum SQUIDEX_CONTENT_SCHEMAS {
-      ARTICLES = "articles",
-    }
+   export enum SQUIDEX_CONTENT_SCHEMAS {
+     ARTICLES = "articles",
+   }
 
-    export const idSchema = z.object({
-      id: z.string(),
-    });
+   export const idSchema = z.object({
+     id: z.string(),
+   });
 
-    export const componentSchema = z.object({
-      schemaId: z.string().optional(),
-      schemaName: z.string().optional(),
-    });
+   export const componentSchema = z.object({
+     schemaId: z.string().optional(),
+     schemaName: z.string().optional(),
+   });
 
-    export function nonMultilingualSchema<T extends z.ZodTypeAny>(schema: T) {
-      return z.object({
-        iv: schema,
-      });
-    }
-    ```
+   export function nonMultilingualSchema<T extends z.ZodTypeAny>(schema: T) {
+     return z.object({
+       iv: schema,
+     });
+   }
+   ```
 
-    ```ts title="src/content/schemas/Articles.ts"
-    import { z } from "astro/zod";
-    import { nonMultilingualSchema } from "./common";
+   ```ts title="src/content/schemas/Articles.ts"
+   import { z } from "astro/zod";
+   import { nonMultilingualSchema } from "./common";
 
-    // Create the corresponding schema named articles in Squidex, it contains name and content fields.
-    export const articleSchema = z.object({
-      name: nonMultilingualSchema(z.string()),
-      content: nonMultilingualSchema(z.string()),
-    });
-    ```
+   // Create the corresponding schema named articles in Squidex, it contains name and content fields.
+   export const articleSchema = z.object({
+     name: nonMultilingualSchema(z.string()),
+     content: nonMultilingualSchema(z.string()),
+   });
+   ```
 
-    ```ts
-    // src/content/schemas/index.ts
-    import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas/common";
-    import { articleSchema } from "./Articles";
-    import type { z } from "astro/zod";
+   ```ts
+   // src/content/schemas/index.ts
+   import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas/common";
+   import { articleSchema } from "./Articles";
+   import type { z } from "astro/zod";
 
-    export const getSquidexContentSchemaMapping: () => Record<
-      SQUIDEX_CONTENT_SCHEMAS,
-      z.ZodTypeAny
-    > = () => {
-      return {
-        [SQUIDEX_CONTENT_SCHEMAS.ARTICLES]: articleSchema,
-      };
-    };
-    ```
+   export const getSquidexContentSchemaMapping: () => Record<
+     SQUIDEX_CONTENT_SCHEMAS,
+     z.ZodTypeAny
+   > = () => {
+     return {
+       [SQUIDEX_CONTENT_SCHEMAS.ARTICLES]: articleSchema,
+     };
+   };
+   ```
 
-    Pass the schema you defined in the getSquidexContentSchemaMapping method into parameter `squidexContentSchemaMapping`.
+   Pass the schema you defined in the getSquidexContentSchemaMapping method into parameter `squidexContentSchemaMapping`.
 
-    ```diff ts
-    // src/content.config.ts
-    import { squidexCollections } from "desquidex/loaders";
-    import { squidexClient } from "./scripts/client";
+   ```diff ts
+   // src/content.config.ts
+   import { squidexCollections } from "starsquid/loaders";
+   import { squidexClient } from "./scripts/client";
 
-    export const collections = squidexCollections({
-      squidexUrl: import.meta.env.SQUIDEX_URL,
-      squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
-      squidexClientId: import.meta.env.SQUIDEX_CLIENT_ID,
-      squidexClientSecret: import.meta.env.SQUIDEX_CLIENT_SECRET,
-    +  squidexContentSchemaMapping: getSquidexContentSchemaMapping(),
-    });
-    ```
+   export const collections = squidexCollections({
+     squidexUrl: import.meta.env.SQUIDEX_URL,
+     squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
+     squidexClientId: import.meta.env.SQUIDEX_CLIENT_ID,
+     squidexClientSecret: import.meta.env.SQUIDEX_CLIENT_SECRET,
+   +  squidexContentSchemaMapping: getSquidexContentSchemaMapping(),
+   });
+   ```
 
-    Use the article collection:
+   Use the article collection:
 
-    ```astro title="src/page/index.astro"
-    ---
-    const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.ARTICLES);
-    console.log(intros?.[0]);
-    ---
-    ```
+   ```astro title="src/page/index.astro"
+   ---
+   const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.ARTICLES);
+   console.log(intros?.[0]);
+   ---
+   ```
 
-    If you have any exceptions to `getCollection`, try to run `astro async` command:
+   If you have any exceptions to `getCollection`, try to run `astro async` command:
 
-    ```sh
-    npm run astro sync
-    ```
-
+   ```sh
+   npm run astro sync
+   ```
 
 </Steps>

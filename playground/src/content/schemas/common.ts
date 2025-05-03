@@ -1,6 +1,6 @@
 import { z } from "astro/zod";
 import type { BaseSchema } from "astro:content";
-import { contentDtoSchema } from "desquidex/schemas";
+import { contentDtoSchema } from "starsquid/schemas";
 
 export enum SQUIDEX_CONTENT_SCHEMAS {
   AUTHORS = "authors",
@@ -9,20 +9,20 @@ export enum SQUIDEX_CONTENT_SCHEMAS {
 }
 
 export const idSchema = z.object({
-	id: z.string(),
+  id: z.string(),
 });
 
 export const componentSchema = z.object({
-	schemaId: z.string().optional(),
-	schemaName: z.string().optional(),
+  schemaId: z.string().optional(),
+  schemaName: z.string().optional(),
 });
 
 export function nonMultilingualSchema<T extends z.ZodTypeAny>(schema: T) {
-	return z.object({
-		iv: schema,
-	});
+  return z.object({
+    iv: schema,
+  });
 }
 
-export function getSchema (schema: BaseSchema) {
+export function getSchema(schema: BaseSchema) {
   return contentDtoSchema(schema);
 }

@@ -5,9 +5,11 @@ import netlify from "@astrojs/netlify";
 
 import react from "@astrojs/react";
 import { loadEnv } from "vite";
-import { refreshContentIntegration } from "desquidex/integrations";
+import { refreshContentIntegration } from "starsquid/integrations";
 
 import tailwindcss from "@tailwindcss/vite";
+
+import solidJs from "@astrojs/solid-js";
 
 const env = loadEnv("", process.cwd(), "");
 
@@ -17,7 +19,13 @@ export default defineConfig({
   integrations: [
     starlight({
       prerender: false,
-      title: "Starlight Squidex",
+      title: "StarSquid",
+      favicon: "/starsquid_favicon.svg",
+      logo: {
+        light: "/src/assets/logo-light.svg",
+        dark: "/src/assets/logo-dark.svg",
+        replacesTitle: true,
+      },
       locales: {
         root: {
           label: "English",
@@ -34,7 +42,7 @@ export default defineConfig({
         {
           icon: "github",
           label: "Github",
-          href: "https://github.com/sgalcheung/starlight-squidex",
+          href: "https://github.com/sgalcheung/starsquid",
         },
       ],
       sidebar: [
@@ -60,9 +68,14 @@ export default defineConfig({
         ThemeSelect: "./src/overrides/ThemeSelect.astro",
         Sidebar: "./src/overrides/Sidebar.astro",
       },
+    }), // only support for developing environment
+    refreshContentIntegration(env.WEBHOOK_SECRET),
+    react({
+      include: ["**/components/**/*"],
     }),
-    refreshContentIntegration(env.WEBHOOK_SECRET), // only support for developing environment
-    react(),
+    solidJs({
+      include: ["**/icons/*"],
+    }),
   ],
 
   // not support for now!

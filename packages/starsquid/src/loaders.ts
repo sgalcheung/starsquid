@@ -132,7 +132,7 @@ function makeLoader({
   const name = contentSchema ?? type.toString();
 
   const loader: Loader = {
-    name: `desquidex-${name}`,
+    name: `starsquid-${name}`,
     load: async ({ store, parseData, logger, refreshContextData }) => {
       if (refreshContextData?.webhookBody) {
         logger.info("Received incoming webhook");

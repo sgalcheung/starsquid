@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
-import { SCHEMAS } from "desquidex/schemas";
+import { SCHEMAS } from "starsquid/schemas";
 import { Markdown } from "astro-remote";
 import { getAllIntroductions } from "@/content/schemas/Introduction";
 import Navbar from "@/components/Navbar.astro";
@@ -18,7 +18,7 @@ const intros = await getAllIntroductions();
   <main class="mx-auto max-w-[85rem] w-full px-4 sm:px-6 lg:px-8 my-10">
     <div class="flex justify-between items-center">
       <h1 class="text-4xl dark:text-white">
-        Welcome to the Starlight Squidex Playground
+        Welcome to the StarSquid Playground
       </h1>
       <a
         type="button"

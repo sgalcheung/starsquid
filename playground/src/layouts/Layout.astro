@@ -1,6 +1,7 @@
 ---
 import "@/styles/global.css";
 import BaseHead from "@/components/BaseHead.astro";
+import NotificationBanner from "../components/NotificationBanner.astro";
 ---
 
 <!doctype html>
@@ -9,6 +10,33 @@ import BaseHead from "@/components/BaseHead.astro";
     <BaseHead />
   </head>
   <body>
+    <NotificationBanner uid="rename pacakge name">
+      <div
+        style="
+          background: #fff3e0;
+          border-left: 4px solid #ffa000;
+          padding: 16px;
+          margin: 20px 0;
+          font-family: Arial, sans-serif;
+          color: #333;
+        "
+      >
+        <h3 style="margin: 0 0 8px 0; color: #d32f2f;">DEPRECATED</h3>
+        <p style="margin: 0 0 8px 0;">
+          This package has been renamed from <code>starlight-squidex</code> to <strong
+            >starsquid</strong
+          >.
+        </p>
+        <p style="margin: 0;">
+          <strong>Migration:</strong>
+          <code
+            style="background: #f5f5f5; padding: 4px 8px; border-radius: 3px;"
+          >
+            npm uninstall starlight-squidex && npm install starsquid
+          </code>
+        </p>
+      </div>
+    </NotificationBanner>
     <slot />
   </body>
 </html>

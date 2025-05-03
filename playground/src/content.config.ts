@@ -1,4 +1,4 @@
-import { squidexCollections } from "desquidex/loaders";
+import { squidexCollections } from "starsquid/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 import { defineCollection } from "astro:content";
 import { getSquidexContentSchemaMapping } from "@/content/schemas";

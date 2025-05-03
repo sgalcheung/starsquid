@@ -1,6 +1,6 @@
 import type { BaseSchema } from "astro:content";
-import { SquidexClientFactory } from "desquidex/api";
-import { contentDtoSchema, contentsDtoSchema } from "desquidex/schemas";
+import { SquidexClientFactory } from "starsquid/api";
+import { contentDtoSchema, contentsDtoSchema } from "starsquid/schemas";
 
 export const squidexClient = SquidexClientFactory(
   import.meta.env.SQUIDEX_APP_NAME,

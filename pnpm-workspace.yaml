@@ -1,4 +1,4 @@
 packages:
-  - 'playground/'
-  - 'packages/desquidex'
+  - "playground/"
+  - "packages/starsquid"
   - "scripts"
