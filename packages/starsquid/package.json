@@ -1,8 +1,8 @@
 {
 	"name": "starsquid",
-	"version": "0.3.0",
+	"version": "1.0.0",
 	"description": "⚠️ Renamed from starlight-squidex to starsquid. Please migrate! → Use your Squidex data in Astro projects",
-  "deprecated": "This package has been renamed to starsquid. Please install starsquid instead.",
+	"deprecated": "This package has been renamed to starsquid. Please install starsquid instead.",
 	"author": {
 		"email": "sgalculture@outlook.com",
 		"name": "Sgal Cheung",

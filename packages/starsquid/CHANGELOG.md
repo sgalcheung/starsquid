@@ -1,5 +1,11 @@
 # starsquid
 
+## 1.0.0
+
+### Major Changes
+
+- Officially released version v1, renamed desquidex to starsquid.
+
 ## 0.3.0
 
 ### Minor Changes
