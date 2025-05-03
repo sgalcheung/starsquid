@@ -3,7 +3,7 @@ import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "@/components/react/ui/accordion";
 
 // https://ui.shadcn.com/docs/components/accordion
 // standard

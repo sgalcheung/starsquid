@@ -71,10 +71,10 @@ export default defineConfig({
     }), // only support for developing environment
     refreshContentIntegration(env.WEBHOOK_SECRET),
     react({
-      include: ["**/components/**/*"],
+      include: ["**/react/*"],
     }),
     solidJs({
-      include: ["**/icons/*"],
+      include: ["**/solid/*", "**/icons/solid/**"],
     }),
   ],
 
