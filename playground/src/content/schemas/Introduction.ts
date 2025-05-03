@@ -1,7 +1,7 @@
-import { getCollection, getEntry, reference } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import { componentSchema, nonMultilingualSchema, SQUIDEX_CONTENT_SCHEMAS } from "./common";
 import { z } from "astro/zod";
-import { getReferencesById } from "@/scripts/clinet";
+import { getReferences } from "@/scripts/clinet";
 
 const chapters = z.array(
   z
@@ -12,17 +12,20 @@ const chapters = z.array(
     .merge(componentSchema),
 );
 
-export const introductionSchema = z.object({
+export const introductionDataSchema = z.object({
   title: nonMultilingualSchema(z.string()),
   description: nonMultilingualSchema(z.string()),
   chapters: nonMultilingualSchema(chapters),
   slug: nonMultilingualSchema(z.string()),
-  author: nonMultilingualSchema(z.array(reference(SQUIDEX_CONTENT_SCHEMAS.AUTHORS))),
+  // author: nonMultilingualSchema(z.array(reference(SQUIDEX_CONTENT_SCHEMAS.AUTHORS))),
+  author: nonMultilingualSchema(z.array(z.string())),
 });
 
 const introductionReferencesSchema = z.object({
   name: nonMultilingualSchema(z.string()),
 });
+
+export type IntroductionDataSchemaType = z.infer<typeof introductionDataSchema>;
 
 export async function getAllIntroductions() {
   const introductions = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
@@ -35,10 +38,10 @@ export async function getIntroductionBySlug(slug: string) {
   return introduction;
 }
 
-export async function getIntroductionReferencesById(id: string) {
-  const references = await getReferencesById(
-    SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS, 
-    introductionReferencesSchema, 
+export async function getIntroductionReferences(id: string) {
+  const references = await getReferences(
+    SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS,
+    introductionReferencesSchema,
     id);
   return references;
 }

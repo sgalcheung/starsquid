@@ -58,6 +58,7 @@ export default defineConfig({
       routeMiddleware: "./src/routeMiddleware.ts",
       components: {
         ThemeSelect: "./src/overrides/ThemeSelect.astro",
+        Sidebar: "./src/overrides/Sidebar.astro",
       },
     }),
     refreshContentIntegration(env.WEBHOOK_SECRET), // only support for developing environment

@@ -3,9 +3,10 @@ import {
   type StarlightRouteData,
 } from "@astrojs/starlight/route-data";
 import { COLUMN, COLUMN_ARTICLE_PATH } from "./helpers/constants";
-import { getCatalog, type CatalogType } from "./scripts/convert";
-import { getIntroductionBySlug } from "./content/schemas/Introduction";
+import type { CatalogType } from "./scripts/convert";
 import type { APIContext } from "astro";
+import { getIntroductionBySlug, type IntroductionDataSchemaType } from "./content/schemas/Introduction";
+import { getArticleReferencing } from "./content/schemas/Articles";
 
 export const onRequest = defineRouteMiddleware(async (context) => {
   // Get the base path and id of the current URL
@@ -22,10 +23,11 @@ export const onRequest = defineRouteMiddleware(async (context) => {
 
   const starlightRoute = context.locals.starlightRoute;
 
-  let sessionData = context.locals.catalogs;
+  let catalogData = context.locals.catalogs;
+  let introData: IntroductionDataSchemaType | undefined;
 
-  // Check if current article is in the current sessionData
-  const isCurrent = sessionData.some(category =>
+  // Check if current article is in the current catalogData
+  const isCurrent = catalogData.some(category =>
     category.items.some(item =>
       item.link.includes(article_id)
     )
@@ -33,11 +35,28 @@ export const onRequest = defineRouteMiddleware(async (context) => {
 
   // Fallback: load from session if not current or column name is missing
   const column_name = context.cookies.get(COLUMN)?.value;
+
   if (!isCurrent || !column_name) {
-    sessionData = await findSessionDataByArticleId(context, article_id);
+    catalogData = await findSessionDataByArticleId(context, article_id);
   }
 
-  const catalogs = sessionData;
+  // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
+  let intro;
+  if (!isCurrent) {
+    intro = await getArticleReferencing(article_id);
+  } else if (column_name) {
+    intro = await getIntroductionBySlug(column_name);
+  } else {
+    intro = await getArticleReferencing(article_id);
+  }
+
+  introData = intro?.data?.data || intro?.data;
+
+  if (introData) {
+    context.locals.column = introData;
+  }
+
+  const catalogs = catalogData;
 
   starlightRoute.sidebar = catalogs.map((catalog) => ({
     type: "group",

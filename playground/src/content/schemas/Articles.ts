@@ -1,7 +1,8 @@
 import { z } from "astro/zod";
-import { getSchema, nonMultilingualSchema } from "./common";
+import { getSchema, nonMultilingualSchema, SQUIDEX_CONTENT_SCHEMAS } from "./common";
 import type { ContentDtoType } from "desquidex/schemas";
-import { getContentById, getContentByIds } from "@/scripts/clinet";
+import { getContentById, getContentByIds, getReferencing } from "@/scripts/clinet";
+import { introductionDataSchema } from "./Introduction";
 
 export const articleDataSchema = z.object({
   name: nonMultilingualSchema(z.string()),
@@ -24,4 +25,13 @@ export async function getArticleById(id: string) {
 export async function getArticleByIds(ids: string[]) {
   const result = await getContentByIds("articles", articleDataSchema, ids);
   return result;
+}
+
+// 1:n, only restuns the first one
+export async function getArticleReferencing(id: string) {
+  const referencing = await getReferencing(
+    SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS,
+    introductionDataSchema,
+    id);
+  return referencing[0];
 }

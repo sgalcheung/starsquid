@@ -1,12 +1,12 @@
 import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas/common";
-import { introductionSchema } from "./Introduction";
+import { introductionDataSchema } from "./Introduction";
 import { z } from "astro/zod";
-import { authorSchema } from "./Author";
+import { authorDataSchema } from "./Author";
 
 
 const rawSchemas = {
-  [SQUIDEX_CONTENT_SCHEMAS.AUTHORS]: authorSchema,
-  [SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS]: introductionSchema,
+  [SQUIDEX_CONTENT_SCHEMAS.AUTHORS]: authorDataSchema,
+  [SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS]: introductionDataSchema,
   [SQUIDEX_CONTENT_SCHEMAS.ARTICLES]: z.object({}),
 } satisfies Record<SQUIDEX_CONTENT_SCHEMAS, z.ZodTypeAny>;
 

@@ -20,7 +20,7 @@ export async function getContentByIds(schemaName: string, schema: BaseSchema, id
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-function fixLinksMetadata(content: any) {
+function fixLinksMetadata(content: Record<string, any>) {
   if (content.links && typeof content.links === "object") {
     for (const key of Object.keys(content.links)) {
       const link = content.links[key];
@@ -29,6 +29,28 @@ function fixLinksMetadata(content: any) {
       }
     }
   }
+}
+
+type ParsedSchemaResult = ReturnType<ReturnType<typeof contentDtoSchema>["parse"]> | null;
+
+function processItem(
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  item: Record<string, any>,
+  schema: BaseSchema,
+  aggregatedErrors: Error[],
+  result: ParsedSchemaResult[]
+) {
+  fixLinksMetadata(item);
+  const parsedContents = schema.safeParse(item);
+  const parsedResult = parsedContents.success ? parsedContents.data : null;
+  if (!parsedContents.success) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(parsedContents.error);
+    } else {
+      aggregatedErrors.push(parsedContents.error);
+    }
+  }
+  result.push(parsedResult);
 }
 
 export async function getContentById(schemaName: string, schema: BaseSchema, id: string) {
@@ -42,29 +64,51 @@ export async function getContentById(schemaName: string, schema: BaseSchema, id:
   return result;
 }
 
-export async function getReferencesById(
+/**
+ * Extract all fields from Zod Schema (format: data.fieldName)
+ * @param schema Zod Schema object
+ * @returns comma-delimited field path string, such as "data.field1,data.field2"
+ */
+export function extractSchemaFields(schema: BaseSchema): string {
+  return Object.keys(schema.shape)
+    .map(key => `data.${key}`)
+    .join(',');
+}
+
+
+export async function getReferences(
   schemaName: string,
   schema: BaseSchema,
   id: string,
 ) {
-  const fields =
-    Object.keys(schema.shape)
-      .map((key) => `data.${key}`)
-      .join(",");
+  const fields = extractSchemaFields(schema);
   const referencesData = await squidexClient.contents.getReferences(schemaName, id, { fields: fields });
   const parsedContentsSchema = contentDtoSchema(schema);
 
-  const result: (typeof schema | null)[] = [];
+  const result: ParsedSchemaResult[] = [];
+  const aggregatedErrors: Error[] = []; // Collect errors for batch reporting
+
   for (const item of referencesData.items) {
-    // console.log(item)
-    fixLinksMetadata(item);
-    const parsedContents =
-      await parsedContentsSchema.safeParseAsync(item);
-    const parsedResult = parsedContents.success ? parsedContents.data : null;
-    if (!parsedContents.success) {
-      console.log(parsedContents.error);
-    }
-    result.push(parsedResult);
+    processItem(item, parsedContentsSchema, aggregatedErrors, result);
+  }
+
+  return result;
+}
+
+export async function getReferencing(
+  schemaName: string,
+  schema: BaseSchema,
+  id: string,
+) {
+  const fields = extractSchemaFields(schema);
+  const referencesData = await squidexClient.contents.getReferencing(schemaName, id, { fields: fields });
+  const parsedContentsSchema = contentDtoSchema(schema);
+
+  const result: ParsedSchemaResult[] = [];
+  const aggregatedErrors: Error[] = [];
+
+  for (const item of referencesData.items) {
+    processItem(item, parsedContentsSchema, aggregatedErrors, result);
   }
 
   return result;

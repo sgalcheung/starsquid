@@ -2,7 +2,7 @@ import { COLUMN_ARTICLE_PATH } from "@/helpers/constants";
 import type { CollectionEntry } from "astro:content";
 import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas/common";
 // import { getArticleById } from "@/content/schemas/Articles";
-import { getIntroductionReferencesById } from "@/content/schemas/Introduction";
+import { getIntroductionReferences } from "@/content/schemas/Introduction";
 
 export interface CatalogType
   extends Array<{
@@ -81,9 +81,9 @@ export async function getCatalog(
 
   const articlesMap = { ...intro.data.referenceData?.articles };
 
-  const references = await getIntroductionReferencesById(id);
+  const references = await getIntroductionReferences(id);
   for (const ref of references) {
-    if (ref.schemaName === SQUIDEX_CONTENT_SCHEMAS.ARTICLES) {
+    if (ref && ref.schemaName === SQUIDEX_CONTENT_SCHEMAS.ARTICLES) {
       articlesMap[ref.id] = ref.data;
     }
   }
