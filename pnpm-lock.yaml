@@ -69,6 +69,9 @@ importers:
       '@astrojs/starlight':
         specifier: ^0.34.0
         version: 0.34.0(astro@5.7.4(@netlify/blobs@8.2.0)(@types/node@22.9.0)(ioredis@5.6.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.0)(typescript@5.7.2)(yaml@2.5.1))
+      '@astrojs/starlight-tailwind':
+        specifier: ^4.0.1
+        version: 4.0.1(@astrojs/starlight@0.34.0(astro@5.7.4(@netlify/blobs@8.2.0)(@types/node@22.9.0)(ioredis@5.6.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.0)(typescript@5.7.2)(yaml@2.5.1)))(tailwindcss@4.1.4)
       '@radix-ui/react-accordion':
         specifier: ^1.2.0
         version: 1.2.0(@types/react-dom@18.3.0)(@types/react@18.3.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -282,6 +285,12 @@ packages:
     peerDependenciesMeta:
       solid-devtools:
         optional: true
+
+  '@astrojs/starlight-tailwind@4.0.1':
+    resolution: {integrity: sha512-AOOEWTGqJ7fG66U04xTmZQZ40oZnUYe4Qljpr+No88ozKywtsD1DiXOrGTeHCnZu0hRtMbRtBGB1fZsf0L62iw==}
+    peerDependencies:
+      '@astrojs/starlight': '>=0.34.0'
+      tailwindcss: ^4.0.0
 
   '@astrojs/starlight@0.34.0':
     resolution: {integrity: sha512-RebhN1hoLmD/4WH0WneR2U6evEwRhwrtUcxUten9DjAZdKfCtav95kkj9aiU1manNDVBVgBliEZ9hGcOwSQXrg==}
@@ -6591,6 +6600,11 @@ snapshots:
       - terser
       - tsx
       - yaml
+
+  '@astrojs/starlight-tailwind@4.0.1(@astrojs/starlight@0.34.0(astro@5.7.4(@netlify/blobs@8.2.0)(@types/node@22.9.0)(ioredis@5.6.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.0)(typescript@5.7.2)(yaml@2.5.1)))(tailwindcss@4.1.4)':
+    dependencies:
+      '@astrojs/starlight': 0.34.0(astro@5.7.4(@netlify/blobs@8.2.0)(@types/node@22.9.0)(ioredis@5.6.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.0)(typescript@5.7.2)(yaml@2.5.1))
+      tailwindcss: 4.1.4
 
   '@astrojs/starlight@0.34.0(astro@5.7.4(@netlify/blobs@8.2.0)(@types/node@22.9.0)(ioredis@5.6.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.0)(typescript@5.7.2)(yaml@2.5.1))':
     dependencies:

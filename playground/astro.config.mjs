@@ -68,6 +68,7 @@ export default defineConfig({
         ThemeSelect: "./src/overrides/ThemeSelect.astro",
         Sidebar: "./src/overrides/Sidebar.astro",
       },
+      customCss: ["./src/styles/starlight.css"],
     }), // only support for developing environment
     refreshContentIntegration(env.WEBHOOK_SECRET),
     react({
