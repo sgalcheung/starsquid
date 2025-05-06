@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import avatar from "../assets/avatars/sgalcheung.png";
+import { routes } from "../routing";
 ---
 
 <!--  Reference
@@ -11,7 +12,7 @@ import avatar from "../assets/avatars/sgalcheung.png";
     <li>
       {
         Astro.url.pathname !== "/" && (
-          <a href="/" rel="prefetch">
+          <a href={routes.home()} rel="prefetch">
             <Image
               class="hover:scale-110 transition-all w-[50px]"
               src={avatar}

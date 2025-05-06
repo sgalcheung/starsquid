@@ -5,6 +5,7 @@ import { SCHEMAS } from "starsquid/schemas";
 import { Markdown } from "astro-remote";
 import { getAllIntroductions } from "@/content/schemas/Introduction";
 import Navbar from "@/components/Navbar.astro";
+import { routes } from "../routing";
 
 const app = (await getCollection(SCHEMAS.APP))?.[0];
 const newsFeature = (await getCollection(SCHEMAS.FEATURES))?.[0];
@@ -22,7 +23,7 @@ const intros = await getAllIntroductions();
       </h1>
       <a
         type="button"
-        href="/docs/"
+        href={routes.docs()}
         class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
       >
         Docs
@@ -54,7 +55,7 @@ const intros = await getAllIntroductions();
             <h2 class="text-3xl dark:text-white">
               <a
                 class="text-blue-600 hover:underline hover:decoration-blue-800 focus:outline-hidden focus:underline focus:decoration-blue-800 dark:decoration-white"
-                href={`/intro/${data.slug.iv}/`}
+                href={routes.intro(data.slug.iv)}
               >
                 {data.title.iv}
               </a>
@@ -79,12 +80,6 @@ const intros = await getAllIntroductions();
       {
         features.map((feature) => {
           return (
-            // <li>
-            //   <p class="dark:text-white">
-            //     <em>{feature.name}</em>: <article set:html={feature.text} />
-            //   </p>
-            // </li>
-
             <div class="flex gap-x-3">
               <div class="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-neutral-700">
                 <div class="relative z-10 size-7 flex justify-center items-center">
