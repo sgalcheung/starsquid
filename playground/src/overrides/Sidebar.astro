@@ -1,42 +1,25 @@
 ---
 import Default from "@astrojs/starlight/components/Sidebar.astro";
+import { routes } from "../routing";
 
 const { column } = Astro.locals;
 ---
 
-{ column && (
-  <div class="columnInfo">
-    <div class="columnInfo_Body">
-      <div class="columnInfo_ColumnName">{column && column.title.iv}</div>
-    </div>
-  </div>
-
-  <style>
-    .columnInfo {
-      margin: 0 15px 24px 38px;
-      padding-bottom: 16px;
-      cursor: pointer;
-      border-bottom: 0.5px solid #eff0f2;
-    }
-
-    .columnInfo_Body {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-      color: #888;
-    }
-
-    .columnInfo_ColumnName {
-      font-size: 24px;
-      line-height: 31px;
-      color: #404040;
-      font-weight: 500;
-      -webkit-font-smoothing: antialiased;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-  </style>
-)}
+{
+  column && (
+    <a
+      class="no-underline focus:no-underline"
+      href={routes.intro(column.slug.iv)}
+    >
+      <div class="px-2 pb-4 mb-6 border-b-[0.5px] border-solid border-b-[#eff0f2] dark:border-b-[#3b3b3b]">
+        <div class="flex flex-col flex-auto">
+          <div class="text-2xl leading-[31px] text-[#404040] dark:text-white hover:text-blue-700 dark:hover:text-blue-500 focus:text-blue-700 dark:focus:text-blue-500 font-medium antialiased truncate">
+            {column.title.iv}
+          </div>
+        </div>
+      </div>
+    </a>
+  )
+}
 
 <Default />
