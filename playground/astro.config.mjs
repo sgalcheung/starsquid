@@ -1,16 +1,12 @@
 import "dotenv/config";
 import starlight from "@astrojs/starlight";
 import { defineConfig, envField } from "astro/config";
-
 import react from "@astrojs/react";
 import { loadEnv } from "vite";
 import { refreshContentIntegration } from "starsquid/integrations";
-
 import tailwindcss from "@tailwindcss/vite";
-
 import solidJs from "@astrojs/solid-js";
-
-import cloudflare from "@astrojs/cloudflare";
+import vercel from "@astrojs/vercel";
 
 const env = loadEnv("", process.cwd(), "");
 
@@ -89,7 +85,7 @@ export default defineConfig({
   //     }),
   //   },
   // },
-  adapter: cloudflare(),
+  adapter: vercel(),
   session: {
     driver: "redis",
     options: {
