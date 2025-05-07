@@ -5,10 +5,10 @@ import { COLUMN } from "@/helpers/constants";
 
 export async function loadCatalogFromSession(
   context: APIContext
-): Promise<CatalogType> {
+) {
   const { pathname } = context.url;
   if (!pathname.startsWith("/intro") && !pathname.startsWith("/column")) {
-    return [];
+    return;
   }
 
   let column_name: string | undefined;
@@ -19,7 +19,7 @@ export async function loadCatalogFromSession(
     column_name = context.cookies.get(COLUMN)?.value;
   }
   if (!column_name) {
-    return [];
+    return;
   }
 
   let catalogs: CatalogType = [];
@@ -42,5 +42,5 @@ export async function loadCatalogFromSession(
     }
   }
 
-  return catalogs;
+  context.locals.catalogs = catalogs;
 }

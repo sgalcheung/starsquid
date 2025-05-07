@@ -8,8 +8,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // const urlCIDParam = url.searchParams.get("cid");
   // console.log("middleware",urlCIDParam);
 
-  const catalogs = await loadCatalogFromSession(context);
-  context.locals.catalogs = catalogs;
+  await loadCatalogFromSession(context);
+
 
   return next();
 });
