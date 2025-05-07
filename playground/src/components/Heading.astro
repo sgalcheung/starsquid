@@ -1,17 +1,9 @@
 ---
 import AnchorHeading from "@astrojs/starlight/components/AnchorHeading.astro";
-import { AstroError } from "astro/errors";
 import Slugger from "github-slugger";
 
-// const headingLevels = [1, 2, 3, 4, 5, 6, "1", "2", "3", "4", "5", "6"] as const;
 const { as: tag, text } = Astro.props;
 const number = tag.match(/^h(\d+)$/)?.[1];
-// if (!headingLevels.includes(number)) {
-//   throw new AstroError(
-//     "Invalid `tag` passed to `<Heading>` component",
-//     `The \`<Heading>\` component expects a \`tag\` attribute of \`h1 | h2 | h3 | h4 | h5 | h6\`, but received \`${tag}\`.`
-//   );
-// }
 
 const slugger = new Slugger();
 const slug = slugger.slug(text);

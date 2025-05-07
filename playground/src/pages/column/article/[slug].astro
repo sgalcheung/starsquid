@@ -2,8 +2,11 @@
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import { Markdown } from "astro-remote";
 import { extractHeadings } from "@/helpers/markdown";
-import Heading from "@/components/Heading.astro";
+// import Heading from "@/components/Heading.astro";
 import { getArticle } from "@/scripts/api";
+const Heading = await import("@/components/Heading.astro").then(
+  (mod) => mod.default
+);
 
 const { slug } = Astro.params;
 
