@@ -2,11 +2,8 @@
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import { Markdown } from "astro-remote";
 import { extractHeadings } from "@/helpers/markdown";
-// import Heading from "@/components/Heading.astro";
+import Heading from "@/components/Heading.astro";
 import { getArticle } from "@/scripts/api";
-const Heading = await import("@/components/Heading.astro").then(
-  (mod) => mod.default
-);
 
 const { slug } = Astro.params;
 
@@ -14,7 +11,7 @@ console.time("getArticle ExecutionTime");
 const { articles } = await getArticle(slug);
 console.timeEnd("getArticle ExecutionTime");
 if (!articles || articles.length !== 1) {
-  return context.redirect("/404");
+  return Astro.redirect("/404");
 }
 
 const article = articles[0].flatData;

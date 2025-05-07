@@ -13,8 +13,8 @@
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.4",
+		"@astrojs/cloudflare": "^12.5.2",
 		"@astrojs/markdown-remark": "^6.3.1",
-		"@astrojs/netlify": "6.3.0",
 		"@astrojs/react": "^4.2.4",
 		"@astrojs/solid-js": "^5.0.10",
 		"@astrojs/starlight": "^0.34.0",

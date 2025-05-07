@@ -1,7 +1,6 @@
 import "dotenv/config";
 import starlight from "@astrojs/starlight";
 import { defineConfig, envField } from "astro/config";
-import netlify from "@astrojs/netlify";
 
 import react from "@astrojs/react";
 import { loadEnv } from "vite";
@@ -10,6 +9,8 @@ import { refreshContentIntegration } from "starsquid/integrations";
 import tailwindcss from "@tailwindcss/vite";
 
 import solidJs from "@astrojs/solid-js";
+
+import cloudflare from "@astrojs/cloudflare";
 
 const env = loadEnv("", process.cwd(), "");
 
@@ -88,7 +89,7 @@ export default defineConfig({
   //     }),
   //   },
   // },
-  adapter: netlify(),
+  adapter: cloudflare(),
   session: {
     driver: "redis",
     options: {
