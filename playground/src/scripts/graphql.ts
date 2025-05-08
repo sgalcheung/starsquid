@@ -1,6 +1,6 @@
 /**
  * Reference
- * https://github.com/Xetera/xetera.dev/blob/master/src/scripts/me.ts
+ * https://github.com/Xetera/xetera.dev/blob/master/src/scripts/graphql.ts
  */
 
 import type { ExecutionResult } from "graphql";

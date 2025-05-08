@@ -21,14 +21,14 @@ const frontmatter = { title: article.name ?? "" };
 const headings = extractHeadings(article.content as string);
 ---
 
-<StarlightPage {frontmatter} {headings}>
-  {
-    article.content && article.content.length > 0 && (
+{
+  article.content && article.content.length > 0 && (
+    <StarlightPage {frontmatter} {headings}>
       <Markdown
         content={article.content}
         sanitize={{ allowComponents: true }}
         components={{ Heading }}
       />
-    )
-  }
-</StarlightPage>
+    </StarlightPage>
+  )
+}
