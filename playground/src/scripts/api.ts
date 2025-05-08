@@ -28,7 +28,7 @@ export async function getIntro(slug: string | undefined): Promise<IntroQuery> {
     }
   `);
 
-	return executeOperation(GRAPHQL_URL, query, {
+	return await executeOperation(GRAPHQL_URL, query, {
 		filter: `data/slug/iv eq '${slug}'`,
 	}).then((r) => {
 		if (r.errors) {
@@ -55,7 +55,7 @@ export async function getArticle(
     }
   `);
 
-	return executeOperation(GRAPHQL_URL, query, {
+	return await executeOperation(GRAPHQL_URL, query, {
 		filter: `id eq '${id}'`,
 	}).then((r) => {
 		if (r.errors) {
@@ -89,7 +89,7 @@ export async function getSidebar(
     }
   `);
 
-	return executeOperation(GRAPHQL_URL, query, {
+	return await executeOperation(GRAPHQL_URL, query, {
 		filter: `data/chapters/iv/articles eq '${articleId}'`,
 	}).then((r) => {
 		if (r.errors) {
