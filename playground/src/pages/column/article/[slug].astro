@@ -19,10 +19,8 @@ const article = articles[0].flatData;
 const frontmatter = { title: article.name ?? "" };
 
 const headings = extractHeadings(article.content as string);
-console.log("frontmatter", article);
 ---
 
-{console.log("client", article)}
 {
   article.content && article.content.length > 0 && (
     <StarlightPage {frontmatter} {headings}>
