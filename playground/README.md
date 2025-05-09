@@ -72,8 +72,6 @@ Want to get started immediately? Check out the source code or check out the [exa
     └── release.mjs
 ```
 
-starsquid has unused, it is squidex and starlight-ssr mixed test product.
-
 ## ⚙️ Features
 
 A [Starlight](https://starlight.astro.build) plugin to server render contents, it is experment, more features are under development.
