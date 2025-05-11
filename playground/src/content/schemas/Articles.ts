@@ -15,15 +15,15 @@ export type ArticleSchemaType = ContentDtoType<typeof articleSchema>;
 
 
 export async function getArticleById(id: string) {
-  const result = await getContentById("articles", articleDataSchema, id);
+  const result = await getContentById(SQUIDEX_CONTENT_SCHEMAS.ARTICLES, articleDataSchema, id);
   if (!result) {
     throw new Error(`Article with id ${id} not found`);
   }
-  return result as ArticleSchemaType;
+  return result;
 }
 
 export async function getArticleByIds(ids: string[]) {
-  const result = await getContentByIds("articles", articleDataSchema, ids);
+  const result = await getContentByIds(SQUIDEX_CONTENT_SCHEMAS.ARTICLES, articleDataSchema, ids);
   return result;
 }
 
@@ -33,5 +33,5 @@ export async function getArticleReferencing(id: string) {
     SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS,
     introductionDataSchema,
     id);
-  return referencing[0];
+  return referencing.items[0];
 }

@@ -6,6 +6,9 @@ import Heading from "@/components/Heading.astro";
 import { getArticle } from "@/scripts/api";
 
 const { slug } = Astro.params;
+if (!slug) {
+  return Astro.redirect("/404");
+}
 
 console.time("getArticle ExecutionTime");
 const { articles } = await getArticle(slug);

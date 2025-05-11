@@ -82,7 +82,7 @@ export async function getCatalog(
   const articlesMap = { ...intro.data.referenceData?.articles };
 
   const references = await getIntroductionReferences(id);
-  for (const ref of references) {
+  for (const ref of references.items) {
     if (ref && ref.schemaName === SQUIDEX_CONTENT_SCHEMAS.ARTICLES) {
       articlesMap[ref.id] = ref.data;
     }

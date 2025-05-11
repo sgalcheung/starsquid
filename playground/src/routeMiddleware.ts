@@ -24,7 +24,7 @@ export const onRequest = defineRouteMiddleware(async (context) => {
   const starlightRoute = context.locals.starlightRoute;
 
   let catalogData = context.locals.catalogs;
-  let introData: IntroductionDataSchemaType | undefined;
+  let introData: IntroductionDataSchemaType | null = null;
 
   // Check if current article is in the current catalogData
   const isCurrent = catalogData.some(category =>
@@ -43,14 +43,16 @@ export const onRequest = defineRouteMiddleware(async (context) => {
   // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
   let intro;
   if (!isCurrent) {
-    intro = await getArticleReferencing(article_id);
+    intro = (await getArticleReferencing(article_id)).data;
   } else if (column_name) {
-    intro = await getIntroductionBySlug(column_name);
+    intro = (await getIntroductionBySlug(column_name))?.data.data;
   } else {
-    intro = await getArticleReferencing(article_id);
+    intro = (await getArticleReferencing(article_id)).data;
   }
 
-  introData = intro?.data?.data || intro?.data;
+  if (intro) {
+    introData = intro as unknown as IntroductionDataSchemaType;
+  }
 
   if (introData) {
     context.locals.column = introData;

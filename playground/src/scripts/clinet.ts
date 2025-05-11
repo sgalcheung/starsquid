@@ -1,6 +1,6 @@
 import type { BaseSchema } from "astro:content";
 import { SquidexClientFactory } from "starsquid/api";
-import { contentDtoSchema, contentsDtoSchema } from "starsquid/schemas";
+import { contentDtoSchema, contentsDtoSchema, type ContentDtoType, type ContentsDtoType } from "starsquid/schemas";
 
 export const squidexClient = SquidexClientFactory(
   import.meta.env.SQUIDEX_APP_NAME,
@@ -9,15 +9,6 @@ export const squidexClient = SquidexClientFactory(
   import.meta.env.SQUIDEX_URL
 );
 
-export async function getContentByIds(schemaName: string, schema: BaseSchema, ids: string[]) {
-  const contents = await squidexClient.contents.getContents(schemaName);
-  contents.items = contents.items.filter((item) => ids.includes(item.id));
-  const parsedContentsSchema = contentsDtoSchema(schema);
-  const parsedContents =
-    await parsedContentsSchema.safeParseAsync(contents);
-  const result = parsedContents.success ? parsedContents.data : null;
-  return result;
-}
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 function fixLinksMetadata(content: Record<string, any>) {
@@ -31,37 +22,18 @@ function fixLinksMetadata(content: Record<string, any>) {
   }
 }
 
-type ParsedSchemaResult = ReturnType<ReturnType<typeof contentDtoSchema>["parse"]> | null;
-
-function processItem(
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  item: Record<string, any>,
-  schema: BaseSchema,
-  aggregatedErrors: Error[],
-  result: ParsedSchemaResult[]
-) {
-  fixLinksMetadata(item);
-  const parsedContents = schema.safeParse(item);
-  const parsedResult = parsedContents.success ? parsedContents.data : null;
-  if (!parsedContents.success) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(parsedContents.error);
-    } else {
-      aggregatedErrors.push(parsedContents.error);
-    }
+async function parseWithSchema<T extends BaseSchema>(
+  schema: T,
+  data: unknown,
+  schemaName: string
+): Promise<T> {
+  const parsedResult = await schema.safeParseAsync(data);
+  if (!parsedResult.success) {
+    throw new Error(
+      `Invalid data for schema "${schemaName}".\nError: ${parsedResult.error}\nData: ${JSON.stringify(data, null, 2)}`
+    );
   }
-  result.push(parsedResult);
-}
-
-export async function getContentById(schemaName: string, schema: BaseSchema, id: string) {
-  const content = await squidexClient.contents.getContent(schemaName, id);
-  fixLinksMetadata(content);
-
-  const parsedContentsSchema = contentDtoSchema(schema);
-  const parsedContents =
-    await parsedContentsSchema.safeParseAsync(content);
-  const result = parsedContents.success ? parsedContents.data : null;
-  return result;
+  return parsedResult.data;
 }
 
 /**
@@ -75,41 +47,58 @@ export function extractSchemaFields(schema: BaseSchema): string {
     .join(',');
 }
 
+export async function getContentByIds<T extends BaseSchema>(schemaName: string, schema: T, ids: string[]): Promise<ContentsDtoType<T>> {
+  const contents = await squidexClient.contents.getContents(schemaName);
+  contents.items = contents.items.filter((item) => ids.includes(item.id));
 
-export async function getReferences(
-  schemaName: string,
-  schema: BaseSchema,
-  id: string,
-) {
-  const fields = extractSchemaFields(schema);
-  const referencesData = await squidexClient.contents.getReferences(schemaName, id, { fields: fields });
-  const parsedContentsSchema = contentDtoSchema(schema);
+  fixLinksMetadata(contents);
+  contents.items.flatMap(fixLinksMetadata);
 
-  const result: ParsedSchemaResult[] = [];
-  const aggregatedErrors: Error[] = []; // Collect errors for batch reporting
+  const parsedContentsSchema = contentsDtoSchema(schema);
 
-  for (const item of referencesData.items) {
-    processItem(item, parsedContentsSchema, aggregatedErrors, result);
-  }
+  const parsedContents = parseWithSchema(parsedContentsSchema, contents, schemaName);
 
-  return result;
+  return parsedContents as unknown as ContentsDtoType<T>;
 }
 
-export async function getReferencing(
+export async function getContentById<T extends BaseSchema>(schemaName: string, schema: T, id: string): Promise<ContentDtoType<T>> {
+  const content = await squidexClient.contents.getContent(schemaName, id);
+  fixLinksMetadata(content);
+
+  const parsedContentSchema = contentDtoSchema(schema);
+  const parsedContent = parseWithSchema(parsedContentSchema, content, schemaName);
+
+  return parsedContent as unknown as ContentDtoType<T>;
+}
+
+export async function getReferences<T extends BaseSchema>(
   schemaName: string,
-  schema: BaseSchema,
+  schema: T,
   id: string,
-) {
+): Promise<ContentsDtoType<T>> {
+  const fields = extractSchemaFields(schema);
+  const referencesData = await squidexClient.contents.getReferences(schemaName, id, { fields: fields });
+  const parsedContentsSchema = contentsDtoSchema(schema);
+
+  referencesData.items.flatMap(fixLinksMetadata);
+
+  const parsedContents = parseWithSchema(parsedContentsSchema, referencesData, schemaName);
+
+  return parsedContents as unknown as ContentsDtoType<T>;
+}
+
+export async function getReferencing<T extends BaseSchema>(
+  schemaName: string,
+  schema: T,
+  id: string,
+): Promise<ContentsDtoType<T>> {
   const fields = extractSchemaFields(schema);
   const referencesData = await squidexClient.contents.getReferencing(schemaName, id, { fields: fields });
-  const parsedContentsSchema = contentDtoSchema(schema);
+  const parsedContentsSchema = contentsDtoSchema(schema);
 
-  const result: ParsedSchemaResult[] = [];
-  const aggregatedErrors: Error[] = [];
+  referencesData.items.flatMap(fixLinksMetadata);
 
-  for (const item of referencesData.items) {
-    processItem(item, parsedContentsSchema, aggregatedErrors, result);
-  }
+  const parsedContents = parseWithSchema(parsedContentsSchema, referencesData, schemaName);
 
-  return result;
+  return parsedContents as unknown as ContentsDtoType<T>;
 }
