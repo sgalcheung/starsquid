@@ -1,8 +1,7 @@
 import { COLUMN_ARTICLE_PATH } from "@/helpers/constants";
-import type { CollectionEntry } from "astro:content";
 import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas/common";
 // import { getArticleById } from "@/content/schemas/Articles";
-import { getIntroductionReferences } from "@/content/schemas/Introduction";
+import { getIntroductionReferences, type IntroductionCollectionType, type IntroductionDtoType } from "@/content/schemas/Introduction";
 
 export interface CatalogType
   extends Array<{
@@ -73,13 +72,30 @@ export interface CatalogType
 // }
 
 export async function getCatalog(
-  intro: CollectionEntry<typeof SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS>,
+  intro: IntroductionCollectionType,
+): Promise<CatalogType>;
+export async function getCatalog(
+  intro: IntroductionDtoType,
+): Promise<CatalogType>;
+
+export async function getCatalog(
+  value: IntroductionCollectionType | IntroductionDtoType,
 ): Promise<CatalogType> {
-  const { id, data } = intro.data;
+  let data, id;
+  if ('collection' in value) {
+    const intro = value as IntroductionCollectionType;
+    ({ id, data } = intro.data);
+  } else {
+    const intro = value as IntroductionDtoType;
+    id = intro.id;
+    data = intro.data;
+  }
+
   const chapters = data?.chapters?.iv ?? [];
   if (!chapters.length) return [];
 
-  const articlesMap = { ...intro.data.referenceData?.articles };
+  // const articlesMap = { ...intro.data.referenceData?.articles };
+  const articlesMap: { [x: string]: any; } = {};
 
   const references = await getIntroductionReferences(id);
   for (const ref of references.items) {

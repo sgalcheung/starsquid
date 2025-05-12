@@ -24,6 +24,7 @@ export const onRequest = defineRouteMiddleware(async (context) => {
   const starlightRoute = context.locals.starlightRoute;
 
   let catalogData = context.locals.catalogs;
+  if (!catalogData) return;
   let introData: IntroductionDataSchemaType | null = null;
 
   // Check if current article is in the current catalogData

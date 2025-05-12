@@ -2,7 +2,7 @@ import { z } from "astro/zod";
 import { getSchema, nonMultilingualSchema, SQUIDEX_CONTENT_SCHEMAS } from "./common";
 import type { ContentDtoType } from "starsquid/schemas";
 import { getContentById, getContentByIds, getReferencing } from "@/scripts/clinet";
-import { introductionDataSchema } from "./Introduction";
+import { introductionDataSchema, type IntroductionDtoType } from "./Introduction";
 
 export const articleDataSchema = z.object({
   name: nonMultilingualSchema(z.string()),
@@ -28,10 +28,10 @@ export async function getArticleByIds(ids: string[]) {
 }
 
 // 1:n, only restuns the first one
-export async function getArticleReferencing(id: string) {
+export async function getArticleReferencing(id: string): Promise<IntroductionDtoType> {
   const referencing = await getReferencing(
     SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS,
     introductionDataSchema,
     id);
-  return referencing.items[0];
+  return referencing.items[0] as IntroductionDtoType;
 }
