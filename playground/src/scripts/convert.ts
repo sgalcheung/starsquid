@@ -1,7 +1,7 @@
 import { COLUMN_ARTICLE_PATH } from "@/helpers/constants";
 import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas/common";
 // import { getArticleById } from "@/content/schemas/Articles";
-import { getIntroductionReferences, type IntroductionCollectionType, type IntroductionDtoType } from "@/content/schemas/Introduction";
+import { getIntroductionReferences, type IntroductionCollectionType, type IntroductionDtoType, type IntroductionReferenceDtoType } from "@/content/schemas/Introduction";
 
 export interface CatalogType
   extends Array<{
@@ -81,35 +81,27 @@ export async function getCatalog(
 export async function getCatalog(
   value: IntroductionCollectionType | IntroductionDtoType,
 ): Promise<CatalogType> {
-  let data, id;
-  if ('collection' in value) {
-    const intro = value as IntroductionCollectionType;
-    ({ id, data } = intro.data);
-  } else {
-    const intro = value as IntroductionDtoType;
-    id = intro.id;
-    data = intro.data;
-  }
+  const { id, data } = 'collection' in value ? value.data : value;
 
   const chapters = data?.chapters?.iv ?? [];
-  if (!chapters.length) return [];
-
-  // const articlesMap = { ...intro.data.referenceData?.articles };
-  const articlesMap: { [x: string]: any; } = {};
+  if (chapters.length === 0) return [];
 
   const references = await getIntroductionReferences(id);
-  for (const ref of references.items) {
-    if (ref && ref.schemaName === SQUIDEX_CONTENT_SCHEMAS.ARTICLES) {
-      articlesMap[ref.id] = ref.data;
-    }
-  }
+  const articlesMap = Object.fromEntries(
+    references.items
+      .filter(ref => ref?.schemaName === SQUIDEX_CONTENT_SCHEMAS.ARTICLES)
+      .map((ref) => {
+        const typedRef = ref as IntroductionReferenceDtoType;
+        return [typedRef.id, { name: typedRef.data?.name?.iv ?? "Unknown" }];
+      })
+  );
 
   return chapters.map((chapter) => ({
     label: chapter.title ?? "Untitled",
     items: (chapter.articles ?? []).map((articleId) => {
       const article = articlesMap[articleId];
       return {
-        label: article?.name?.iv ?? "Unknown",
+        label: article?.name ?? "Unknown",
         link: `/${COLUMN_ARTICLE_PATH}/${articleId}`,
       };
     }),

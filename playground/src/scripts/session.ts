@@ -1,10 +1,8 @@
 import type { APIContext } from "astro";
 import { getCatalog, type CatalogType } from "@/scripts/convert";
-import { getIntroductionBySlug, type IntroductionDtoType } from "@/content/schemas/Introduction";
+import { getIntroductionBySlug, type IntroductionCollectionType, type IntroductionDtoType } from "@/content/schemas/Introduction";
 import { COLUMN, COLUMN_ARTICLE_PATH } from "@/helpers/constants";
 import { getArticleReferencing } from "../content/schemas/Articles";
-import type { CollectionEntry } from "astro:content";
-import type { SQUIDEX_CONTENT_SCHEMAS } from "../content/schemas/common";
 
 export async function loadCatalogFromSession(
   context: APIContext
@@ -35,7 +33,7 @@ export async function loadCatalogFromSession(
     }
     catalogs = parsed as CatalogType;
   } else {
-    let intro: CollectionEntry<typeof SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS> | IntroductionDtoType | undefined;
+    let intro: IntroductionCollectionType | IntroductionDtoType | undefined;
     if (column_name) {
       intro = await getIntroductionBySlug(column_name);
     } else if (pathname.startsWith("/column")) {

@@ -2,7 +2,7 @@ import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 import { componentSchema, nonMultilingualSchema, SQUIDEX_CONTENT_SCHEMAS } from "./common";
 import { z } from "astro/zod";
 import { getReferences } from "@/scripts/clinet";
-import type { ContentDtoType } from "starsquid/schemas";
+import type { ContentDtoType, ContentsDtoType } from "starsquid/schemas";
 
 const chapters = z.array(
   z
@@ -22,13 +22,17 @@ export const introductionDataSchema = z.object({
   author: nonMultilingualSchema(z.array(z.string())),
 });
 
+export type IntroductionDataSchemaType = z.infer<typeof introductionDataSchema>;
+export type IntroductionDtoType = ContentDtoType<typeof introductionDataSchema>;
+export type IntroductionCollectionType = CollectionEntry<typeof SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS>;
+
 const introductionReferencesSchema = z.object({
   name: nonMultilingualSchema(z.string()),
 });
 
-export type IntroductionDataSchemaType = z.infer<typeof introductionDataSchema>;
-export type IntroductionDtoType = ContentDtoType<typeof introductionDataSchema>;
-export type IntroductionCollectionType = CollectionEntry<typeof SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS>;
+export type IntroductionReferencesSchemaType = z.infer<typeof introductionReferencesSchema>;
+export type IntroductionReferenceDtoType = ContentDtoType<typeof introductionReferencesSchema>;
+export type IntroductionReferencesDtoType = ContentsDtoType<typeof introductionReferencesSchema>;
 
 export async function getAllIntroductions() {
   const introductions = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);

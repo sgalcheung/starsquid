@@ -11,7 +11,7 @@ export const articleDataSchema = z.object({
 
 export const articleSchema = getSchema(articleDataSchema);
 
-export type ArticleSchemaType = ContentDtoType<typeof articleSchema>;
+export type ArticleDtoType = ContentDtoType<typeof articleSchema>;
 
 
 export async function getArticleById(id: string) {
