@@ -12,7 +12,7 @@
 		"withastro",
 		"astro-loader"
 	],
-	"homepage": "https://starsquid.netlify.app/",
+	"homepage": "https://starsquid.vercel.app/",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/sgalcheung/starsquid.git",
