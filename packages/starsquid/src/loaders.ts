@@ -16,16 +16,49 @@ import {
 import type { ResourceLink } from "@squidex/squidex";
 import { SquidexClientFactory } from "./data/core/api.js";
 import type { LoaderCollectionOpts } from "./type.js";
+import { AstroError } from "astro/errors";
 
 type DataEntry = Parameters<DataStore["set"]>[0];
 
-export function squidexCollections<T extends string>(config: LoaderCollectionOpts<T>) {
-  if (config.squidexClient) {
+export function squidexCollections<T extends string>({
+  /** The squidex url. Defaults to SQUIDEX_URL env var */
+  squidexUrl = import.meta.env.SQUIDEX_URL,
+  /** The squidex app name. Defaults to SQUIDEX_APP_NAME env var */
+  squidexAppName = import.meta.env.SQUIDEX_APP_NAME,
+  /** The squidex app client Id. Defaults to SQUIDEX_CLIENT_ID env var */
+  squidexClientId = import.meta.env.SQUIDEX_CLIENT_ID,
+  /** The squidex app client secret. Defaults to SQUIDEX_CLIENT_SECRET env var */
+  squidexClientSecret = import.meta.env.SQUIDEX_CLIENT_SECRET,
+  /** The object of squidex client */
+  squidexClient,
+  squidexContentSchemaMapping,
+}: LoaderCollectionOpts<T>) {
+  if (squidexClient) {
     console.log("Using provided Squidex client");
   } else {
     console.log("Creating new Squidex client");
+    if (!squidexUrl) {
+      throw new AstroError(
+        "Missing Squidex url. Set it in the SQUIDEX_URL environment variable or pass it as an option.",
+      );
+    }
+    if (!squidexAppName) {
+      throw new AstroError(
+        "Missing Squidex app name. Set it in the SQUIDEX_APP_NAME environment variable or pass it as an option.",
+      );
+    }
+    if (!squidexClientId) {
+      throw new AstroError(
+        "Missing Squidex app client Id. Set it in the SQUIDEX_CLIENT_ID environment variable or pass it as an option.",
+      );
+    }
+    if (!squidexClientSecret) {
+      throw new AstroError(
+        "Missing Squidex app client secret. Set it in the SQUIDEX_CLIENT_SECRET environment variable or pass it as an option.",
+      );
+    }
   }
-  const client = config.squidexClient ?? SquidexClientFactory(config.squidexAppName, config.squidexClientId, config.squidexClientSecret, config.squidexUrl);
+  const client = squidexClient ?? SquidexClientFactory(squidexAppName, squidexClientId, squidexClientSecret, squidexUrl);
 
   const l = (type: SCHEMAS, schema: BaseSchema, contentSchema?: string) =>
     makeLoader({
@@ -54,8 +87,8 @@ export function squidexCollections<T extends string>(config: LoaderCollectionOpt
       }),
     }),
     [SCHEMAS.CONTENT]: () => {
-      if (config.squidexContentSchemaMapping) {
-        const contentSchemaMapping = config.squidexContentSchemaMapping;
+      if (squidexContentSchemaMapping) {
+        const contentSchemaMapping = squidexContentSchemaMapping;
         // const contentSchemas = Object.keys(config.squidexContentSchemaMapping);
 
         if (contentSchemaMapping) {
@@ -69,13 +102,13 @@ export function squidexCollections<T extends string>(config: LoaderCollectionOpt
           //   contentSchemaMapping
           // ) as T[SquidexContentSchemasLiteral][];
 
-          console.log("---------------");
+          console.log("------------------------------");
           for (const key of schemaKeys) {
             const schemaValue = contentSchemaMapping[key];
             console.log(`${key}: ${schemaValue}`);
           }
 
-          console.log("---------------");
+          console.log("------------------------------");
           // console.log("All schemas:", schemaValues);
           // return null;
 
