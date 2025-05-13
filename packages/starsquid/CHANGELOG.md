@@ -1,5 +1,12 @@
 # starsquid
 
+## 1.0.1
+
+### Patch Changes
+
+- Simplify squidexCollections parameters and enhance error handling.
+  The Vite client library could directly use the Vite variable.
+
 ## 1.0.0
 
 ### Major Changes

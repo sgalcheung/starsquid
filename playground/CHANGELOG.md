@@ -1,5 +1,12 @@
 # playground
 
+## 0.1.9
+
+### Patch Changes
+
+- Updated dependencies []:
+  - starsquid@1.0.1
+
 ## 0.1.8
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
 	"name": "starsquid",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "⚠️ Renamed from starlight-squidex to starsquid. Please migrate! → Use your Squidex data in Astro projects",
 	"author": {
 		"email": "sgalculture@outlook.com",
