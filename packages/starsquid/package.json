@@ -46,7 +46,8 @@
 	"scripts": {
 		"generate": "ts-to-zod",
 		"build": "run-scripts build \"src/**/*.ts\"",
-		"dev": "run-scripts dev \"src/**/*.ts\""
+		"dev": "run-scripts dev \"src/**/*.ts\"",
+    "test": "vitest"
 	},
 	"type": "module",
 	"peerDependencies": {
