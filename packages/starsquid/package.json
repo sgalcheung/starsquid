@@ -38,6 +38,10 @@
 		"./api": {
 			"types": "./dist/data/core/api.d.ts",
 			"default": "./dist/data/core/api.js"
+		},
+		"./squidex": {
+			"types": "./squidex.d.ts",
+			"default": "./squidex.mjs"
 		}
 	},
 	"files": [
