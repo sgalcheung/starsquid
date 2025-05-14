@@ -21,15 +21,10 @@ import { AstroError } from "astro/errors";
 type DataEntry = Parameters<DataStore["set"]>[0];
 
 export function squidexCollections<T extends string>({
-  /** The squidex url. Defaults to SQUIDEX_URL env var */
+  squidexAppName,
   squidexUrl = import.meta.env.SQUIDEX_URL,
-  /** The squidex app name. Defaults to SQUIDEX_APP_NAME env var */
-  squidexAppName = import.meta.env.SQUIDEX_APP_NAME,
-  /** The squidex app client Id. Defaults to SQUIDEX_CLIENT_ID env var */
   squidexClientId = import.meta.env.SQUIDEX_CLIENT_ID,
-  /** The squidex app client secret. Defaults to SQUIDEX_CLIENT_SECRET env var */
   squidexClientSecret = import.meta.env.SQUIDEX_CLIENT_SECRET,
-  /** The object of squidex client */
   squidexClient,
   squidexContentSchemaMapping,
 }: LoaderCollectionOpts<T>) {
@@ -40,11 +35,6 @@ export function squidexCollections<T extends string>({
     if (!squidexUrl) {
       throw new AstroError(
         "Missing Squidex url. Set it in the SQUIDEX_URL environment variable or pass it as an option.",
-      );
-    }
-    if (!squidexAppName) {
-      throw new AstroError(
-        "Missing Squidex app name. Set it in the SQUIDEX_APP_NAME environment variable or pass it as an option.",
       );
     }
     if (!squidexClientId) {

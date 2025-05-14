@@ -6,6 +6,7 @@ import { docsLoader } from "@astrojs/starlight/loaders";
 import { squidexClient } from "./scripts/clinet";
 
 const defaultCollections = squidexCollections({
+  squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
   squidexClient: squidexClient,
   squidexContentSchemaMapping: getSquidexContentSchemaMapping(),
 });
