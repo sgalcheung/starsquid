@@ -1,8 +1,8 @@
 import type { APIContext } from "astro";
 import { getCatalog, type CatalogType } from "@/scripts/convert";
-import { getIntroductionBySlug, type IntroductionCollectionType } from "@/content/schemas/Introduction";
 import { COLUMN, COLUMN_ARTICLE_PATH } from "@/helpers/constants";
 import { getArticleReferencing, type ArticleReferencingContentDtoType } from "../data/models/Article";
+import { getIntroductionBySlug, type IntroductionCollectionType } from "../data/models/Introduction";
 
 export async function loadCatalogFromSession(
   context: APIContext

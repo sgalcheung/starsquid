@@ -1,4 +1,4 @@
-import { getCollection, getEntry, type CollectionEntry } from "astro:content";
+import { getEntry, type CollectionEntry } from "astro:content";
 import { componentSchema, nonMultilingualSchema, SQUIDEX_CONTENT_SCHEMAS } from "./common";
 import { z } from "astro/zod";
 import { type ContentDtoType, type ContentsDtoType } from "starsquid/schemas";
@@ -32,11 +32,11 @@ export type IntroductionReferencesSchemaType = z.infer<typeof introductionRefere
 export type IntroductionReferenceDtoType = ContentDtoType<typeof introductionReferencesSchema>;
 export type IntroductionReferencesDtoType = ContentsDtoType<typeof introductionReferencesSchema>;
 
-export async function getAllIntroductions() {
-  const introductions = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
-  return introductions
-    .sort((a, b) => (a.data.created < b.data.created ? 1 : -1));
-}
+// export async function getAllIntroductions() {
+//   const introductions = await getCollection(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS);
+//   return introductions
+//     .sort((a, b) => (a.data.created < b.data.created ? 1 : -1));
+// }
 
 export async function getIntroductionBySlug(slug: string) {
   const introduction = await getEntry(SQUIDEX_CONTENT_SCHEMAS.INTRODUCTIONS, slug);

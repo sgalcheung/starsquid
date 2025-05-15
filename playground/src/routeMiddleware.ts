@@ -46,7 +46,7 @@ export const onRequest = defineRouteMiddleware(async (context) => {
   if (!isCurrent) {
     intro = (await getArticleReferencing(article_id))?.data;
   } else if (column_name) {
-    intro = (await getIntroductionBySlug(column_name))?.data.data;
+    intro = (await getIntroductionBySlug(column_name))?.data;
   } else {
     intro = (await getArticleReferencing(article_id))?.data;
   }

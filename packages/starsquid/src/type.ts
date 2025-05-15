@@ -13,5 +13,7 @@ export interface LoaderCollectionOpts<T extends string = string> {
   /** The object of squidex client */
   squidexClient?: SquidexClient;
   squidexContentSchemaMapping?: Record<T, z.ZodTypeAny>;
+  /** The schema name array of squidex */
+  squidexSchemas?: Array<string>;
 }
 

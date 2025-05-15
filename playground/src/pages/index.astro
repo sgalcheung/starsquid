@@ -1,14 +1,14 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { getCollection } from "astro:content";
-import { SCHEMAS } from "starsquid/schemas";
 import { Markdown } from "astro-remote";
-import { getAllIntroductions } from "@/content/schemas/Introduction";
 import Navbar from "@/components/Navbar.astro";
 import { routes } from "../routing";
+import { SCHEMAS } from "@/data/models/schemas";
+import { getAllIntroductions } from "@/data/models/Introduction";
 
 const app = (await getCollection(SCHEMAS.APP))?.[0];
-const newsFeature = (await getCollection(SCHEMAS.FEATURES))?.[0];
+const newsFeature = (await getCollection(SCHEMAS.NEWS))?.[0];
 const features = newsFeature.data.features.slice(0, 2);
 
 const intros = await getAllIntroductions();
@@ -48,8 +48,7 @@ const intros = await getAllIntroductions();
     <br />
 
     {
-      intros?.map((intro) => {
-        const { data } = intro.data;
+      intros?.map(({ data }) => {
         return (
           data && (
             <h2 class="text-3xl dark:text-white">

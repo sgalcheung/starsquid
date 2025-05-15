@@ -7,6 +7,8 @@ import {
 import {
   SCHEMAS,
   SCHEMAS_CONST,
+  SYSTEM_SCHEMAS,
+  SYSTEM_SCHEMAS_Map,
   appDtoSchema,
   contentDtoSchema,
   contentsDtoSchema,
@@ -17,6 +19,7 @@ import type { ResourceLink } from "@squidex/squidex";
 import { SquidexClientFactory } from "./data/core/api.js";
 import type { LoaderCollectionOpts } from "./type.js";
 import { AstroError } from "astro/errors";
+import { zodSchemaFromSquidexSchema } from "./schema.js";
 
 type DataEntry = Parameters<DataStore["set"]>[0];
 
@@ -27,6 +30,7 @@ export function squidexCollections<T extends string>({
   squidexClientSecret = import.meta.env.SQUIDEX_CLIENT_SECRET,
   squidexClient,
   squidexContentSchemaMapping,
+  squidexSchemas = [],
 }: LoaderCollectionOpts<T>) {
   if (squidexClient) {
     console.log("Using provided Squidex client");
@@ -50,6 +54,9 @@ export function squidexCollections<T extends string>({
   }
   const client = squidexClient ?? SquidexClientFactory(squidexAppName, squidexClientId, squidexClientSecret, squidexUrl);
 
+  const squidexSchemaLoader = (schemaName: string) => squidexLoader({ schemaName, client });
+  const squidexMakeSchemaLoader = (schemaName: string) => squidexMakeLoader({ schemaName, client });
+
   const l = (type: SCHEMAS, schema: BaseSchema, contentSchema?: string) =>
     makeLoader({
       type,
@@ -64,18 +71,6 @@ export function squidexCollections<T extends string>({
     SCHEMAS_VALUES,
     () => Record<string, CollectionConfig<BaseSchema>> | null
   > = {
-    [SCHEMAS.APP]: () => ({
-      [SCHEMAS.APP]: defineCollection({
-        // schema: appDtoSchema,
-        loader: l(SCHEMAS.APP, appDtoSchema),
-      }),
-    }),
-    [SCHEMAS.FEATURES]: () => ({
-      [SCHEMAS.FEATURES]: defineCollection({
-        // schema: async () => featuresDtoSchema,
-        loader: l(SCHEMAS.FEATURES, featuresDtoSchema),
-      }),
-    }),
     [SCHEMAS.CONTENT]: () => {
       if (squidexContentSchemaMapping) {
         const contentSchemaMapping = squidexContentSchemaMapping;
@@ -138,6 +133,19 @@ export function squidexCollections<T extends string>({
     }
   }
 
+  for (const schema of squidexSchemas) {
+    const isSystemSchema = Object.values(SYSTEM_SCHEMAS).includes(schema as SYSTEM_SCHEMAS);
+    const contentCollection = {
+      [schema]: defineCollection({
+        loader: isSystemSchema ? squidexMakeSchemaLoader(schema) : squidexSchemaLoader(schema),
+      }),
+    };
+    collections = {
+      ...collections,
+      ...contentCollection,
+    };
+  }
+
   return collections;
 }
 
@@ -163,40 +171,6 @@ function makeLoader({
       }
 
       switch (type) {
-        case SCHEMAS.APP: {
-          const app = await client.apps.getApp();
-          // Ensure app.links is an object with string keys, fix satisfies.
-          if (app.links && typeof app.links === "object") {
-            for (const key of Object.keys(app.links)) {
-              const link = app.links[key] as ResourceLink;
-              if (link && typeof link === "object" && !("metadata" in link) || link.metadata === undefined) {
-                link.metadata = null;
-              }
-            }
-          }
-          if (!app.label) app.label = null;
-          if (!app.description) app.description = null;
-          if (!app.teamId) app.teamId = null;
-          if (!app.roleName) app.roleName = null;
-
-          const item = await parseData({
-            id: String(app.id),
-            data: JSON.parse(JSON.stringify(app)),
-          });
-          const storeEntry: DataEntry = { id: String(item.id), data: item };
-          store.set(storeEntry);
-          break;
-        }
-        case SCHEMAS.FEATURES: {
-          const news = await client.news.getNews({ version: 1 });
-          const item = await parseData({
-            id: String(news.version),
-            data: JSON.parse(JSON.stringify(news)),
-          });
-          const storeEntry: DataEntry = { id: String(item.id), data: item };
-          store.set(storeEntry);
-          break;
-        }
         case SCHEMAS.CONTENT: {
           if (!contentSchema) {
             throw new Error(`Content schema is not defined for type: ${type}.`);
@@ -287,4 +261,78 @@ function makeLoader({
     schema: async () => (contentSchema ? contentDtoSchema(schema) : schema),
   };
   return loader;
+}
+
+function squidexLoader({
+  schemaName,
+  client,
+}: {
+  schemaName: string,
+  client: ReturnType<typeof SquidexClientFactory>;
+}): Loader {
+  return {
+    name: `starsquid-${schemaName}`,
+    load: async ({ logger, parseData, store }) => {
+      const contents = await client.contents.getContents(schemaName);
+      for (const { id, data } of contents.items) {
+        const parsedData = await parseData({ id, data });
+        store.set({ id, data: parsedData });
+      }
+      logger.info(`Loaded ${contents.total} records from "${schemaName}"`);
+    },
+    schema: async () =>
+      await zodSchemaFromSquidexSchema({
+        schemaName: schemaName,
+        client: client,
+      }),
+  }
+}
+
+function squidexMakeLoader({
+  schemaName,
+  client,
+}: {
+  schemaName: string;
+  client: ReturnType<typeof SquidexClientFactory>;
+}): Loader {
+  return {
+    name: `starsquid-${schemaName}`,
+    load: async ({ store, parseData, logger }) => {
+      switch (schemaName) {
+        case SYSTEM_SCHEMAS.APP: {
+          const app = await client.apps.getApp();
+          // Ensure app.links is an object with string keys, fix satisfies.
+          if (app.links && typeof app.links === "object") {
+            for (const key of Object.keys(app.links)) {
+              const link = app.links[key] as ResourceLink;
+              if (link && typeof link === "object" && !("metadata" in link) || link.metadata === undefined) {
+                link.metadata = null;
+              }
+            }
+          }
+          if (!app.label) app.label = null;
+          if (!app.description) app.description = null;
+          if (!app.teamId) app.teamId = null;
+          if (!app.roleName) app.roleName = null;
+
+          const id = app.id;
+          const data = await parseData({ id, data: JSON.parse(JSON.stringify(app)) });
+          store.set({ id, data });
+          break;
+        }
+        case SYSTEM_SCHEMAS.NEWS: {
+          const news = await client.news.getNews({ version: 1 });
+          const id = String(news.version);
+          const data = await parseData({ id, data: JSON.parse(JSON.stringify(news)) });
+          store.set({ id, data });
+          break;
+        }
+        default:
+          break;
+      }
+
+      logger.info(`Loaded record from system schema "${schemaName}"`);
+    },
+    schema: () => SYSTEM_SCHEMAS_Map.get(schemaName)!,
+  };
 }

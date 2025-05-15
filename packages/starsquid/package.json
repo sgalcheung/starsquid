@@ -58,7 +58,8 @@
 		"astro": ">=5.0.0"
 	},
 	"dependencies": {
-		"@squidex/squidex": "2.0.0-rc2"
+		"@squidex/squidex": "2.0.0-rc2",
+		"ts-pattern": "^5.7.0"
 	},
 	"devDependencies": {
 		"esbuild": "^0.25.2",

@@ -6,14 +6,14 @@ import { CatalogComponent } from "@/components/react/ShadcnComponents";
 import Layout from "@/layouts/Layout.astro";
 import { COLUMN } from "@/helpers/constants";
 import { Markdown } from "astro-remote";
-import { getIntroductionBySlug } from "@/content/schemas/Introduction";
 import Navbar from "@/components/Navbar.astro";
+import { getIntroductionBySlug } from "../../data/models/Introduction";
 
 const { slug } = Astro.params;
 if (!slug || slug === undefined) return Astro.redirect("/404");
 
 const intro = await getIntroductionBySlug(slug);
-if (!intro || !intro.data.data || intro.data.data.slug.iv !== slug)
+if (!intro || !intro.data || intro.data.slug.iv !== slug)
   return Astro.redirect("/404");
 
 const catalogs = Astro.locals.catalogs;
@@ -30,13 +30,13 @@ Astro.cookies.set(COLUMN, slug, { path: "/" });
       <h1
         class="mx-auto text-center m-0 mb-4 leading-[1.35] text-2xl sm:text-3xl md:text-5xl font-black z-1"
       >
-        {intro.data.data.title.iv}
+        {intro.data.title.iv}
       </h1>
     </header>
 
     <main class="w-full">
       <div class="flex flex-row">
-        <Markdown content={intro.data.data.description.iv ?? ""} />
+        <Markdown content={intro.data.description.iv ?? ""} />
       </div>
 
       <div data-intro class="flex">

@@ -44,6 +44,9 @@ importers:
       astro:
         specifier: '>=5.0.0'
         version: 5.7.4(@netlify/blobs@8.2.0)(@types/node@22.9.0)(ioredis@5.6.1)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.0)(typescript@5.7.2)(yaml@2.5.1)
+      ts-pattern:
+        specifier: ^5.7.0
+        version: 5.7.0
     devDependencies:
       esbuild:
         specifier: ^0.25.2
@@ -3549,7 +3552,7 @@ packages:
     engines: {node: '>=8'}
 
   inflight@1.0.6:
-    resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    resolution: {integrity: sha1-Sb1jMdfQLQwJvJEKEHW6gWW1bfk=}
     deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.4:
@@ -3683,7 +3686,7 @@ packages:
     engines: {node: '>=16'}
 
   isexe@2.0.0:
-    resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
+    resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
   isomorphic-ws@5.0.0:
     resolution: {integrity: sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==}
@@ -4232,7 +4235,7 @@ packages:
     hasBin: true
 
   normalize-path@2.1.1:
-    resolution: {integrity: sha1-GrKLVW4Zg2Oowab35vogE3/mrtk=}
+    resolution: {integrity: sha512-3pKJwH184Xo/lnH6oyP1q2pMd7HcypqqmRs91/6/i2CGtWwIKGCkOOMTm/zXbgTEWHw1uNpNi/igc3ePOYHb6w==}
     engines: {node: '>=0.10.0'}
 
   normalize-path@3.0.0:
@@ -4379,7 +4382,7 @@ packages:
     engines: {node: '>=8'}
 
   path-is-absolute@1.0.1:
-    resolution: {integrity: sha1-F0uSaHNVNP+8es5r9TpanhtcX18=}
+    resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
     engines: {node: '>=0.10.0'}
 
   path-key@3.1.1:
@@ -5026,6 +5029,9 @@ packages:
 
   ts-log@2.2.5:
     resolution: {integrity: sha512-PGcnJoTBnVGy6yYNFxWVNkdcAuAMstvutN9MgDJIV6L0oG8fB+ZNNy1T+wJzah8RPGor1mZuPQkVfXNDpy9eHA==}
+
+  ts-pattern@5.7.0:
+    resolution: {integrity: sha512-0/FvIG4g3kNkYgbNwBBW5pZBkfpeYQnH+2AA3xmjkCAit/DSDPKmgwC3fKof4oYUq6gupClVOJlFl+939VRBMg==}
 
   ts-to-zod@3.14.1:
     resolution: {integrity: sha512-qVjOcH0nBccMVsYiX9Qo9NAVnRHkXrkIaZHZ/gfu3YB5ClaG6u47lKJH/PCMY6bRL3oQ6WYK+NbwBj91eRhZFg==}
@@ -11401,6 +11407,8 @@ snapshots:
   ts-interface-checker@0.1.13: {}
 
   ts-log@2.2.5: {}
+
+  ts-pattern@5.7.0: {}
 
   ts-to-zod@3.14.1:
     dependencies:

@@ -1,6 +1,5 @@
 import { COLUMN_ARTICLE_PATH } from "@/helpers/constants";
-import { type IntroductionCollectionType } from "@/content/schemas/Introduction";
-import { getIntroductionReferences } from "../data/models/Introduction";
+import { getIntroductionReferences, type IntroductionCollectionType } from "../data/models/Introduction";
 import type { ArticleReferencingContentDtoType } from "../data/models/Article";
 
 export interface CatalogType
@@ -81,8 +80,7 @@ export async function getCatalog(
 export async function getCatalog(
   value: IntroductionCollectionType | ArticleReferencingContentDtoType,
 ): Promise<CatalogType> {
-  const { id, data } = 'collection' in value ? value.data : value;
-  console.log(id)
+  const { id, data } = 'collection' in value ? value : value;
 
   const chapters = data?.chapters?.iv ?? [];
   if (chapters.length === 0) return [];

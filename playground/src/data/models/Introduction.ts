@@ -1,3 +1,4 @@
+import { getCollection, type CollectionEntry } from "astro:content";
 import { getReferences } from "../core/client";
 import type { NonMultilingual } from "../internals/NonMultilingualT";
 import type { Chapter } from "./Chapter";
@@ -13,6 +14,18 @@ export interface Introduction {
 
 interface IntroductionReference {
   name: NonMultilingual<string>,
+}
+
+export type IntroductionCollectionType = CollectionEntry<(typeof SCHEMAS)["INTRODUCTIONS"]>;
+
+export async function getAllIntroductions() {
+  return await getCollection(SCHEMAS.INTRODUCTIONS);
+}
+
+export async function getIntroductionBySlug(slug: string) {
+  return (await getCollection(SCHEMAS.INTRODUCTIONS, ({ data }) => {
+    return data.slug.iv === slug;
+  }))[0];
 }
 
 export async function getIntroductionReferences(id: string) {
