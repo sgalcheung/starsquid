@@ -1,8 +1,8 @@
 import type { APIContext } from "astro";
 import { getCatalog, type CatalogType } from "@/scripts/convert";
-import { getIntroductionBySlug, type IntroductionCollectionType, type IntroductionDtoType } from "@/content/schemas/Introduction";
+import { getIntroductionBySlug, type IntroductionCollectionType } from "@/content/schemas/Introduction";
 import { COLUMN, COLUMN_ARTICLE_PATH } from "@/helpers/constants";
-import { getArticleReferencing } from "../content/schemas/Articles";
+import { getArticleReferencing, type ArticleReferencingContentDtoType } from "../data/models/Article";
 
 export async function loadCatalogFromSession(
   context: APIContext
@@ -33,7 +33,7 @@ export async function loadCatalogFromSession(
     }
     catalogs = parsed as CatalogType;
   } else {
-    let intro: IntroductionCollectionType | IntroductionDtoType | undefined;
+    let intro: IntroductionCollectionType | ArticleReferencingContentDtoType | undefined;
     if (column_name) {
       intro = await getIntroductionBySlug(column_name);
     } else if (pathname.startsWith("/column")) {
@@ -47,7 +47,7 @@ export async function loadCatalogFromSession(
         return;
       }
       intro = await getArticleReferencing(article_id);
-      column_name = intro.data?.slug.iv;
+      column_name = intro?.data?.slug?.iv;
     }
     if (intro) {
       catalogs = await getCatalog(intro as any);

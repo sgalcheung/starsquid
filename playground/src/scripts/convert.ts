@@ -1,7 +1,7 @@
 import { COLUMN_ARTICLE_PATH } from "@/helpers/constants";
-import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas/common";
-// import { getArticleById } from "@/content/schemas/Articles";
-import { getIntroductionReferences, type IntroductionCollectionType, type IntroductionDtoType, type IntroductionReferenceDtoType } from "@/content/schemas/Introduction";
+import { type IntroductionCollectionType } from "@/content/schemas/Introduction";
+import { getIntroductionReferences } from "../data/models/Introduction";
+import type { ArticleReferencingContentDtoType } from "../data/models/Article";
 
 export interface CatalogType
   extends Array<{
@@ -75,24 +75,24 @@ export async function getCatalog(
   intro: IntroductionCollectionType,
 ): Promise<CatalogType>;
 export async function getCatalog(
-  intro: IntroductionDtoType,
+  intro: ArticleReferencingContentDtoType,
 ): Promise<CatalogType>;
 
 export async function getCatalog(
-  value: IntroductionCollectionType | IntroductionDtoType,
+  value: IntroductionCollectionType | ArticleReferencingContentDtoType,
 ): Promise<CatalogType> {
   const { id, data } = 'collection' in value ? value.data : value;
+  console.log(id)
 
   const chapters = data?.chapters?.iv ?? [];
   if (chapters.length === 0) return [];
 
   const references = await getIntroductionReferences(id);
   const articlesMap = Object.fromEntries(
-    references.items
-      .filter(ref => ref?.schemaName === SQUIDEX_CONTENT_SCHEMAS.ARTICLES)
+    references
+      // .filter(ref => ref?.schemaName === SQUIDEX_CONTENT_SCHEMAS.ARTICLES)
       .map((ref) => {
-        const typedRef = ref as IntroductionReferenceDtoType;
-        return [typedRef.id, { name: typedRef.data?.name?.iv ?? "Unknown" }];
+        return [ref.id, { name: ref.data?.name?.iv ?? "Unknown" }];
       })
   );
 

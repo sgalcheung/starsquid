@@ -3,7 +3,7 @@ import { docsSchema } from "@astrojs/starlight/schema";
 import { defineCollection } from "astro:content";
 import { getSquidexContentSchemaMapping } from "@/content/schemas";
 import { docsLoader } from "@astrojs/starlight/loaders";
-import { squidexClient } from "./scripts/clinet";
+import { squidexClient } from "./data/core/client";
 
 const defaultCollections = squidexCollections({
   squidexAppName: import.meta.env.SQUIDEX_APP_NAME,

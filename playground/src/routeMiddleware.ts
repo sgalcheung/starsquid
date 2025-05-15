@@ -6,7 +6,7 @@ import { COLUMN, COLUMN_ARTICLE_PATH } from "./helpers/constants";
 import type { CatalogType } from "./scripts/convert";
 import type { APIContext } from "astro";
 import { getIntroductionBySlug, type IntroductionDataSchemaType } from "./content/schemas/Introduction";
-import { getArticleReferencing } from "./content/schemas/Articles";
+import { getArticleReferencing } from "./data/models/Article";
 
 export const onRequest = defineRouteMiddleware(async (context) => {
   // Get the base path and id of the current URL
@@ -44,11 +44,11 @@ export const onRequest = defineRouteMiddleware(async (context) => {
   // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
   let intro;
   if (!isCurrent) {
-    intro = (await getArticleReferencing(article_id)).data;
+    intro = (await getArticleReferencing(article_id))?.data;
   } else if (column_name) {
     intro = (await getIntroductionBySlug(column_name))?.data.data;
   } else {
-    intro = (await getArticleReferencing(article_id)).data;
+    intro = (await getArticleReferencing(article_id))?.data;
   }
 
   if (intro) {
