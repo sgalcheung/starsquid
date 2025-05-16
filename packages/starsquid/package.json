@@ -1,6 +1,6 @@
 {
 	"name": "starsquid",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Use your Squidex data in Astro projects",
 	"author": {
 		"email": "sgalculture@outlook.com",
@@ -46,9 +46,9 @@
 	},
 	"files": [
 		"dist",
-    "README.md",
-    "squidex.d.ts",
-    "squidex.mjs"
+		"README.md",
+		"squidex.d.ts",
+		"squidex.mjs"
 	],
 	"scripts": {
 		"generate": "ts-to-zod",

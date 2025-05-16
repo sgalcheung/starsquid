@@ -1,5 +1,12 @@
 # starsquid
 
+## 1.1.1
+
+### Patch Changes
+
+- include additional files in package.json for improved distribution.
+  fix commit(41ef8dd15f00ceb98f680f2bd71c7cbd9f1bc9d4): add squidex module exports for improved integration
+
 ## 1.1.0
 
 ### Minor Changes
