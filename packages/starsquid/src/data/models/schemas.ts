@@ -11,23 +11,13 @@ import type {
   StatusInfoDto,
 } from "@squidex/squidex";
 
-export enum SCHEMAS {
-  CONTENT = "content",
-}
-
-export const SCHEMAS_CONST = Object.freeze({
-  ...SCHEMAS,
-} as const);
-
-export type SCHEMAS_VALUES = (typeof SCHEMAS_CONST)[keyof typeof SCHEMAS_CONST];
-
-export const resourceLinkSchema = z.object({
+const resourceLinkSchema = z.object({
   href: z.string(),
   method: z.string(),
   metadata: z.string().nullable().optional(),
 }) satisfies z.ZodType<ResourceLink>;
 
-export const appDtoSchema = z.object({
+const appDtoSchema = z.object({
   links: z.record(z.string(), resourceLinkSchema),
   id: z.string(),
   name: z.string(),
@@ -44,17 +34,17 @@ export const appDtoSchema = z.object({
   roleProperties: z.record(z.any()),
 }) satisfies z.ZodType<AppDto>;
 
-export const featureDtoSchema = z.object({
+const featureDtoSchema = z.object({
   name: z.string(),
   text: z.string(),
 }) satisfies z.ZodType<FeatureDto>;
 
-export const featuresDtoSchema = z.object({
+const featuresDtoSchema = z.object({
   features: z.array(featureDtoSchema),
   version: z.number(),
 }) satisfies z.ZodType<FeaturesDto>;
 
-export const scheduleJobDtoSchema = z.object({
+const scheduleJobDtoSchema = z.object({
   id: z.string(),
   status: z.string(),
   dueTime: z.coerce.date(),
@@ -62,7 +52,7 @@ export const scheduleJobDtoSchema = z.object({
   scheduledBy: z.string(),
 }) satisfies z.ZodType<ScheduleJobDto>;
 
-export const statusInfoDtoSchema = z.object({
+const statusInfoDtoSchema = z.object({
   status: z.string(),
   color: z.string(),
 }) satisfies z.ZodType<StatusInfoDto>;
@@ -147,9 +137,6 @@ export const contentsDtoSchema = <T>(
 
 export type ContentsDtoType<T extends z.ZodTypeAny> = z.infer<
   ReturnType<typeof contentsDtoSchema<T>>>;
-
-
-
 
 export enum SYSTEM_SCHEMAS {
   APP = "app",

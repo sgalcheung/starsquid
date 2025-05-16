@@ -1,7 +1,6 @@
 import type { SquidexClient } from "@squidex/squidex";
-import type { z } from "astro/zod";
 
-export interface LoaderCollectionOpts<T extends string = string> {
+export interface LoaderCollectionOpts {
   /** The squidex app name */
   squidexAppName: string;
   /** The squidex client Id. Defaults to SQUIDEX_CLIENT_ID env var */
@@ -12,8 +11,7 @@ export interface LoaderCollectionOpts<T extends string = string> {
   squidexUrl?: string;
   /** The object of squidex client */
   squidexClient?: SquidexClient;
-  squidexContentSchemaMapping?: Record<T, z.ZodTypeAny>;
   /** The schema name array of squidex */
-  squidexSchemas?: Array<string>;
+  squidexSchemas: Array<string>;
 }
 
