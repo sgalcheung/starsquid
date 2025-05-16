@@ -45,6 +45,8 @@ export function squidexCollections({
   return collections;
 }
 
+const loaderName = "starsquid-loader";
+
 function squidexLoader({
   schemaName,
   client,
@@ -53,7 +55,7 @@ function squidexLoader({
   client: ReturnType<typeof SquidexClientFactory>;
 }): Loader {
   return {
-    name: `starsquid-${schemaName}`,
+    name: loaderName,
     load: async ({ logger, parseData, store }) => {
       const contents = await client.contents.getContents(schemaName);
       for (const item of contents.items) {
@@ -79,7 +81,7 @@ function squidexMakeLoader({
   client: ReturnType<typeof SquidexClientFactory>;
 }): Loader {
   return {
-    name: `starsquid-${schemaName}`,
+    name: loaderName,
     load: async ({ store, parseData, logger }) => {
       switch (schemaName) {
         case SYSTEM_SCHEMAS.APP: {
