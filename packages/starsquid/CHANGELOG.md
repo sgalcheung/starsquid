@@ -1,5 +1,13 @@
 # starsquid
 
+## 1.1.0
+
+### Minor Changes
+
+- feat: add squidex module exports for improved integration.
+
+  No need to define schema manually, get the fields contained in the corresponding schema through the getSchema API of Schemas.
+
 ## 1.0.1
 
 ### Patch Changes
