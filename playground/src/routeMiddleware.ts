@@ -40,7 +40,6 @@ export const onRequest = defineRouteMiddleware(async (context) => {
     catalogData = await findSessionDataByArticleId(context, article_id);
   }
 
-
   let intro: IntroductionCollectionType | IntroductionDtoType | undefined;
   if (!isCurrent) {
     intro = await getArticleReferencing(article_id);
@@ -52,31 +51,16 @@ export const onRequest = defineRouteMiddleware(async (context) => {
 
   let introData: IntroductionDtoType | null = null;
   if (intro) {
-    introData = 'data' in intro
+    introData = 'collection' in intro
       ? (intro.data as IntroductionDtoType)
-      : (intro satisfies IntroductionDtoType);
+      : (intro as IntroductionDtoType);
   }
 
   if (introData) {
     context.locals.column = introData;
   }
 
-  const catalogs = catalogData;
-
-  starlightRoute.sidebar = catalogs.map((catalog) => ({
-    type: "group",
-    label: catalog.label,
-    entries: catalog.items.map((item) => ({
-      type: "link",
-      label: item.label,
-      href: item.link,
-      isCurrent: item.link.endsWith(article_id),
-      badge: undefined,
-      attrs: {},
-    })),
-    collapsed: false,
-    badge: undefined,
-  }));
+  renderSideBar(starlightRoute, catalogData, article_id)
 
   usePageTitleInTOC(starlightRoute);
   // console.log(starlightRoute);
@@ -102,5 +86,22 @@ async function findSessionDataByArticleId(context: APIContext, article_id: strin
   } catch {
     return [];
   }
+}
+
+function renderSideBar(starlightRoute: StarlightRouteData, catalogs: CatalogType, article_id: string) {
+  starlightRoute.sidebar = catalogs.map((catalog) => ({
+    type: "group",
+    label: catalog.label,
+    entries: catalog.items.map((item) => ({
+      type: "link",
+      label: item.label,
+      href: item.link,
+      isCurrent: item.link.endsWith(article_id),
+      badge: undefined,
+      attrs: {},
+    })),
+    collapsed: false,
+    badge: undefined,
+  }));
 }
 

@@ -49,8 +49,16 @@ export async function loadCatalogFromSession(
       intro = await getArticleReferencing(article_id);
       column_name = intro?.data?.slug?.iv;
     }
+
     if (intro) {
-      catalogs = await getCatalog(intro as any);
+      // Ensure intro has the required 'collection' property for getCatalog
+      if (intro && !('collection' in intro)) {
+        catalogs = await getCatalog(intro as IntroductionDtoType);
+      } else {
+        catalogs = await getCatalog(intro as IntroductionCollectionType);
+      }
+
+
       if (column_name) {
         context.session?.set(column_name, JSON.stringify(catalogs));
         context.cookies.set(COLUMN, column_name, { path: "/" });

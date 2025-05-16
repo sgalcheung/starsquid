@@ -28,7 +28,6 @@ export async function getCatalog(
   const references = await getIntroductionReferences(id);
   const articlesMap = Object.fromEntries(
     references
-      // .filter(ref => ref?.schemaName === SQUIDEX_CONTENT_SCHEMAS.ARTICLES)
       .map((ref) => {
         return [ref.id, { name: ref.data?.name?.iv ?? "Unknown" }];
       })
