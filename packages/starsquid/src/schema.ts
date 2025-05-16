@@ -3,6 +3,7 @@ import { z, type ZodTypeAny } from "astro/zod";
 import { match, P } from "ts-pattern";
 import type { SquidexClientFactory } from "./data/core/api.js";
 import { AstroError } from "astro/errors";
+import { contentDtoSchema } from "./data/models/schemas.js";
 
 export interface SquidexField extends Omit<Partial<FieldDto>, "nested"> {
   name: string;
@@ -243,5 +244,6 @@ export const zodSchemaFromSquidexSchema = async ({
     schemaObject[field.name] = squidexWrapper(zodType, field.properties.isRequired);;
   }
 
-  return z.object(schemaObject);
+  const dataZodType = z.object(schemaObject);
+  return contentDtoSchema(dataZodType)
 };

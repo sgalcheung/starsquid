@@ -48,7 +48,8 @@ const intros = await getAllIntroductions();
     <br />
 
     {
-      intros?.map(({ data }) => {
+      intros?.map((intro) => {
+        const data = intro.data.data;
         return (
           data && (
             <h2 class="text-3xl dark:text-white">

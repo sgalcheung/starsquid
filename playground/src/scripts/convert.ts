@@ -80,7 +80,7 @@ export async function getCatalog(
 export async function getCatalog(
   value: IntroductionCollectionType | ArticleReferencingContentDtoType,
 ): Promise<CatalogType> {
-  const { id, data } = 'collection' in value ? value : value;
+  const { id, data } = 'collection' in value ? value.data : value;
 
   const chapters = data?.chapters?.iv ?? [];
   if (chapters.length === 0) return [];

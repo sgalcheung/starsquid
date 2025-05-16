@@ -1,4 +1,4 @@
-import type { DataStore, Loader } from "astro/loaders";
+import type { Loader } from "astro/loaders";
 import {
   defineCollection,
   type BaseSchema,
@@ -9,10 +9,8 @@ import {
   SCHEMAS_CONST,
   SYSTEM_SCHEMAS,
   SYSTEM_SCHEMAS_Map,
-  appDtoSchema,
   contentDtoSchema,
   contentsDtoSchema,
-  featuresDtoSchema,
   type SCHEMAS_VALUES,
 } from "./data/models/schemas.js";
 import type { ResourceLink } from "@squidex/squidex";
@@ -20,8 +18,6 @@ import { SquidexClientFactory } from "./data/core/api.js";
 import type { LoaderCollectionOpts } from "./type.js";
 import { AstroError } from "astro/errors";
 import { zodSchemaFromSquidexSchema } from "./schema.js";
-
-type DataEntry = Parameters<DataStore["set"]>[0];
 
 export function squidexCollections<T extends string>({
   squidexAppName,
@@ -274,8 +270,9 @@ function squidexLoader({
     name: `starsquid-${schemaName}`,
     load: async ({ logger, parseData, store }) => {
       const contents = await client.contents.getContents(schemaName);
-      for (const { id, data } of contents.items) {
-        const parsedData = await parseData({ id, data });
+      for (const item of contents.items) {
+        const id = item.id;
+        const parsedData = await parseData({ id, data: JSON.parse(JSON.stringify(item)) });
         store.set({ id, data: parsedData });
       }
       logger.info(`Loaded ${contents.total} records from "${schemaName}"`);
@@ -301,20 +298,6 @@ function squidexMakeLoader({
       switch (schemaName) {
         case SYSTEM_SCHEMAS.APP: {
           const app = await client.apps.getApp();
-          // Ensure app.links is an object with string keys, fix satisfies.
-          if (app.links && typeof app.links === "object") {
-            for (const key of Object.keys(app.links)) {
-              const link = app.links[key] as ResourceLink;
-              if (link && typeof link === "object" && !("metadata" in link) || link.metadata === undefined) {
-                link.metadata = null;
-              }
-            }
-          }
-          if (!app.label) app.label = null;
-          if (!app.description) app.description = null;
-          if (!app.teamId) app.teamId = null;
-          if (!app.roleName) app.roleName = null;
-
           const id = app.id;
           const data = await parseData({ id, data: JSON.parse(JSON.stringify(app)) });
           store.set({ id, data });

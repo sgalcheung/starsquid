@@ -19,12 +19,14 @@ interface IntroductionReference {
 export type IntroductionCollectionType = CollectionEntry<(typeof SCHEMAS)["INTRODUCTIONS"]>;
 
 export async function getAllIntroductions() {
-  return await getCollection(SCHEMAS.INTRODUCTIONS);
+  const introductions = await getCollection(SCHEMAS.INTRODUCTIONS);
+  return introductions
+    .sort((a, b) => (a.data.created < b.data.created ? 1 : -1));
 }
 
 export async function getIntroductionBySlug(slug: string) {
   return (await getCollection(SCHEMAS.INTRODUCTIONS, ({ data }) => {
-    return data.slug.iv === slug;
+    return data.data?.slug.iv === slug;
   }))[0];
 }
 

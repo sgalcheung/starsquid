@@ -13,8 +13,9 @@ const { slug } = Astro.params;
 if (!slug || slug === undefined) return Astro.redirect("/404");
 
 const intro = await getIntroductionBySlug(slug);
-if (!intro || !intro.data || intro.data.slug.iv !== slug)
-  return Astro.redirect("/404");
+const { data } = intro.data;
+if (!intro || !data) return Astro.redirect("/404");
+
 
 const catalogs = Astro.locals.catalogs;
 
@@ -30,13 +31,13 @@ Astro.cookies.set(COLUMN, slug, { path: "/" });
       <h1
         class="mx-auto text-center m-0 mb-4 leading-[1.35] text-2xl sm:text-3xl md:text-5xl font-black z-1"
       >
-        {intro.data.title.iv}
+        {data.title.iv}
       </h1>
     </header>
 
     <main class="w-full">
       <div class="flex flex-row">
-        <Markdown content={intro.data.description.iv ?? ""} />
+        <Markdown content={data.description.iv ?? ""} />
       </div>
 
       <div data-intro class="flex">

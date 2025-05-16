@@ -24,23 +24,23 @@ export type SCHEMAS_VALUES = (typeof SCHEMAS_CONST)[keyof typeof SCHEMAS_CONST];
 export const resourceLinkSchema = z.object({
   href: z.string(),
   method: z.string(),
-  metadata: z.string().nullable(),
+  metadata: z.string().nullable().optional(),
 }) satisfies z.ZodType<ResourceLink>;
 
 export const appDtoSchema = z.object({
   links: z.record(z.string(), resourceLinkSchema),
   id: z.string(),
   name: z.string(),
-  label: z.string().nullable(),
-  description: z.string().nullable(),
+  label: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
   version: z.number(),
   created: z.coerce.date(),
   lastModified: z.coerce.date(),
-  teamId: z.string().nullable(),
+  teamId: z.string().nullable().optional(),
   permissions: z.array(z.string()),
   canAccessApi: z.boolean(),
   canAccessContent: z.boolean(),
-  roleName: z.string().nullable(),
+  roleName: z.string().nullable().optional(),
   roleProperties: z.record(z.any()),
 }) satisfies z.ZodType<AppDto>;
 
