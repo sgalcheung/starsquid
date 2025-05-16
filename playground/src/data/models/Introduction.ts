@@ -3,6 +3,7 @@ import { getReferences } from "../core/client";
 import type { NonMultilingual } from "../internals/NonMultilingualT";
 import type { Chapter } from "./Chapter";
 import { SCHEMAS } from "./schemas";
+import type { ContentDto } from "../internals/ContentDtoT";
 
 export interface Introduction {
   title: NonMultilingual<string>,
@@ -16,6 +17,7 @@ interface IntroductionReference {
   name: NonMultilingual<string>,
 }
 
+export type IntroductionDtoType = ContentDto<Introduction>;
 export type IntroductionCollectionType = CollectionEntry<(typeof SCHEMAS)["INTRODUCTIONS"]>;
 
 export async function getAllIntroductions() {

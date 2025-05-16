@@ -1,8 +1,8 @@
 import type { APIContext } from "astro";
 import { getCatalog, type CatalogType } from "@/scripts/convert";
 import { COLUMN, COLUMN_ARTICLE_PATH } from "@/helpers/constants";
-import { getArticleReferencing, type ArticleReferencingContentDtoType } from "../data/models/Article";
-import { getIntroductionBySlug, type IntroductionCollectionType } from "../data/models/Introduction";
+import { getArticleReferencing } from "../data/models/Article";
+import { getIntroductionBySlug, type IntroductionCollectionType, type IntroductionDtoType } from "../data/models/Introduction";
 
 export async function loadCatalogFromSession(
   context: APIContext
@@ -33,7 +33,7 @@ export async function loadCatalogFromSession(
     }
     catalogs = parsed as CatalogType;
   } else {
-    let intro: IntroductionCollectionType | ArticleReferencingContentDtoType | undefined;
+    let intro: IntroductionCollectionType | IntroductionDtoType | undefined;
     if (column_name) {
       intro = await getIntroductionBySlug(column_name);
     } else if (pathname.startsWith("/column")) {

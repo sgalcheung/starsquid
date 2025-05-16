@@ -5,9 +5,8 @@ import {
 import { COLUMN, COLUMN_ARTICLE_PATH } from "./helpers/constants";
 import type { CatalogType } from "./scripts/convert";
 import type { APIContext } from "astro";
-import { type IntroductionDataSchemaType } from "./content/schemas/Introduction";
 import { getArticleReferencing } from "./data/models/Article";
-import { getIntroductionBySlug } from "./data/models/Introduction";
+import { getIntroductionBySlug, type IntroductionCollectionType, type IntroductionDtoType } from "./data/models/Introduction";
 
 export const onRequest = defineRouteMiddleware(async (context) => {
   // Get the base path and id of the current URL
@@ -26,7 +25,6 @@ export const onRequest = defineRouteMiddleware(async (context) => {
 
   let catalogData = context.locals.catalogs;
   if (!catalogData) return;
-  let introData: IntroductionDataSchemaType | null = null;
 
   // Check if current article is in the current catalogData
   const isCurrent = catalogData.some(category =>
@@ -42,18 +40,21 @@ export const onRequest = defineRouteMiddleware(async (context) => {
     catalogData = await findSessionDataByArticleId(context, article_id);
   }
 
-  // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
-  let intro;
+
+  let intro: IntroductionCollectionType | IntroductionDtoType | undefined;
   if (!isCurrent) {
-    intro = (await getArticleReferencing(article_id))?.data;
+    intro = await getArticleReferencing(article_id);
   } else if (column_name) {
-    intro = (await getIntroductionBySlug(column_name))?.data.data;
+    intro = await getIntroductionBySlug(column_name);
   } else {
-    intro = (await getArticleReferencing(article_id))?.data;
+    intro = await getArticleReferencing(article_id);
   }
 
+  let introData: IntroductionDtoType | null = null;
   if (intro) {
-    introData = intro as unknown as IntroductionDataSchemaType;
+    introData = 'data' in intro
+      ? (intro.data as IntroductionDtoType)
+      : (intro satisfies IntroductionDtoType);
   }
 
   if (introData) {
