@@ -3,7 +3,7 @@ import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import { Markdown } from "astro-remote";
 import { extractHeadings } from "@/helpers/markdown";
 import Heading from "@/components/Heading.astro";
-import { getArticle } from "@/scripts/api";
+import { getArticleById } from "@/data/models/Article";
 
 const { slug } = Astro.params;
 if (!slug) {
@@ -11,24 +11,25 @@ if (!slug) {
 }
 
 console.time("getArticle ExecutionTime");
-const { articles } = await getArticle(slug);
+const article = await getArticleById(slug);
 console.timeEnd("getArticle ExecutionTime");
-if (!articles || articles.length !== 1) {
+const { data } = article;
+
+if (!data) {
   return Astro.redirect("/404");
 }
 
-const article = articles[0].flatData;
+const frontmatter = { title: data.name.iv };
 
-const frontmatter = { title: article.name ?? "" };
-
-const headings = extractHeadings(article.content as string);
+const content = data.content.iv;
+const headings = extractHeadings(content);
 ---
 
 {
-  article.content && article.content.length > 0 && (
+  content && content.length > 0 && (
     <StarlightPage {frontmatter} {headings}>
       <Markdown
-        content={article.content}
+        content={content}
         sanitize={{ allowComponents: true }}
         components={{ Heading }}
       />
