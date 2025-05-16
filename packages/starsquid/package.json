@@ -45,7 +45,10 @@
 		}
 	},
 	"files": [
-		"dist"
+		"dist",
+    "README.md",
+    "squidex.d.ts",
+    "squidex.mjs"
 	],
 	"scripts": {
 		"generate": "ts-to-zod",
