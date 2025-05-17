@@ -4,7 +4,7 @@ title: Quick Started
 ---
 
 import { Steps, Aside, Tabs, TabItem } from "@astrojs/starlight/components";
-import ReadMore from '@/components/ReadMore.astro';
+import ReadMore from "@/components/ReadMore.astro";
 
 ### Installation
 
@@ -49,8 +49,13 @@ import ReadMore from '@/components/ReadMore.astro';
 2. StarSquid uses Astro’s content collections, which are configured in the `src/content.config.ts` file.
 
    Add **squidexCollections** and configure the necessary squidex parameters to initialize a squidex client. If you don't add this, it will be the default read from the Vite env(`import.mete.env.*`). Or add an initialized squidex client.
-   
+
    Add the schemas you want to load to the array **squidexSchemas**. Currently, the system schema, such as app and news (previously named features), are not loaded. If you need them, remember to add them.
+
+   <Aside>
+     [v1.1.1](https://www.npmjs.com/package/starsquid/v/1.1.1) is a transitional
+     version that supports both to meet your migration needs.
+   </Aside>
 
    ```ts
    // src/content.config.ts
@@ -71,18 +76,18 @@ import ReadMore from '@/components/ReadMore.astro';
      squidexClientId: import.meta.env.SQUIDEX_CLIENT_ID,
      squidexClientSecret: import.meta.env.SQUIDEX_CLIENT_SECRET,
      squidexClient: squidexClient,
-     squidexSchemas: [SCHEMAS.APP, SCHEMAS.NEWS, SCHEMAS.AUTHORS, SCHEMAS.INTRODUCTIONS]
+     squidexSchemas: [
+       SCHEMAS.APP,
+       SCHEMAS.NEWS,
+       SCHEMAS.AUTHORS,
+       SCHEMAS.INTRODUCTIONS,
+     ],
    });
    ```
+
    <ReadMore>Read more about [Singleton](../../features/singleton/).</ReadMore>
 
 3. Configure the loader to support dynamic refresh in the `astro.config.mjs` file.
-
-   <Aside slot="preview">
-     This feature only supports the development environment, not for production
-     environment, [see detailed
-     description](https://answers.netlify.com/t/netlify-dont-work-for-my-astro-middleware-endpoint/129673/11).
-   </Aside>
 
    ```diff lang="js"
    // astro.config.mjs
@@ -93,6 +98,12 @@ import ReadMore from '@/components/ReadMore.astro';
    +  integrations: [refreshContentIntegration("https://webhook")],
    });
    ```
+
+   <Aside type="caution">
+     This feature only supports the development environment, not for production
+     environment, [see detailed
+     description](https://answers.netlify.com/t/netlify-dont-work-for-my-astro-middleware-endpoint/129673/11).
+   </Aside>
 
 </Steps>
 
