@@ -1,9 +1,9 @@
 import { FetchError, SquidexNotFoundError, type FieldDto, type FieldPropertiesDto, type NestedFieldDto, type SchemaDto } from "@squidex/squidex";
 import { z, type ZodTypeAny } from "astro/zod";
 import { match, P } from "ts-pattern";
-import type { SquidexClientFactory } from "./data/core/api.js";
+import type { SquidexClientFactory } from "../core/api.js";
 import { AstroError } from "astro/errors";
-import { contentDtoSchema } from "./data/models/schemas.js";
+import { contentDtoSchema } from "./schemas.js";
 
 export interface SquidexField extends Omit<Partial<FieldDto>, "nested"> {
   name: string;

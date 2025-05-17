@@ -3,7 +3,7 @@
 declare namespace App {
   interface Locals {
     catalogs: import('./scripts/convert').CatalogType;
-    column: import('./content/schemas/Introduction').IntroductionDataSchemaType;
+    column: import('./data/models/Introduction').IntroductionDtoType;
   }
 }
 

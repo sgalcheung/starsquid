@@ -8,7 +8,6 @@ import { SCHEMAS } from "./data/models/schemas";
 const defaultCollections = squidexCollections({
   squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
   squidexClient: squidexClient,
-  // squidexContentSchemaMapping: getSquidexContentSchemaMapping(),
   squidexSchemas: [SCHEMAS.APP, SCHEMAS.NEWS, SCHEMAS.AUTHORS, SCHEMAS.INTRODUCTIONS]
 });
 
