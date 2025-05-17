@@ -2,7 +2,8 @@
 import Default from "@astrojs/starlight/components/Sidebar.astro";
 import { routes } from "../routing";
 
-const { data } = Astro.locals.column;
+const { column } = Astro.locals;
+const data = column?.data;
 ---
 
 {
