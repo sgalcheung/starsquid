@@ -9,7 +9,7 @@ import { Steps, Aside, Tabs, TabItem } from "@astrojs/starlight/components";
 
 <Steps>
 
-1. StarSquid is an Astro loader. Install it using your favorite package manager:
+1. StarSquid is a [custom astro loader](https://docs.astro.build/en/guides/content-collections/#building-a-custom-loader). Install it using your favorite package manager:
 
    <Tabs syncKey="pkg">
 
@@ -45,7 +45,36 @@ import { Steps, Aside, Tabs, TabItem } from "@astrojs/starlight/components";
 
 <Steps>
 
-2. Configure the loader to support dynamic refresh in the `astro.config.mjs` file.
+2. StarSquid uses Astro’s content collections, which are configured in the `src/content.config.ts` file.
+
+   Add **squidexCollections** and configure the necessary squidex parameters to initialize a squidex client. If you don't add this, it will be the default read from the Vite env(`import.mete.env.*`). Or add an initialized squidex client.
+   
+   Add the schemas you want to load to the array **squidexSchemas**. Currently, the system schema, such as app and news (previously named features), are not loaded. If you need them, remember to add them.
+
+   ```ts
+   // src/content.config.ts
+   import { squidexCollections } from "starsquid/loaders";
+   import { squidexClient } from "./data/core/client";
+
+   const enum SCHEMAS {
+     APP = "app",
+     NEWS = "news",
+     AUTHORS = "authors",
+     INTRODUCTIONS = "introductions",
+     ARTICLES = "articles",
+   }
+
+   export const collections = squidexCollections({
+     squidexUrl: import.meta.env.SQUIDEX_URL,
+     squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
+     squidexClientId: import.meta.env.SQUIDEX_CLIENT_ID,
+     squidexClientSecret: import.meta.env.SQUIDEX_CLIENT_SECRET,
+     squidexClient: squidexClient,
+     squidexSchemas: [SCHEMAS.APP, SCHEMAS.NEWS, SCHEMAS.AUTHORS, SCHEMAS.INTRODUCTIONS]
+   });
+   ```
+
+3. Configure the loader to support dynamic refresh in the `astro.config.mjs` file.
 
    <Aside slot="preview">
      This feature only supports the development environment, not for production
@@ -63,22 +92,6 @@ import { Steps, Aside, Tabs, TabItem } from "@astrojs/starlight/components";
    });
    ```
 
-3. StarSquid uses Astro’s content collections, which are configured in the `src/content.config.ts` file.
-
-   Add squidexCollections and configure squidex necessary params to init the default collections(app, features, and content as a custom content template):
-
-   ```ts
-   // src/content.config.ts
-   import { squidexCollections } from "starsquid/loaders";
-
-   export const collections = squidexCollections({
-     squidexUrl: import.meta.env.SQUIDEX_URL,
-     squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
-     squidexClientId: import.meta.env.SQUIDEX_CLIENT_ID,
-     squidexClientSecret: import.meta.env.SQUIDEX_CLIENT_SECRET,
-   });
-   ```
-
 </Steps>
 
 ### Usage
@@ -90,7 +103,7 @@ import { Steps, Aside, Tabs, TabItem } from "@astrojs/starlight/components";
    ```astro title="src/pages/index.astro"
      ---
      import { getCollection } from "astro:content";
-     import { SCHEMAS } from "starsquid/schemas";
+     import { SCHEMAS } from "@/data/models/schemas";
 
      const app = (await getCollection(SCHEMAS.APP))?.[0];
      console.log(app);
@@ -120,94 +133,18 @@ import { Steps, Aside, Tabs, TabItem } from "@astrojs/starlight/components";
 
 </Steps>
 
-### Custom Schema
+### Schema
 
 <Steps>
 
-5. Define custom schema
+5. Load schema
 
-   For example, the article has two string property name and content.
+   Obtain schema from squidex [schema API](https://cloud.squidex.io/api/docs#tag/Schemas/operation/Schemas_GetSchema), so you don't need to define schema manually, which is very good for developers and makes sense.
 
-   ```ts
-   // src/content/schemas/common.ts
-   import { z } from "astro/zod";
-
-   export enum SQUIDEX_CONTENT_SCHEMAS {
-     ARTICLES = "articles",
-   }
-
-   export const idSchema = z.object({
-     id: z.string(),
-   });
-
-   export const componentSchema = z.object({
-     schemaId: z.string().optional(),
-     schemaName: z.string().optional(),
-   });
-
-   export function nonMultilingualSchema<T extends z.ZodTypeAny>(schema: T) {
-     return z.object({
-       iv: schema,
-     });
-   }
-   ```
-
-   ```ts title="src/content/schemas/Articles.ts"
-   import { z } from "astro/zod";
-   import { nonMultilingualSchema } from "./common";
-
-   // Create the corresponding schema named articles in Squidex, it contains name and content fields.
-   export const articleSchema = z.object({
-     name: nonMultilingualSchema(z.string()),
-     content: nonMultilingualSchema(z.string()),
-   });
-   ```
-
-   ```ts
-   // src/content/schemas/index.ts
-   import { SQUIDEX_CONTENT_SCHEMAS } from "@/content/schemas/common";
-   import { articleSchema } from "./Articles";
-   import type { z } from "astro/zod";
-
-   export const getSquidexContentSchemaMapping: () => Record<
-     SQUIDEX_CONTENT_SCHEMAS,
-     z.ZodTypeAny
-   > = () => {
-     return {
-       [SQUIDEX_CONTENT_SCHEMAS.ARTICLES]: articleSchema,
-     };
-   };
-   ```
-
-   Pass the schema you defined in the getSquidexContentSchemaMapping method into parameter `squidexContentSchemaMapping`.
-
-   ```diff ts
-   // src/content.config.ts
-   import { squidexCollections } from "starsquid/loaders";
-   import { squidexClient } from "./scripts/client";
-
-   export const collections = squidexCollections({
-     squidexUrl: import.meta.env.SQUIDEX_URL,
-     squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
-     squidexClientId: import.meta.env.SQUIDEX_CLIENT_ID,
-     squidexClientSecret: import.meta.env.SQUIDEX_CLIENT_SECRET,
-   +  squidexContentSchemaMapping: getSquidexContentSchemaMapping(),
-   });
-   ```
-
-   Use the article collection:
-
-   ```astro title="src/page/index.astro"
-   ---
-   const intros = await getCollection(SQUIDEX_CONTENT_SCHEMAS.ARTICLES);
-   console.log(intros?.[0]);
-   ---
-   ```
-
-   If you have any exceptions to `getCollection`, try to run `astro async` command:
+   Then run `astro async` command, enjoy yourself!🙌
 
    ```sh
-   npm run astro sync
+   pnpm run astro sync
    ```
 
 </Steps>
