@@ -4,6 +4,7 @@ title: Quick Started
 ---
 
 import { Steps, Aside, Tabs, TabItem } from "@astrojs/starlight/components";
+import ReadMore from '@/components/ReadMore.astro';
 
 ### Installation
 
@@ -73,6 +74,7 @@ import { Steps, Aside, Tabs, TabItem } from "@astrojs/starlight/components";
      squidexSchemas: [SCHEMAS.APP, SCHEMAS.NEWS, SCHEMAS.AUTHORS, SCHEMAS.INTRODUCTIONS]
    });
    ```
+   <ReadMore>Read more about [Singleton](../../features/singleton/).</ReadMore>
 
 3. Configure the loader to support dynamic refresh in the `astro.config.mjs` file.
 
