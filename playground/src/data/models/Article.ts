@@ -19,5 +19,10 @@ export async function getArticleByIds(ids: string) {
 // 1:n, only restuns the first one
 export async function getArticleReferencing(id: string) {
   const referencing = await getReferencing<Introduction>(SCHEMAS.ARTICLES, id);
-  return referencing.items.find(item => item.schemaName === SCHEMAS.INTRODUCTIONS);
+  const item = referencing.items.find(item => item.schemaName === SCHEMAS.INTRODUCTIONS);
+
+  if (!item) {
+    throw new Error(`No column found referencing article ${id}`);
+  }
+  return item;
 }
