@@ -8,6 +8,7 @@
 	"scripts": {
 		"changeset": "changeset",
     "build": "pnpm --filter starsquid build",
+    "test": "pnpm --filter starsquid test",
 		"release": "node scripts/release.mjs",
 		"check": "biome lint --write .",
 		"format": "biome format --write ."
