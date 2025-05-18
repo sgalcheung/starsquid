@@ -104,6 +104,12 @@ function squidexMakeLoader({
 
       logger.info(`Loaded record from system schema "${schemaName}"`);
     },
-    schema: () => SYSTEM_SCHEMAS_Map.get(schemaName)!,
+    schema: () => {
+      const systemSchema = SYSTEM_SCHEMAS_Map.get(schemaName);
+      if (!systemSchema) {
+        throw new AstroError(`System schema not found for "${schemaName}"`);
+      }
+      return systemSchema;
+    },
   };
 }

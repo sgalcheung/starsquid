@@ -1,4 +1,4 @@
-import { ZodTypeAny } from "Astro/zod";
+import type { ZodTypeAny } from "Astro/zod";
 
 export function isZodType(schema: ZodTypeAny, zodType: string): boolean {
   return !!schema?._def?.typeName && schema._def.typeName === zodType;

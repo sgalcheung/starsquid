@@ -13,7 +13,11 @@ interface Context {
 }
 
 export const test = baseTest.extend<Context>({
-  client: async ({ }, use) => {
+  client: async (
+    // biome-ignore lint/correctness/noEmptyPattern: Vitest setup requires empty pattern
+    { },
+    use
+  ) => {
     if (!squidexUrl || !squidexClientId || !squidexClientSecret || !squidexAppName) {
       throw new Error(
         `Missing Squidex configuration. Please set the following environment variables: 
@@ -23,10 +27,10 @@ export const test = baseTest.extend<Context>({
 
     // setup the fixture before each test function
     const squidexClient = SquidexClientFactory(
-      squidexAppName!,
-      squidexClientId!,
-      squidexClientSecret!,
-      squidexUrl!
+      squidexAppName,
+      squidexClientId,
+      squidexClientSecret,
+      squidexUrl
     );
 
     // use the fixture value

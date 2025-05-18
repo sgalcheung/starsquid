@@ -1,4 +1,4 @@
-export const enum SCHEMAS {
+export enum SCHEMAS {
   APP = "app",
   NEWS = "news",
   AUTHORS = "authors",

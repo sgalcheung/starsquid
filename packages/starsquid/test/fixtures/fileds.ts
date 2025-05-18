@@ -1,4 +1,4 @@
-import { SquidexField } from "../../src/data/models/data-schema";
+import type { SquidexField } from "../../src/data/models/data-schema";
 
 // schema-test
 export const squidexFieldFixtures: Record<string, SquidexField> = {

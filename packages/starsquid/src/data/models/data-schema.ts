@@ -109,7 +109,7 @@ const editorMap = new Map<string, ZodTypeAny>([
 function isEmptyZodObject(schema: ZodTypeAny): boolean {
   if (!schema || typeof schema !== 'object') return false;
   if ('_def' in schema && schema._def?.typeName === 'ZodObject') {
-    const shape = (schema as z.ZodObject<any>).shape;
+    const shape = (schema as z.ZodObject<z.ZodRawShape>).shape;
     return Object.keys(shape).length === 0;
   }
   return false;
@@ -230,11 +230,11 @@ export const zodSchemaFromSquidexSchema = async ({
   } catch (error) {
     if (error instanceof SquidexNotFoundError) {
       throw new AstroError(`The specified schema does not exist in this Squidex app: ${schemaName}`);
-    } else if (error instanceof FetchError) {
-      throw new AstroError('Network layer error:', error.cause.message);
-    } else {
-      throw new AstroError("unknow error");
     }
+    if (error instanceof FetchError) {
+      throw new AstroError('Network layer error:', error.cause.message);
+    }
+    throw new AstroError("unknow error");
   }
 
   const schemaObject: Record<string, ZodTypeAny> = {};
