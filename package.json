@@ -6,11 +6,8 @@
 		"node": ">=18.19.0"
 	},
 	"scripts": {
-		"starsquid:dev": "pnpm --filter starsquid dev",
-		"starsquid:test": "pnpm --filter starsquid test",
-		"playground:dev": "pnpm --filter playground dev",
-		"playground:build": "pnpm --filter starsquid build && pnpm --filter playground build",
 		"changeset": "changeset",
+    "build": "pnpm --filter starsquid build",
 		"release": "node scripts/release.mjs",
 		"check": "biome lint --write .",
 		"format": "biome format --write ."
