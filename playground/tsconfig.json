@@ -10,8 +10,7 @@
         "./src/*"
       ]
     },
-    "jsx": "preserve",
-    "jsxImportSource": "react"
+    "jsx": "preserve"
   },
   "include": [
     ".astro/types.d.ts",
