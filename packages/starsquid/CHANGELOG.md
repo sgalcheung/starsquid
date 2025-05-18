@@ -1,5 +1,11 @@
 # starsquid
 
+## 1.1.2
+
+### Patch Changes
+
+- [`04060c4`](https://github.com/sgalcheung/starsquid/commit/04060c47c055f5565a0ca904eae14862154ae9bd) Thanks [@sgalcheung](https://github.com/sgalcheung)! - Merge [Refactor loader schema #2](https://github.com/sgalcheung/starsquid/pull/2).
+
 ## 1.1.1
 
 ### Patch Changes
