@@ -1,0 +1,5 @@
+---
+"starsquid": major
+---
+
+test
