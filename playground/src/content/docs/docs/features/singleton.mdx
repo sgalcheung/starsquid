@@ -5,10 +5,12 @@ title: Singleton
 ### Using singleton
 
 We can create a client instance in a host program, rather than in starsquid, so we can more flexibly manage the client.
-Initialize a Squidex client using `SquidexClientFactory` method from module `"starsquid/schemas"`.
+Initialize a Squidex client using `SquidexClientFactory` method from module `"starsquid/api"`.
 
 ```ts
 // /src/scripts/client.ts
+import { SquidexClientFactory } from "starsquid/api";
+
 export const squidexClient = SquidexClientFactory(
   import.meta.env.SQUIDEX_APP_NAME,
   import.meta.env.SQUIDEX_CLIENT_ID,
