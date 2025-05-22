@@ -57,6 +57,31 @@ import ReadMore from "@/components/ReadMore.astro";
      version that supports both to meet your migration needs.
    </Aside>
 
+   Creating new Squidex client.
+   ```ts
+   // src/content.config.ts
+   import { squidexCollections } from "starsquid/loaders";
+
+   const enum SCHEMAS {
+     APP = "app",
+     NEWS = "news",
+     AUTHORS = "authors",
+     INTRODUCTIONS = "introductions",
+     ARTICLES = "articles",
+   }
+
+   export const collections = squidexCollections({
+     squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
+     squidexSchemas: [
+       SCHEMAS.APP,
+       SCHEMAS.NEWS,
+       SCHEMAS.AUTHORS,
+       SCHEMAS.INTRODUCTIONS,
+     ],
+   });
+   ```
+
+   Using provided Squidex client.
    ```ts
    // src/content.config.ts
    import { squidexCollections } from "starsquid/loaders";
@@ -71,10 +96,7 @@ import ReadMore from "@/components/ReadMore.astro";
    }
 
    export const collections = squidexCollections({
-     squidexUrl: import.meta.env.SQUIDEX_URL,
      squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
-     squidexClientId: import.meta.env.SQUIDEX_CLIENT_ID,
-     squidexClientSecret: import.meta.env.SQUIDEX_CLIENT_SECRET,
      squidexClient: squidexClient,
      squidexSchemas: [
        SCHEMAS.APP,
