@@ -12,6 +12,7 @@
 		"generate": "NODE_OPTIONS='-r dotenv/config' graphql-codegen-esm"
 	},
 	"dependencies": {
+		"@11ty/eleventy-fetch": "^5.1.0",
 		"@astrojs/check": "^0.9.4",
 		"@astrojs/markdown-remark": "^6.3.1",
 		"@astrojs/react": "^4.2.4",
@@ -34,6 +35,7 @@
 		"lucide-react": "^0.441.0",
 		"marked": "^12.0.0",
 		"marked-gfm-heading-id": "^4.1.1",
+		"p-retry": "^6.2.1",
 		"preline": "^3.0.1",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",

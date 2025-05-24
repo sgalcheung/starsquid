@@ -64,6 +64,7 @@ export default defineConfig({
       components: {
         ThemeSelect: "./src/overrides/ThemeSelect.astro",
         Sidebar: "./src/overrides/Sidebar.astro",
+        PageTitle: "./src/overrides/PageTitle.astro",
       },
       customCss: ["./src/styles/starlight.css"],
     }), // only support for developing environment
