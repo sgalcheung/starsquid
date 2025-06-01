@@ -25,6 +25,7 @@
 		"@tailwindcss/vite": "^4.1.4",
 		"@types/react": "^18.3.8",
 		"@types/react-dom": "^18.3.0",
+		"@vercel/speed-insights": "^1.2.0",
 		"astro": "5.7.4",
 		"astro-remote": "^0.3.4",
 		"class-variance-authority": "^0.7.0",
