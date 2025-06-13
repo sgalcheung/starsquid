@@ -21,65 +21,49 @@ export type Scalars = {
   Long: { input: any; output: any; }
 };
 
-export type AllContents = Articles | Columns | Hotels | Introductions | Pages | Posts | Test;
+export type AllContents = Articles | Authors | Introductions | SchemaTest | Test;
 
 /** The app mutations. */
 export type ApplicationMutations = {
   __typename?: 'ApplicationMutations';
   /** Change a articles content. */
   changeArticlesContent?: Maybe<Articles>;
-  /** Change a The relationship of Hotels and introductions content. */
-  changeColumnsContent?: Maybe<Columns>;
-  /** Change a Hotels content. */
-  changeHotelsContent?: Maybe<Hotels>;
+  /** Change a authors content. */
+  changeAuthorsContent?: Maybe<Authors>;
   /** Change a introductions content. */
   changeIntroductionsContent?: Maybe<Introductions>;
-  /** Change a Pages content. */
-  changePagesContent?: Maybe<Pages>;
-  /** Change a Posts content. */
-  changePostsContent?: Maybe<Posts>;
+  /** Change a schema-test content. */
+  changeSchemaTestContent?: Maybe<SchemaTest>;
   /** Change a test content. */
   changeTestContent?: Maybe<Test>;
   /** Creates an articles content. */
   createArticlesContent?: Maybe<Articles>;
-  /** Creates an The relationship of Hotels and introductions content. */
-  createColumnsContent?: Maybe<Columns>;
-  /** Creates an Hotels content. */
-  createHotelsContent?: Maybe<Hotels>;
+  /** Creates an authors content. */
+  createAuthorsContent?: Maybe<Authors>;
   /** Creates an introductions content. */
   createIntroductionsContent?: Maybe<Introductions>;
-  /** Creates an Pages content. */
-  createPagesContent?: Maybe<Pages>;
-  /** Creates an Posts content. */
-  createPostsContent?: Maybe<Posts>;
+  /** Creates an schema-test content. */
+  createSchemaTestContent?: Maybe<SchemaTest>;
   /** Creates an test content. */
   createTestContent?: Maybe<Test>;
   /** Delete an articles content. */
   deleteArticlesContent: EntitySavedResultDto;
-  /** Delete an The relationship of Hotels and introductions content. */
-  deleteColumnsContent: EntitySavedResultDto;
-  /** Delete an Hotels content. */
-  deleteHotelsContent: EntitySavedResultDto;
+  /** Delete an authors content. */
+  deleteAuthorsContent: EntitySavedResultDto;
   /** Delete an introductions content. */
   deleteIntroductionsContent: EntitySavedResultDto;
-  /** Delete an Pages content. */
-  deletePagesContent: EntitySavedResultDto;
-  /** Delete an Posts content. */
-  deletePostsContent: EntitySavedResultDto;
+  /** Delete an schema-test content. */
+  deleteSchemaTestContent: EntitySavedResultDto;
   /** Delete an test content. */
   deleteTestContent: EntitySavedResultDto;
   /** Patch an articles content by id. */
   patchArticlesContent?: Maybe<Articles>;
-  /** Patch an The relationship of Hotels and introductions content by id. */
-  patchColumnsContent?: Maybe<Columns>;
-  /** Patch an Hotels content by id. */
-  patchHotelsContent?: Maybe<Hotels>;
+  /** Patch an authors content by id. */
+  patchAuthorsContent?: Maybe<Authors>;
   /** Patch an introductions content by id. */
   patchIntroductionsContent?: Maybe<Introductions>;
-  /** Patch an Pages content by id. */
-  patchPagesContent?: Maybe<Pages>;
-  /** Patch an Posts content by id. */
-  patchPostsContent?: Maybe<Posts>;
+  /** Patch an schema-test content by id. */
+  patchSchemaTestContent?: Maybe<SchemaTest>;
   /** Patch an test content by id. */
   patchTestContent?: Maybe<Test>;
   /**
@@ -88,30 +72,20 @@ export type ApplicationMutations = {
    */
   publishArticlesContent?: Maybe<Articles>;
   /**
-   * Publish a The relationship of Hotels and introductions content.
-   * @deprecated Use 'changeColumnsContent' instead
+   * Publish a authors content.
+   * @deprecated Use 'changeAuthorsContent' instead
    */
-  publishColumnsContent?: Maybe<Columns>;
-  /**
-   * Publish a Hotels content.
-   * @deprecated Use 'changeHotelsContent' instead
-   */
-  publishHotelsContent?: Maybe<Hotels>;
+  publishAuthorsContent?: Maybe<Authors>;
   /**
    * Publish a introductions content.
    * @deprecated Use 'changeIntroductionsContent' instead
    */
   publishIntroductionsContent?: Maybe<Introductions>;
   /**
-   * Publish a Pages content.
-   * @deprecated Use 'changePagesContent' instead
+   * Publish a schema-test content.
+   * @deprecated Use 'changeSchemaTestContent' instead
    */
-  publishPagesContent?: Maybe<Pages>;
-  /**
-   * Publish a Posts content.
-   * @deprecated Use 'changePostsContent' instead
-   */
-  publishPostsContent?: Maybe<Posts>;
+  publishSchemaTestContent?: Maybe<SchemaTest>;
   /**
    * Publish a test content.
    * @deprecated Use 'changeTestContent' instead
@@ -119,30 +93,22 @@ export type ApplicationMutations = {
   publishTestContent?: Maybe<Test>;
   /** Update an articles content by id. */
   updateArticlesContent?: Maybe<Articles>;
-  /** Update an The relationship of Hotels and introductions content by id. */
-  updateColumnsContent?: Maybe<Columns>;
-  /** Update an Hotels content by id. */
-  updateHotelsContent?: Maybe<Hotels>;
+  /** Update an authors content by id. */
+  updateAuthorsContent?: Maybe<Authors>;
   /** Update an introductions content by id. */
   updateIntroductionsContent?: Maybe<Introductions>;
-  /** Update an Pages content by id. */
-  updatePagesContent?: Maybe<Pages>;
-  /** Update an Posts content by id. */
-  updatePostsContent?: Maybe<Posts>;
+  /** Update an schema-test content by id. */
+  updateSchemaTestContent?: Maybe<SchemaTest>;
   /** Update an test content by id. */
   updateTestContent?: Maybe<Test>;
   /** Upsert an articles content by id. */
   upsertArticlesContent?: Maybe<Articles>;
-  /** Upsert an The relationship of Hotels and introductions content by id. */
-  upsertColumnsContent?: Maybe<Columns>;
-  /** Upsert an Hotels content by id. */
-  upsertHotelsContent?: Maybe<Hotels>;
+  /** Upsert an authors content by id. */
+  upsertAuthorsContent?: Maybe<Authors>;
   /** Upsert an introductions content by id. */
   upsertIntroductionsContent?: Maybe<Introductions>;
-  /** Upsert an Pages content by id. */
-  upsertPagesContent?: Maybe<Pages>;
-  /** Upsert an Posts content by id. */
-  upsertPostsContent?: Maybe<Posts>;
+  /** Upsert an schema-test content by id. */
+  upsertSchemaTestContent?: Maybe<SchemaTest>;
   /** Upsert an test content by id. */
   upsertTestContent?: Maybe<Test>;
 };
@@ -158,16 +124,7 @@ export type ApplicationMutationsChangeArticlesContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsChangeColumnsContentArgs = {
-  dueTime?: InputMaybe<Scalars['Instant']['input']>;
-  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
-  id: Scalars['String']['input'];
-  status: Scalars['String']['input'];
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsChangeHotelsContentArgs = {
+export type ApplicationMutationsChangeAuthorsContentArgs = {
   dueTime?: InputMaybe<Scalars['Instant']['input']>;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['String']['input'];
@@ -185,16 +142,7 @@ export type ApplicationMutationsChangeIntroductionsContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsChangePagesContentArgs = {
-  dueTime?: InputMaybe<Scalars['Instant']['input']>;
-  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
-  id: Scalars['String']['input'];
-  status: Scalars['String']['input'];
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsChangePostsContentArgs = {
+export type ApplicationMutationsChangeSchemaTestContentArgs = {
   dueTime?: InputMaybe<Scalars['Instant']['input']>;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['String']['input'];
@@ -221,17 +169,8 @@ export type ApplicationMutationsCreateArticlesContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsCreateColumnsContentArgs = {
-  data: ColumnsDataInputDto;
-  id?: InputMaybe<Scalars['String']['input']>;
-  publish?: InputMaybe<Scalars['Boolean']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsCreateHotelsContentArgs = {
-  data: HotelsDataInputDto;
+export type ApplicationMutationsCreateAuthorsContentArgs = {
+  data: AuthorsDataInputDto;
   id?: InputMaybe<Scalars['String']['input']>;
   publish?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -248,17 +187,8 @@ export type ApplicationMutationsCreateIntroductionsContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsCreatePagesContentArgs = {
-  data: PagesDataInputDto;
-  id?: InputMaybe<Scalars['String']['input']>;
-  publish?: InputMaybe<Scalars['Boolean']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsCreatePostsContentArgs = {
-  data: PostsDataInputDto;
+export type ApplicationMutationsCreateSchemaTestContentArgs = {
+  data: SchemaTestDataInputDto;
   id?: InputMaybe<Scalars['String']['input']>;
   publish?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -282,14 +212,7 @@ export type ApplicationMutationsDeleteArticlesContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsDeleteColumnsContentArgs = {
-  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
-  id: Scalars['String']['input'];
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsDeleteHotelsContentArgs = {
+export type ApplicationMutationsDeleteAuthorsContentArgs = {
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['String']['input'];
 };
@@ -303,14 +226,7 @@ export type ApplicationMutationsDeleteIntroductionsContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsDeletePagesContentArgs = {
-  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
-  id: Scalars['String']['input'];
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsDeletePostsContentArgs = {
+export type ApplicationMutationsDeleteSchemaTestContentArgs = {
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['String']['input'];
 };
@@ -332,16 +248,8 @@ export type ApplicationMutationsPatchArticlesContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsPatchColumnsContentArgs = {
-  data: ColumnsDataInputDto;
-  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsPatchHotelsContentArgs = {
-  data: HotelsDataInputDto;
+export type ApplicationMutationsPatchAuthorsContentArgs = {
+  data: AuthorsDataInputDto;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
 };
@@ -356,16 +264,8 @@ export type ApplicationMutationsPatchIntroductionsContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsPatchPagesContentArgs = {
-  data: PagesDataInputDto;
-  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsPatchPostsContentArgs = {
-  data: PostsDataInputDto;
+export type ApplicationMutationsPatchSchemaTestContentArgs = {
+  data: SchemaTestDataInputDto;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
 };
@@ -389,16 +289,7 @@ export type ApplicationMutationsPublishArticlesContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsPublishColumnsContentArgs = {
-  dueTime?: InputMaybe<Scalars['Instant']['input']>;
-  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
-  id: Scalars['String']['input'];
-  status: Scalars['String']['input'];
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsPublishHotelsContentArgs = {
+export type ApplicationMutationsPublishAuthorsContentArgs = {
   dueTime?: InputMaybe<Scalars['Instant']['input']>;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['String']['input'];
@@ -416,16 +307,7 @@ export type ApplicationMutationsPublishIntroductionsContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsPublishPagesContentArgs = {
-  dueTime?: InputMaybe<Scalars['Instant']['input']>;
-  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
-  id: Scalars['String']['input'];
-  status: Scalars['String']['input'];
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsPublishPostsContentArgs = {
+export type ApplicationMutationsPublishSchemaTestContentArgs = {
   dueTime?: InputMaybe<Scalars['Instant']['input']>;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['String']['input'];
@@ -451,16 +333,8 @@ export type ApplicationMutationsUpdateArticlesContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsUpdateColumnsContentArgs = {
-  data: ColumnsDataInputDto;
-  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsUpdateHotelsContentArgs = {
-  data: HotelsDataInputDto;
+export type ApplicationMutationsUpdateAuthorsContentArgs = {
+  data: AuthorsDataInputDto;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
 };
@@ -475,16 +349,8 @@ export type ApplicationMutationsUpdateIntroductionsContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsUpdatePagesContentArgs = {
-  data: PagesDataInputDto;
-  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsUpdatePostsContentArgs = {
-  data: PostsDataInputDto;
+export type ApplicationMutationsUpdateSchemaTestContentArgs = {
+  data: SchemaTestDataInputDto;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
 };
@@ -510,19 +376,8 @@ export type ApplicationMutationsUpsertArticlesContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsUpsertColumnsContentArgs = {
-  data: ColumnsDataInputDto;
-  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
-  id: Scalars['String']['input'];
-  patch?: InputMaybe<Scalars['Boolean']['input']>;
-  publish?: InputMaybe<Scalars['Boolean']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsUpsertHotelsContentArgs = {
-  data: HotelsDataInputDto;
+export type ApplicationMutationsUpsertAuthorsContentArgs = {
+  data: AuthorsDataInputDto;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['String']['input'];
   patch?: InputMaybe<Scalars['Boolean']['input']>;
@@ -543,19 +398,8 @@ export type ApplicationMutationsUpsertIntroductionsContentArgs = {
 
 
 /** The app mutations. */
-export type ApplicationMutationsUpsertPagesContentArgs = {
-  data: PagesDataInputDto;
-  expectedVersion?: InputMaybe<Scalars['Int']['input']>;
-  id: Scalars['String']['input'];
-  patch?: InputMaybe<Scalars['Boolean']['input']>;
-  publish?: InputMaybe<Scalars['Boolean']['input']>;
-  status?: InputMaybe<Scalars['String']['input']>;
-};
-
-
-/** The app mutations. */
-export type ApplicationMutationsUpsertPostsContentArgs = {
-  data: PostsDataInputDto;
+export type ApplicationMutationsUpsertSchemaTestContentArgs = {
+  data: SchemaTestDataInputDto;
   expectedVersion?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['String']['input'];
   patch?: InputMaybe<Scalars['Boolean']['input']>;
@@ -581,16 +425,12 @@ export type ApplicationQueries = {
   findArticlesContent?: Maybe<Articles>;
   /** Find an asset by id. */
   findAsset?: Maybe<Asset>;
-  /** Find an The relationship of Hotels and introductions content by id. */
-  findColumnsContent?: Maybe<Columns>;
-  /** Find an Hotels content by id. */
-  findHotelsContent?: Maybe<Hotels>;
+  /** Find an authors content by id. */
+  findAuthorsContent?: Maybe<Authors>;
   /** Find an introductions content by id. */
   findIntroductionsContent?: Maybe<Introductions>;
-  /** Find an Pages content by id. */
-  findPagesContent?: Maybe<Pages>;
-  /** Find an Posts content by id. */
-  findPostsContent?: Maybe<Posts>;
+  /** Find an schema-test content by id. */
+  findSchemaTestContent?: Maybe<SchemaTest>;
   /** Find an test content by id. */
   findTestContent?: Maybe<Test>;
   /** Query articles content items. */
@@ -601,28 +441,20 @@ export type ApplicationQueries = {
   queryAssets: Array<Asset>;
   /** Get assets and total count. */
   queryAssetsWithTotal: AssetResultDto;
-  /** Query The relationship of Hotels and introductions content items. */
-  queryColumnsContents?: Maybe<Array<Columns>>;
-  /** Query The relationship of Hotels and introductions content items with total count. */
-  queryColumnsContentsWithTotal?: Maybe<ColumnsResultDto>;
+  /** Query authors content items. */
+  queryAuthorsContents?: Maybe<Array<Authors>>;
+  /** Query authors content items with total count. */
+  queryAuthorsContentsWithTotal?: Maybe<AuthorsResultDto>;
   /** Query content items by IDs across schemeas. */
   queryContentsByIds: Array<AllContents>;
-  /** Query Hotels content items. */
-  queryHotelsContents?: Maybe<Array<Hotels>>;
-  /** Query Hotels content items with total count. */
-  queryHotelsContentsWithTotal?: Maybe<HotelsResultDto>;
   /** Query introductions content items. */
   queryIntroductionsContents?: Maybe<Array<Introductions>>;
   /** Query introductions content items with total count. */
   queryIntroductionsContentsWithTotal?: Maybe<IntroductionsResultDto>;
-  /** Query Pages content items. */
-  queryPagesContents?: Maybe<Array<Pages>>;
-  /** Query Pages content items with total count. */
-  queryPagesContentsWithTotal?: Maybe<PagesResultDto>;
-  /** Query Posts content items. */
-  queryPostsContents?: Maybe<Array<Posts>>;
-  /** Query Posts content items with total count. */
-  queryPostsContentsWithTotal?: Maybe<PostsResultDto>;
+  /** Query schema-test content items. */
+  querySchemaTestContents?: Maybe<Array<SchemaTest>>;
+  /** Query schema-test content items with total count. */
+  querySchemaTestContentsWithTotal?: Maybe<SchemaTestResultDto>;
   /** Query test content items. */
   queryTestContents?: Maybe<Array<Test>>;
   /** Query test content items with total count. */
@@ -644,14 +476,7 @@ export type ApplicationQueriesFindAssetArgs = {
 
 
 /** The app queries. */
-export type ApplicationQueriesFindColumnsContentArgs = {
-  id: Scalars['String']['input'];
-  version?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The app queries. */
-export type ApplicationQueriesFindHotelsContentArgs = {
+export type ApplicationQueriesFindAuthorsContentArgs = {
   id: Scalars['String']['input'];
   version?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -665,14 +490,7 @@ export type ApplicationQueriesFindIntroductionsContentArgs = {
 
 
 /** The app queries. */
-export type ApplicationQueriesFindPagesContentArgs = {
-  id: Scalars['String']['input'];
-  version?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The app queries. */
-export type ApplicationQueriesFindPostsContentArgs = {
+export type ApplicationQueriesFindSchemaTestContentArgs = {
   id: Scalars['String']['input'];
   version?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -687,8 +505,10 @@ export type ApplicationQueriesFindTestContentArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryArticlesContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -697,8 +517,10 @@ export type ApplicationQueriesQueryArticlesContentsArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryArticlesContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -724,9 +546,11 @@ export type ApplicationQueriesQueryAssetsWithTotalArgs = {
 
 
 /** The app queries. */
-export type ApplicationQueriesQueryColumnsContentsArgs = {
+export type ApplicationQueriesQueryAuthorsContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -734,9 +558,11 @@ export type ApplicationQueriesQueryColumnsContentsArgs = {
 
 
 /** The app queries. */
-export type ApplicationQueriesQueryColumnsContentsWithTotalArgs = {
+export type ApplicationQueriesQueryAuthorsContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -750,29 +576,11 @@ export type ApplicationQueriesQueryContentsByIdsArgs = {
 
 
 /** The app queries. */
-export type ApplicationQueriesQueryHotelsContentsArgs = {
-  filter?: InputMaybe<Scalars['String']['input']>;
-  orderby?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  top?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The app queries. */
-export type ApplicationQueriesQueryHotelsContentsWithTotalArgs = {
-  filter?: InputMaybe<Scalars['String']['input']>;
-  orderby?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  top?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The app queries. */
 export type ApplicationQueriesQueryIntroductionsContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -781,8 +589,10 @@ export type ApplicationQueriesQueryIntroductionsContentsArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryIntroductionsContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -790,9 +600,11 @@ export type ApplicationQueriesQueryIntroductionsContentsWithTotalArgs = {
 
 
 /** The app queries. */
-export type ApplicationQueriesQueryPagesContentsArgs = {
+export type ApplicationQueriesQuerySchemaTestContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -800,29 +612,11 @@ export type ApplicationQueriesQueryPagesContentsArgs = {
 
 
 /** The app queries. */
-export type ApplicationQueriesQueryPagesContentsWithTotalArgs = {
+export type ApplicationQueriesQuerySchemaTestContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  top?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The app queries. */
-export type ApplicationQueriesQueryPostsContentsArgs = {
-  filter?: InputMaybe<Scalars['String']['input']>;
-  orderby?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  top?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The app queries. */
-export type ApplicationQueriesQueryPostsContentsWithTotalArgs = {
-  filter?: InputMaybe<Scalars['String']['input']>;
-  orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -831,8 +625,10 @@ export type ApplicationQueriesQueryPostsContentsWithTotalArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryTestContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -841,8 +637,10 @@ export type ApplicationQueriesQueryTestContentsArgs = {
 
 /** The app queries. */
 export type ApplicationQueriesQueryTestContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -1049,20 +847,9 @@ export enum AssetType {
   Video = 'VIDEO'
 }
 
-/** The structure of the chapters component schema. */
-export type ChaptersComponent = Component & {
-  __typename?: 'ChaptersComponent';
-  articles?: Maybe<Array<Articles>>;
-  /** The ID of the schema. */
-  schemaId: Scalars['String']['output'];
-  /** The name of the schema. */
-  schemaName?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
-};
-
-/** The structure of a The relationship of Hotels and introductions content type. */
-export type Columns = Content & {
-  __typename?: 'Columns';
+/** The structure of a authors content type. */
+export type Authors = Content & {
+  __typename?: 'Authors';
   /** The timestamp when the object was created. */
   created: Scalars['Instant']['output'];
   /** The user who created the object. */
@@ -1070,13 +857,13 @@ export type Columns = Content & {
   /** The user who created the object. */
   createdByUser: User;
   /** The data of the content. */
-  data: ColumnsDataDto;
+  data: AuthorsDataDto;
   /** The data of the content. */
   data__dynamic?: Maybe<Scalars['JsonScalar']['output']>;
   /** The edit token. */
   editToken?: Maybe<Scalars['String']['output']>;
   /** The flat data of the content. */
-  flatData: ColumnsFlatDataDto;
+  flatData: AuthorsFlatDataDto;
   /** The ID of the object (usually GUID). */
   id: Scalars['String']['output'];
   /** The timestamp when the object was updated the last time. */
@@ -1089,14 +876,14 @@ export type Columns = Content & {
   newStatus?: Maybe<Scalars['String']['output']>;
   /** The status color of the content. */
   newStatusColor?: Maybe<Scalars['String']['output']>;
-  /** Query Hotels content items. */
-  referencesHotelsContents?: Maybe<Array<Hotels>>;
-  /** Query Hotels content items with total count. */
-  referencesHotelsContentsWithTotal?: Maybe<HotelsResultDto>;
   /** Query introductions content items. */
-  referencesIntroductionsContents?: Maybe<Array<Introductions>>;
+  referencingIntroductionsContents?: Maybe<Array<Introductions>>;
   /** Query introductions content items with total count. */
-  referencesIntroductionsContentsWithTotal?: Maybe<IntroductionsResultDto>;
+  referencingIntroductionsContentsWithTotal?: Maybe<IntroductionsResultDto>;
+  /** Query schema-test content items. */
+  referencingSchemaTestContents?: Maybe<Array<SchemaTest>>;
+  /** Query schema-test content items with total count. */
+  referencingSchemaTestContentsWithTotal?: Maybe<SchemaTestResultDto>;
   /** The status of the content. */
   status: Scalars['String']['output'];
   /** The status color of the content. */
@@ -1108,94 +895,130 @@ export type Columns = Content & {
 };
 
 
-/** The structure of a The relationship of Hotels and introductions content type. */
-export type ColumnsReferencesHotelsContentsArgs = {
+/** The structure of a authors content type. */
+export type AuthorsReferencingIntroductionsContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-/** The structure of a The relationship of Hotels and introductions content type. */
-export type ColumnsReferencesHotelsContentsWithTotalArgs = {
+/** The structure of a authors content type. */
+export type AuthorsReferencingIntroductionsContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-/** The structure of a The relationship of Hotels and introductions content type. */
-export type ColumnsReferencesIntroductionsContentsArgs = {
+/** The structure of a authors content type. */
+export type AuthorsReferencingSchemaTestContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-/** The structure of a The relationship of Hotels and introductions content type. */
-export type ColumnsReferencesIntroductionsContentsWithTotalArgs = {
+/** The structure of a authors content type. */
+export type AuthorsReferencingSchemaTestContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** The structure of the The relationship of Hotels and introductions data type. */
-export type ColumnsDataDto = {
-  __typename?: 'ColumnsDataDto';
-  hotels?: Maybe<ColumnsDataHotelsDto>;
-  slug?: Maybe<ColumnsDataSlugDto>;
+/** The structure of the Anonymous field of the authors content type. */
+export type AuthorsDataAnonymousDto = {
+  __typename?: 'AuthorsDataAnonymousDto';
+  /** For Right of Publicity, use name's anonymous */
+  iv?: Maybe<Scalars['String']['output']>;
 };
 
-/** The structure of the Hotels field of the The relationship of Hotels and introductions content type. */
-export type ColumnsDataHotelsDto = {
-  __typename?: 'ColumnsDataHotelsDto';
-  iv?: Maybe<Array<Hotels>>;
+/** The structure of the Anonymous field of the authors content input type. */
+export type AuthorsDataAnonymousInputDto = {
+  /** For Right of Publicity, use name's anonymous */
+  iv?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** The structure of the Hotels field of the The relationship of Hotels and introductions content input type. */
-export type ColumnsDataHotelsInputDto = {
+/** The structure of the Avatar field of the authors content type. */
+export type AuthorsDataAvatarDto = {
+  __typename?: 'AuthorsDataAvatarDto';
+  iv?: Maybe<Array<Asset>>;
+};
+
+/** The structure of the Avatar field of the authors content input type. */
+export type AuthorsDataAvatarInputDto = {
   iv?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
-/** The structure of the The relationship of Hotels and introductions data input type. */
-export type ColumnsDataInputDto = {
-  hotels?: InputMaybe<ColumnsDataHotelsInputDto>;
-  slug?: InputMaybe<ColumnsDataSlugInputDto>;
+/** The structure of the authors data type. */
+export type AuthorsDataDto = {
+  __typename?: 'AuthorsDataDto';
+  anonymous?: Maybe<AuthorsDataAnonymousDto>;
+  avatar?: Maybe<AuthorsDataAvatarDto>;
+  name?: Maybe<AuthorsDataNameDto>;
 };
 
-/** The structure of the Slug field of the The relationship of Hotels and introductions content type. */
-export type ColumnsDataSlugDto = {
-  __typename?: 'ColumnsDataSlugDto';
-  iv?: Maybe<Array<Introductions>>;
+/** The structure of the authors data input type. */
+export type AuthorsDataInputDto = {
+  anonymous?: InputMaybe<AuthorsDataAnonymousInputDto>;
+  avatar?: InputMaybe<AuthorsDataAvatarInputDto>;
+  name?: InputMaybe<AuthorsDataNameInputDto>;
 };
 
-/** The structure of the Slug field of the The relationship of Hotels and introductions content input type. */
-export type ColumnsDataSlugInputDto = {
-  iv?: InputMaybe<Array<Scalars['String']['input']>>;
+/** The structure of the Name field of the authors content type. */
+export type AuthorsDataNameDto = {
+  __typename?: 'AuthorsDataNameDto';
+  iv?: Maybe<Scalars['String']['output']>;
 };
 
-/** The structure of the flat The relationship of Hotels and introductions data type. */
-export type ColumnsFlatDataDto = {
-  __typename?: 'ColumnsFlatDataDto';
-  hotels?: Maybe<Array<Hotels>>;
-  slug?: Maybe<Array<Introductions>>;
+/** The structure of the Name field of the authors content input type. */
+export type AuthorsDataNameInputDto = {
+  iv?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** List of The relationship of Hotels and introductions items and total count. */
-export type ColumnsResultDto = {
-  __typename?: 'ColumnsResultDto';
+/** The structure of the flat authors data type. */
+export type AuthorsFlatDataDto = {
+  __typename?: 'AuthorsFlatDataDto';
+  /** For Right of Publicity, use name's anonymous */
+  anonymous?: Maybe<Scalars['String']['output']>;
+  avatar?: Maybe<Array<Asset>>;
+  name?: Maybe<Scalars['String']['output']>;
+};
+
+/** List of authors items and total count. */
+export type AuthorsResultDto = {
+  __typename?: 'AuthorsResultDto';
   /** The contents. */
-  items?: Maybe<Array<Columns>>;
+  items?: Maybe<Array<Authors>>;
   /** The total count of  contents. */
   total: Scalars['Int']['output'];
+};
+
+/** The structure of the chapters component schema. */
+export type ChaptersComponent = Component & {
+  __typename?: 'ChaptersComponent';
+  articles?: Maybe<Array<Articles>>;
+  /** The ID of the schema. */
+  schemaId: Scalars['String']['output'];
+  /** The name of the schema. */
+  schemaName?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 /** The structure of all content types. */
@@ -1203,6 +1026,16 @@ export type Component = {
   /** schemaId */
   schemaId: Scalars['String']['output'];
   /** schemaName */
+  schemaName?: Maybe<Scalars['String']['output']>;
+};
+
+/** The structure of the component1 component schema. */
+export type Component1Component = Component & {
+  __typename?: 'Component1Component';
+  name?: Maybe<Scalars['String']['output']>;
+  /** The ID of the schema. */
+  schemaId: Scalars['String']['output'];
+  /** The name of the schema. */
   schemaName?: Maybe<Scalars['String']['output']>;
 };
 
@@ -1361,174 +1194,19 @@ export type EntitySavedResultDto = {
   version: Scalars['Long']['output'];
 };
 
-/** The structure of a Hotels content type. */
-export type Hotels = Content & {
-  __typename?: 'Hotels';
-  /** The timestamp when the object was created. */
-  created: Scalars['Instant']['output'];
-  /** The user who created the object. */
-  createdBy: Scalars['String']['output'];
-  /** The user who created the object. */
-  createdByUser: User;
-  /** The data of the content. */
-  data: HotelsDataDto;
-  /** The data of the content. */
-  data__dynamic?: Maybe<Scalars['JsonScalar']['output']>;
-  /** The edit token. */
-  editToken?: Maybe<Scalars['String']['output']>;
-  /** The flat data of the content. */
-  flatData: HotelsFlatDataDto;
-  /** The ID of the object (usually GUID). */
-  id: Scalars['String']['output'];
-  /** The timestamp when the object was updated the last time. */
-  lastModified: Scalars['Instant']['output'];
-  /** The user who updated the object the last time. */
-  lastModifiedBy: Scalars['String']['output'];
-  /** The user who updated the object the last time. */
-  lastModifiedByUser: User;
-  /** The new status of the content. */
-  newStatus?: Maybe<Scalars['String']['output']>;
-  /** The status color of the content. */
-  newStatusColor?: Maybe<Scalars['String']['output']>;
-  /** Query The relationship of Hotels and introductions content items. */
-  referencingColumnsContents?: Maybe<Array<Columns>>;
-  /** Query The relationship of Hotels and introductions content items with total count. */
-  referencingColumnsContentsWithTotal?: Maybe<ColumnsResultDto>;
-  /** The status of the content. */
-  status: Scalars['String']['output'];
-  /** The status color of the content. */
-  statusColor: Scalars['String']['output'];
-  /** The URL to the content. */
-  url: Scalars['String']['output'];
-  /** The version of the objec. */
-  version: Scalars['Int']['output'];
-};
-
-
-/** The structure of a Hotels content type. */
-export type HotelsReferencingColumnsContentsArgs = {
-  filter?: InputMaybe<Scalars['String']['input']>;
-  orderby?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  top?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The structure of a Hotels content type. */
-export type HotelsReferencingColumnsContentsWithTotalArgs = {
-  filter?: InputMaybe<Scalars['String']['input']>;
-  orderby?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  top?: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** The structure of the Description field of the Hotels content type. */
-export type HotelsDataDescriptionDto = {
-  __typename?: 'HotelsDataDescriptionDto';
-  iv?: Maybe<Scalars['String']['output']>;
-};
-
-/** The structure of the Description field of the Hotels content input type. */
-export type HotelsDataDescriptionInputDto = {
-  iv?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The structure of the Hotels data type. */
-export type HotelsDataDto = {
-  __typename?: 'HotelsDataDto';
-  description?: Maybe<HotelsDataDescriptionDto>;
-  minPrice?: Maybe<HotelsDataMinPriceDto>;
-  name?: Maybe<HotelsDataNameDto>;
-  photos?: Maybe<HotelsDataPhotosDto>;
-  rooms?: Maybe<HotelsDataRoomsDto>;
-  slug?: Maybe<HotelsDataSlugDto>;
-};
-
-/** The structure of the Hotels data input type. */
-export type HotelsDataInputDto = {
-  description?: InputMaybe<HotelsDataDescriptionInputDto>;
-  minPrice?: InputMaybe<HotelsDataMinPriceInputDto>;
-  name?: InputMaybe<HotelsDataNameInputDto>;
-  photos?: InputMaybe<HotelsDataPhotosInputDto>;
-  rooms?: InputMaybe<HotelsDataRoomsInputDto>;
-  slug?: InputMaybe<HotelsDataSlugInputDto>;
-};
-
-/** The structure of the Min Price field of the Hotels content type. */
-export type HotelsDataMinPriceDto = {
-  __typename?: 'HotelsDataMinPriceDto';
-  iv?: Maybe<Scalars['Float']['output']>;
-};
-
-/** The structure of the Min Price field of the Hotels content input type. */
-export type HotelsDataMinPriceInputDto = {
-  iv?: InputMaybe<Scalars['Float']['input']>;
-};
-
-/** The structure of the Name field of the Hotels content type. */
-export type HotelsDataNameDto = {
-  __typename?: 'HotelsDataNameDto';
-  iv?: Maybe<Scalars['String']['output']>;
-};
-
-/** The structure of the Name field of the Hotels content input type. */
-export type HotelsDataNameInputDto = {
-  iv?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The structure of the Photos field of the Hotels content type. */
-export type HotelsDataPhotosDto = {
-  __typename?: 'HotelsDataPhotosDto';
-  iv?: Maybe<Array<Asset>>;
-};
-
-/** The structure of the Photos field of the Hotels content input type. */
-export type HotelsDataPhotosInputDto = {
-  iv?: InputMaybe<Array<Scalars['String']['input']>>;
-};
-
-/** The structure of the Rooms field of the Hotels content type. */
-export type HotelsDataRoomsDto = {
-  __typename?: 'HotelsDataRoomsDto';
-  iv?: Maybe<Scalars['Float']['output']>;
-};
-
-/** The structure of the Rooms field of the Hotels content input type. */
-export type HotelsDataRoomsInputDto = {
-  iv?: InputMaybe<Scalars['Float']['input']>;
-};
-
-/** The structure of the Slug (Autogenerated) field of the Hotels content type. */
-export type HotelsDataSlugDto = {
-  __typename?: 'HotelsDataSlugDto';
-  iv?: Maybe<Scalars['String']['output']>;
-};
-
-/** The structure of the Slug (Autogenerated) field of the Hotels content input type. */
-export type HotelsDataSlugInputDto = {
-  iv?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The structure of the flat Hotels data type. */
-export type HotelsFlatDataDto = {
-  __typename?: 'HotelsFlatDataDto';
+/** The structure of the Hotels component schema. */
+export type HotelsComponent = Component & {
+  __typename?: 'HotelsComponent';
   description?: Maybe<Scalars['String']['output']>;
   minPrice?: Maybe<Scalars['Float']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   photos?: Maybe<Array<Asset>>;
   rooms?: Maybe<Scalars['Float']['output']>;
+  /** The ID of the schema. */
+  schemaId: Scalars['String']['output'];
+  /** The name of the schema. */
+  schemaName?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
-};
-
-/** List of Hotels items and total count. */
-export type HotelsResultDto = {
-  __typename?: 'HotelsResultDto';
-  /** The contents. */
-  items?: Maybe<Array<Hotels>>;
-  /** The total count of  contents. */
-  total: Scalars['Int']['output'];
 };
 
 /** The structure of a introductions content type. */
@@ -1560,10 +1238,10 @@ export type Introductions = Content & {
   newStatus?: Maybe<Scalars['String']['output']>;
   /** The status color of the content. */
   newStatusColor?: Maybe<Scalars['String']['output']>;
-  /** Query The relationship of Hotels and introductions content items. */
-  referencingColumnsContents?: Maybe<Array<Columns>>;
-  /** Query The relationship of Hotels and introductions content items with total count. */
-  referencingColumnsContentsWithTotal?: Maybe<ColumnsResultDto>;
+  /** Query authors content items. */
+  referencesAuthorsContents?: Maybe<Array<Authors>>;
+  /** Query authors content items with total count. */
+  referencesAuthorsContentsWithTotal?: Maybe<AuthorsResultDto>;
   /** The status of the content. */
   status: Scalars['String']['output'];
   /** The status color of the content. */
@@ -1576,9 +1254,11 @@ export type Introductions = Content & {
 
 
 /** The structure of a introductions content type. */
-export type IntroductionsReferencingColumnsContentsArgs = {
+export type IntroductionsReferencesAuthorsContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
@@ -1586,12 +1266,25 @@ export type IntroductionsReferencingColumnsContentsArgs = {
 
 
 /** The structure of a introductions content type. */
-export type IntroductionsReferencingColumnsContentsWithTotalArgs = {
+export type IntroductionsReferencesAuthorsContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<Scalars['String']['input']>;
   orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   top?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The structure of the Author field of the introductions content type. */
+export type IntroductionsDataAuthorDto = {
+  __typename?: 'IntroductionsDataAuthorDto';
+  iv?: Maybe<Array<Authors>>;
+};
+
+/** The structure of the Author field of the introductions content input type. */
+export type IntroductionsDataAuthorInputDto = {
+  iv?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 /** The structure of the Chapters field of the introductions content type. */
@@ -1617,6 +1310,17 @@ export type IntroductionsDataChaptersInputDto = {
   iv?: InputMaybe<Scalars['JsonScalar']['input']>;
 };
 
+/** The structure of the Content field of the introductions content type. */
+export type IntroductionsDataContentDto = {
+  __typename?: 'IntroductionsDataContentDto';
+  iv?: Maybe<Scalars['String']['output']>;
+};
+
+/** The structure of the Content field of the introductions content input type. */
+export type IntroductionsDataContentInputDto = {
+  iv?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** The structure of the Description field of the introductions content type. */
 export type IntroductionsDataDescriptionDto = {
   __typename?: 'IntroductionsDataDescriptionDto';
@@ -1631,8 +1335,10 @@ export type IntroductionsDataDescriptionInputDto = {
 /** The structure of the introductions data type. */
 export type IntroductionsDataDto = {
   __typename?: 'IntroductionsDataDto';
+  author?: Maybe<IntroductionsDataAuthorDto>;
   chapters?: Maybe<IntroductionsDataChaptersDto>;
   chapters__Dynamic?: Maybe<IntroductionsDataChaptersDto__Dynamic>;
+  content?: Maybe<IntroductionsDataContentDto>;
   description?: Maybe<IntroductionsDataDescriptionDto>;
   slug?: Maybe<IntroductionsDataSlugDto>;
   title?: Maybe<IntroductionsDataTitleDto>;
@@ -1640,7 +1346,9 @@ export type IntroductionsDataDto = {
 
 /** The structure of the introductions data input type. */
 export type IntroductionsDataInputDto = {
+  author?: InputMaybe<IntroductionsDataAuthorInputDto>;
   chapters?: InputMaybe<IntroductionsDataChaptersInputDto>;
+  content?: InputMaybe<IntroductionsDataContentInputDto>;
   description?: InputMaybe<IntroductionsDataDescriptionInputDto>;
   slug?: InputMaybe<IntroductionsDataSlugInputDto>;
   title?: InputMaybe<IntroductionsDataTitleInputDto>;
@@ -1671,8 +1379,10 @@ export type IntroductionsDataTitleInputDto = {
 /** The structure of the flat introductions data type. */
 export type IntroductionsFlatDataDto = {
   __typename?: 'IntroductionsFlatDataDto';
+  author?: Maybe<Array<Authors>>;
   chapters?: Maybe<Array<ChaptersComponent>>;
   chapters__Dynamic?: Maybe<Scalars['JsonScalar']['output']>;
+  content?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
@@ -1693,9 +1403,9 @@ export type IntroductionsResultDto = {
   total: Scalars['Int']['output'];
 };
 
-/** The structure of a Pages content type. */
-export type Pages = Content & {
-  __typename?: 'Pages';
+/** The structure of a schema-test content type. */
+export type SchemaTest = Content & {
+  __typename?: 'SchemaTest';
   /** The timestamp when the object was created. */
   created: Scalars['Instant']['output'];
   /** The user who created the object. */
@@ -1703,13 +1413,13 @@ export type Pages = Content & {
   /** The user who created the object. */
   createdByUser: User;
   /** The data of the content. */
-  data: PagesDataDto;
+  data: SchemaTestDataDto;
   /** The data of the content. */
   data__dynamic?: Maybe<Scalars['JsonScalar']['output']>;
   /** The edit token. */
   editToken?: Maybe<Scalars['String']['output']>;
   /** The flat data of the content. */
-  flatData: PagesFlatDataDto;
+  flatData: SchemaTestFlatDataDto;
   /** The ID of the object (usually GUID). */
   id: Scalars['String']['output'];
   /** The timestamp when the object was updated the last time. */
@@ -1722,6 +1432,10 @@ export type Pages = Content & {
   newStatus?: Maybe<Scalars['String']['output']>;
   /** The status color of the content. */
   newStatusColor?: Maybe<Scalars['String']['output']>;
+  /** Query authors content items. */
+  referencesAuthorsContents?: Maybe<Array<Authors>>;
+  /** Query authors content items with total count. */
+  referencesAuthorsContentsWithTotal?: Maybe<AuthorsResultDto>;
   /** The status of the content. */
   status: Scalars['String']['output'];
   /** The status color of the content. */
@@ -1732,223 +1446,361 @@ export type Pages = Content & {
   version: Scalars['Int']['output'];
 };
 
-/** The structure of the Pages data type. */
-export type PagesDataDto = {
-  __typename?: 'PagesDataDto';
-  slug?: Maybe<PagesDataSlugDto>;
-  text?: Maybe<PagesDataTextDto>;
-  title?: Maybe<PagesDataTitleDto>;
+
+/** The structure of a schema-test content type. */
+export type SchemaTestReferencesAuthorsContentsArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** The structure of the Pages data input type. */
-export type PagesDataInputDto = {
-  slug?: InputMaybe<PagesDataSlugInputDto>;
-  text?: InputMaybe<PagesDataTextInputDto>;
-  title?: InputMaybe<PagesDataTitleInputDto>;
+
+/** The structure of a schema-test content type. */
+export type SchemaTestReferencesAuthorsContentsWithTotalArgs = {
+  collation?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<Scalars['String']['input']>;
+  orderby?: InputMaybe<Scalars['String']['input']>;
+  random?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  top?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** The structure of the Slug (Autogenerated) field of the Pages content type. */
-export type PagesDataSlugDto = {
-  __typename?: 'PagesDataSlugDto';
-  /** Autogenerated slug that can be used to identity the page. */
+/** The structure of the Array1 nested schema. */
+export type SchemaTestDataArray1ChildDto = {
+  __typename?: 'SchemaTestDataArray1ChildDto';
+  name?: Maybe<Scalars['String']['output']>;
+  otherschema?: Maybe<Array<Authors>>;
+};
+
+/** The structure of the Array1 nested schema. */
+export type SchemaTestDataArray1ChildInputDto = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  otherschema?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+/** The structure of the Array1 field of the schema-test content type. */
+export type SchemaTestDataArray1Dto = {
+  __typename?: 'SchemaTestDataArray1Dto';
+  iv?: Maybe<Array<SchemaTestDataArray1ChildDto>>;
+};
+
+/** The structure of the Array1 field of the schema-test content input type. */
+export type SchemaTestDataArray1InputDto = {
+  iv?: InputMaybe<Array<SchemaTestDataArray1ChildInputDto>>;
+};
+
+/** The structure of the Assets1 field of the schema-test content type. */
+export type SchemaTestDataAssets1Dto = {
+  __typename?: 'SchemaTestDataAssets1Dto';
+  iv?: Maybe<Array<Asset>>;
+};
+
+/** The structure of the Assets1 field of the schema-test content input type. */
+export type SchemaTestDataAssets1InputDto = {
+  iv?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+/** The structure of the Bool1 field of the schema-test content type. */
+export type SchemaTestDataBool1Dto = {
+  __typename?: 'SchemaTestDataBool1Dto';
+  iv?: Maybe<Scalars['Boolean']['output']>;
+};
+
+/** The structure of the Bool1 field of the schema-test content input type. */
+export type SchemaTestDataBool1InputDto = {
+  iv?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type SchemaTestDataComponent1ComponentUnionDto = Component1Component | HotelsComponent;
+
+/** The structure of the Component1 field of the schema-test content type. */
+export type SchemaTestDataComponent1Dto = {
+  __typename?: 'SchemaTestDataComponent1Dto';
+  iv?: Maybe<SchemaTestDataComponent1ComponentUnionDto>;
+};
+
+/** The dynamic structure of the Component1 field of the schema-test content type. */
+export type SchemaTestDataComponent1Dto__Dynamic = {
+  __typename?: 'SchemaTestDataComponent1Dto__Dynamic';
+  iv?: Maybe<Scalars['JsonScalar']['output']>;
+};
+
+
+/** The dynamic structure of the Component1 field of the schema-test content type. */
+export type SchemaTestDataComponent1Dto__DynamicIvArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The structure of the Component1 field of the schema-test content input type. */
+export type SchemaTestDataComponent1InputDto = {
+  iv?: InputMaybe<Scalars['JsonScalar']['input']>;
+};
+
+/** The dynamic structure of the ComponentEmpty field of the schema-test content type. */
+export type SchemaTestDataComponentEmptyDto__Dynamic = {
+  __typename?: 'SchemaTestDataComponentEmptyDto__Dynamic';
+  iv?: Maybe<Scalars['JsonScalar']['output']>;
+};
+
+
+/** The dynamic structure of the ComponentEmpty field of the schema-test content type. */
+export type SchemaTestDataComponentEmptyDto__DynamicIvArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The structure of the ComponentEmpty field of the schema-test content input type. */
+export type SchemaTestDataComponentEmptyInputDto = {
+  iv?: InputMaybe<Scalars['JsonScalar']['input']>;
+};
+
+export type SchemaTestDataComponents1ComponentUnionDto = ChaptersComponent | Component1Component;
+
+/** The structure of the Components1 field of the schema-test content type. */
+export type SchemaTestDataComponents1Dto = {
+  __typename?: 'SchemaTestDataComponents1Dto';
+  iv?: Maybe<Array<SchemaTestDataComponents1ComponentUnionDto>>;
+};
+
+/** The dynamic structure of the Components1 field of the schema-test content type. */
+export type SchemaTestDataComponents1Dto__Dynamic = {
+  __typename?: 'SchemaTestDataComponents1Dto__Dynamic';
+  iv?: Maybe<Scalars['JsonScalar']['output']>;
+};
+
+
+/** The dynamic structure of the Components1 field of the schema-test content type. */
+export type SchemaTestDataComponents1Dto__DynamicIvArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The structure of the Components1 field of the schema-test content input type. */
+export type SchemaTestDataComponents1InputDto = {
+  iv?: InputMaybe<Scalars['JsonScalar']['input']>;
+};
+
+/** The structure of the Date1 field of the schema-test content type. */
+export type SchemaTestDataDate1Dto = {
+  __typename?: 'SchemaTestDataDate1Dto';
+  iv?: Maybe<Scalars['Instant']['output']>;
+};
+
+/** The structure of the Date1 field of the schema-test content input type. */
+export type SchemaTestDataDate1InputDto = {
+  iv?: InputMaybe<Scalars['Instant']['input']>;
+};
+
+/** The structure of the schema-test data type. */
+export type SchemaTestDataDto = {
+  __typename?: 'SchemaTestDataDto';
+  array1?: Maybe<SchemaTestDataArray1Dto>;
+  assets1?: Maybe<SchemaTestDataAssets1Dto>;
+  bool1?: Maybe<SchemaTestDataBool1Dto>;
+  component1?: Maybe<SchemaTestDataComponent1Dto>;
+  component1__Dynamic?: Maybe<SchemaTestDataComponent1Dto__Dynamic>;
+  componentEmpty__Dynamic?: Maybe<SchemaTestDataComponentEmptyDto__Dynamic>;
+  components1?: Maybe<SchemaTestDataComponents1Dto>;
+  components1__Dynamic?: Maybe<SchemaTestDataComponents1Dto__Dynamic>;
+  date1?: Maybe<SchemaTestDataDate1Dto>;
+  field1?: Maybe<SchemaTestDataField1Dto>;
+  geo1?: Maybe<SchemaTestDataGeo1Dto>;
+  json1?: Maybe<SchemaTestDataJson1Dto>;
+  number1?: Maybe<SchemaTestDataNumber1Dto>;
+  references1?: Maybe<SchemaTestDataReferences1Dto>;
+  richText1?: Maybe<SchemaTestDataRichText1Dto>;
+  tags1?: Maybe<SchemaTestDataTags1Dto>;
+};
+
+/** The structure of the Field1 field of the schema-test content type. */
+export type SchemaTestDataField1Dto = {
+  __typename?: 'SchemaTestDataField1Dto';
   iv?: Maybe<Scalars['String']['output']>;
 };
 
-/** The structure of the Slug (Autogenerated) field of the Pages content input type. */
-export type PagesDataSlugInputDto = {
-  /** Autogenerated slug that can be used to identity the page. */
+/** The structure of the Field1 field of the schema-test content input type. */
+export type SchemaTestDataField1InputDto = {
   iv?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** The structure of the Text field of the Pages content type. */
-export type PagesDataTextDto = {
-  __typename?: 'PagesDataTextDto';
-  /** The text of the page. */
-  iv?: Maybe<PagesDataTextEmbeddableString>;
+/** The structure of the Geo1 field of the schema-test content type. */
+export type SchemaTestDataGeo1Dto = {
+  __typename?: 'SchemaTestDataGeo1Dto';
+  iv?: Maybe<Scalars['JsonScalar']['output']>;
 };
 
-export type PagesDataTextEmbeddableString = {
-  __typename?: 'PagesDataTextEmbeddableString';
+
+/** The structure of the Geo1 field of the schema-test content type. */
+export type SchemaTestDataGeo1DtoIvArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The structure of the Geo1 field of the schema-test content input type. */
+export type SchemaTestDataGeo1InputDto = {
+  iv?: InputMaybe<Scalars['JsonScalar']['input']>;
+};
+
+/** The structure of the schema-test data input type. */
+export type SchemaTestDataInputDto = {
+  array1?: InputMaybe<SchemaTestDataArray1InputDto>;
+  assets1?: InputMaybe<SchemaTestDataAssets1InputDto>;
+  bool1?: InputMaybe<SchemaTestDataBool1InputDto>;
+  component1?: InputMaybe<SchemaTestDataComponent1InputDto>;
+  componentEmpty?: InputMaybe<SchemaTestDataComponentEmptyInputDto>;
+  components1?: InputMaybe<SchemaTestDataComponents1InputDto>;
+  date1?: InputMaybe<SchemaTestDataDate1InputDto>;
+  field1?: InputMaybe<SchemaTestDataField1InputDto>;
+  geo1?: InputMaybe<SchemaTestDataGeo1InputDto>;
+  json1?: InputMaybe<SchemaTestDataJson1InputDto>;
+  number1?: InputMaybe<SchemaTestDataNumber1InputDto>;
+  references1?: InputMaybe<SchemaTestDataReferences1InputDto>;
+  richText1?: InputMaybe<SchemaTestDataRichText1InputDto>;
+  tags1?: InputMaybe<SchemaTestDataTags1InputDto>;
+};
+
+/** The structure of the Json1 field of the schema-test content type. */
+export type SchemaTestDataJson1Dto = {
+  __typename?: 'SchemaTestDataJson1Dto';
+  iv?: Maybe<Scalars['JsonScalar']['output']>;
+};
+
+
+/** The structure of the Json1 field of the schema-test content type. */
+export type SchemaTestDataJson1DtoIvArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The structure of the Json1 field of the schema-test content input type. */
+export type SchemaTestDataJson1InputDto = {
+  iv?: InputMaybe<Scalars['JsonScalar']['input']>;
+};
+
+/** The structure of the Number1 field of the schema-test content type. */
+export type SchemaTestDataNumber1Dto = {
+  __typename?: 'SchemaTestDataNumber1Dto';
+  iv?: Maybe<Scalars['Float']['output']>;
+};
+
+/** The structure of the Number1 field of the schema-test content input type. */
+export type SchemaTestDataNumber1InputDto = {
+  iv?: InputMaybe<Scalars['Float']['input']>;
+};
+
+/** The structure of the References1 field of the schema-test content type. */
+export type SchemaTestDataReferences1Dto = {
+  __typename?: 'SchemaTestDataReferences1Dto';
+  iv?: Maybe<Array<Authors>>;
+};
+
+/** The structure of the References1 field of the schema-test content input type. */
+export type SchemaTestDataReferences1InputDto = {
+  iv?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+/** The structure of the RichText1 field of the schema-test content type. */
+export type SchemaTestDataRichText1Dto = {
+  __typename?: 'SchemaTestDataRichText1Dto';
+  iv?: Maybe<SchemaTestDataRichText1RichText>;
+};
+
+/** The structure of the RichText1 field of the schema-test content input type. */
+export type SchemaTestDataRichText1InputDto = {
+  iv?: InputMaybe<Scalars['JsonScalar']['input']>;
+};
+
+export type SchemaTestDataRichText1RichText = {
+  __typename?: 'SchemaTestDataRichText1RichText';
   /** The referenced assets. */
   assets: Array<Asset>;
   /** The referenced content items. */
-  contents: Array<Hotels>;
-  /** The text of this field. */
-  text?: Maybe<Scalars['String']['output']>;
+  contents: Array<SchemaTestDataRichText1UnionDto>;
+  /** The value as HTML. */
+  html: Scalars['String']['output'];
+  /** The value as markdown. */
+  markdown: Scalars['String']['output'];
+  /** The value as markdown. */
+  text: Scalars['String']['output'];
+  /** The raw value. */
+  value?: Maybe<Scalars['JsonScalar']['output']>;
 };
 
-/** The structure of the Text field of the Pages content input type. */
-export type PagesDataTextInputDto = {
-  /** The text of the page. */
-  iv?: InputMaybe<Scalars['String']['input']>;
+
+export type SchemaTestDataRichText1RichTextHtmlArgs = {
+  indentation?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** The structure of the Title field of the Pages content type. */
-export type PagesDataTitleDto = {
-  __typename?: 'PagesDataTitleDto';
-  /** The title of the page. */
-  iv?: Maybe<Scalars['String']['output']>;
+export type SchemaTestDataRichText1UnionDto = Articles | Authors | Introductions | SchemaTest | Test;
+
+/** The structure of the Tags1 field of the schema-test content type. */
+export type SchemaTestDataTags1Dto = {
+  __typename?: 'SchemaTestDataTags1Dto';
+  iv?: Maybe<Array<Scalars['String']['output']>>;
 };
 
-/** The structure of the Title field of the Pages content input type. */
-export type PagesDataTitleInputDto = {
-  /** The title of the page. */
-  iv?: InputMaybe<Scalars['String']['input']>;
+/** The structure of the Tags1 field of the schema-test content input type. */
+export type SchemaTestDataTags1InputDto = {
+  iv?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
-/** The structure of the flat Pages data type. */
-export type PagesFlatDataDto = {
-  __typename?: 'PagesFlatDataDto';
-  /** Autogenerated slug that can be used to identity the page. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** The text of the page. */
-  text?: Maybe<PagesDataTextEmbeddableString>;
-  /** The title of the page. */
-  title?: Maybe<Scalars['String']['output']>;
+/** The structure of the flat schema-test data type. */
+export type SchemaTestFlatDataDto = {
+  __typename?: 'SchemaTestFlatDataDto';
+  array1?: Maybe<Array<SchemaTestDataArray1ChildDto>>;
+  assets1?: Maybe<Array<Asset>>;
+  bool1?: Maybe<Scalars['Boolean']['output']>;
+  component1?: Maybe<SchemaTestDataComponent1ComponentUnionDto>;
+  component1__Dynamic?: Maybe<Scalars['JsonScalar']['output']>;
+  componentEmpty__Dynamic?: Maybe<Scalars['JsonScalar']['output']>;
+  components1?: Maybe<Array<SchemaTestDataComponents1ComponentUnionDto>>;
+  components1__Dynamic?: Maybe<Scalars['JsonScalar']['output']>;
+  date1?: Maybe<Scalars['Instant']['output']>;
+  field1?: Maybe<Scalars['String']['output']>;
+  geo1?: Maybe<Scalars['JsonScalar']['output']>;
+  json1?: Maybe<Scalars['JsonScalar']['output']>;
+  number1?: Maybe<Scalars['Float']['output']>;
+  references1?: Maybe<Array<Authors>>;
+  richText1?: Maybe<SchemaTestDataRichText1RichText>;
+  tags1?: Maybe<Array<Scalars['String']['output']>>;
 };
 
-/** List of Pages items and total count. */
-export type PagesResultDto = {
-  __typename?: 'PagesResultDto';
+
+/** The structure of the flat schema-test data type. */
+export type SchemaTestFlatDataDtoComponent1__DynamicArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The structure of the flat schema-test data type. */
+export type SchemaTestFlatDataDtoComponentEmpty__DynamicArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The structure of the flat schema-test data type. */
+export type SchemaTestFlatDataDtoComponents1__DynamicArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The structure of the flat schema-test data type. */
+export type SchemaTestFlatDataDtoGeo1Args = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The structure of the flat schema-test data type. */
+export type SchemaTestFlatDataDtoJson1Args = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** List of schema-test items and total count. */
+export type SchemaTestResultDto = {
+  __typename?: 'SchemaTestResultDto';
   /** The contents. */
-  items?: Maybe<Array<Pages>>;
-  /** The total count of  contents. */
-  total: Scalars['Int']['output'];
-};
-
-/** The structure of a Posts content type. */
-export type Posts = Content & {
-  __typename?: 'Posts';
-  /** The timestamp when the object was created. */
-  created: Scalars['Instant']['output'];
-  /** The user who created the object. */
-  createdBy: Scalars['String']['output'];
-  /** The user who created the object. */
-  createdByUser: User;
-  /** The data of the content. */
-  data: PostsDataDto;
-  /** The data of the content. */
-  data__dynamic?: Maybe<Scalars['JsonScalar']['output']>;
-  /** The edit token. */
-  editToken?: Maybe<Scalars['String']['output']>;
-  /** The flat data of the content. */
-  flatData: PostsFlatDataDto;
-  /** The ID of the object (usually GUID). */
-  id: Scalars['String']['output'];
-  /** The timestamp when the object was updated the last time. */
-  lastModified: Scalars['Instant']['output'];
-  /** The user who updated the object the last time. */
-  lastModifiedBy: Scalars['String']['output'];
-  /** The user who updated the object the last time. */
-  lastModifiedByUser: User;
-  /** The new status of the content. */
-  newStatus?: Maybe<Scalars['String']['output']>;
-  /** The status color of the content. */
-  newStatusColor?: Maybe<Scalars['String']['output']>;
-  /** The status of the content. */
-  status: Scalars['String']['output'];
-  /** The status color of the content. */
-  statusColor: Scalars['String']['output'];
-  /** The URL to the content. */
-  url: Scalars['String']['output'];
-  /** The version of the objec. */
-  version: Scalars['Int']['output'];
-};
-
-/** The structure of the Description field of the Posts content type. */
-export type PostsDataDescriptionDto = {
-  __typename?: 'PostsDataDescriptionDto';
-  iv?: Maybe<Scalars['String']['output']>;
-};
-
-/** The structure of the Description field of the Posts content input type. */
-export type PostsDataDescriptionInputDto = {
-  iv?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The structure of the Posts data type. */
-export type PostsDataDto = {
-  __typename?: 'PostsDataDto';
-  description?: Maybe<PostsDataDescriptionDto>;
-  slug?: Maybe<PostsDataSlugDto>;
-  text?: Maybe<PostsDataTextDto>;
-  title?: Maybe<PostsDataTitleDto>;
-};
-
-/** The structure of the Posts data input type. */
-export type PostsDataInputDto = {
-  description?: InputMaybe<PostsDataDescriptionInputDto>;
-  slug?: InputMaybe<PostsDataSlugInputDto>;
-  text?: InputMaybe<PostsDataTextInputDto>;
-  title?: InputMaybe<PostsDataTitleInputDto>;
-};
-
-/** The structure of the Slug (Autogenerated) field of the Posts content type. */
-export type PostsDataSlugDto = {
-  __typename?: 'PostsDataSlugDto';
-  /** Autogenerated slug that can be used to identity the post. */
-  iv?: Maybe<Scalars['String']['output']>;
-};
-
-/** The structure of the Slug (Autogenerated) field of the Posts content input type. */
-export type PostsDataSlugInputDto = {
-  /** Autogenerated slug that can be used to identity the post. */
-  iv?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The structure of the Text field of the Posts content type. */
-export type PostsDataTextDto = {
-  __typename?: 'PostsDataTextDto';
-  /** The text of the post. */
-  iv?: Maybe<PostsDataTextEmbeddableString>;
-};
-
-export type PostsDataTextEmbeddableString = {
-  __typename?: 'PostsDataTextEmbeddableString';
-  /** The referenced assets. */
-  assets: Array<Asset>;
-  /** The referenced content items. */
-  contents: Array<Hotels>;
-  /** The text of this field. */
-  text?: Maybe<Scalars['String']['output']>;
-};
-
-/** The structure of the Text field of the Posts content input type. */
-export type PostsDataTextInputDto = {
-  /** The text of the post. */
-  iv?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The structure of the Title field of the Posts content type. */
-export type PostsDataTitleDto = {
-  __typename?: 'PostsDataTitleDto';
-  /** The title of the post. */
-  iv?: Maybe<Scalars['String']['output']>;
-};
-
-/** The structure of the Title field of the Posts content input type. */
-export type PostsDataTitleInputDto = {
-  /** The title of the post. */
-  iv?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The structure of the flat Posts data type. */
-export type PostsFlatDataDto = {
-  __typename?: 'PostsFlatDataDto';
-  description?: Maybe<Scalars['String']['output']>;
-  /** Autogenerated slug that can be used to identity the post. */
-  slug?: Maybe<Scalars['String']['output']>;
-  /** The text of the post. */
-  text?: Maybe<PostsDataTextEmbeddableString>;
-  /** The title of the post. */
-  title?: Maybe<Scalars['String']['output']>;
-};
-
-/** List of Posts items and total count. */
-export type PostsResultDto = {
-  __typename?: 'PostsResultDto';
-  /** The contents. */
-  items?: Maybe<Array<Posts>>;
+  items?: Maybe<Array<SchemaTest>>;
   /** The total count of  contents. */
   total: Scalars['Int']['output'];
 };

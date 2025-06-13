@@ -11,8 +11,14 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * 3. It does not support dead code elimination, so it will add unused operations.
  *
  * Therefore it is highly recommended to use the babel or swc plugin for production.
+ * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
-const documents = {
+type Documents = {
+    "\n    query Intro($filter: String!) {\n      intros: queryIntroductionsContents(filter: $filter) {\n        flatData {\n          title\n          description\n          chapters {\n            title\n            articles {\n              id\n              flatData {\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  ": typeof types.IntroDocument,
+    "\n    query Article($filter: String!) {\n      articles: queryArticlesContents(filter: $filter) {\n        flatData {\n          name\n          content\n        }\n      }\n    }\n  ": typeof types.ArticleDocument,
+    "\n    query Sidebar($filter: String!) {\n      sidebars: queryIntroductionsContents(filter: $filter) {\n        flatData {\n          chapters {\n            title\n            articles {\n              id\n              flatData {\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  ": typeof types.SidebarDocument,
+};
+const documents: Documents = {
     "\n    query Intro($filter: String!) {\n      intros: queryIntroductionsContents(filter: $filter) {\n        flatData {\n          title\n          description\n          chapters {\n            title\n            articles {\n              id\n              flatData {\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  ": types.IntroDocument,
     "\n    query Article($filter: String!) {\n      articles: queryArticlesContents(filter: $filter) {\n        flatData {\n          name\n          content\n        }\n      }\n    }\n  ": types.ArticleDocument,
     "\n    query Sidebar($filter: String!) {\n      sidebars: queryIntroductionsContents(filter: $filter) {\n        flatData {\n          chapters {\n            title\n            articles {\n              id\n              flatData {\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  ": types.SidebarDocument,

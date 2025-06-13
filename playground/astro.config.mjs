@@ -1,4 +1,3 @@
-import "dotenv/config";
 import starlight from "@astrojs/starlight";
 import { defineConfig, envField } from "astro/config";
 import react from "@astrojs/react";
