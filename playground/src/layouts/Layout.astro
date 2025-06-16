@@ -38,8 +38,8 @@ import NotificationBanner from "@/components/NotificationBanner.astro";
       </div>
     </NotificationBanner>
     <slot />
+    <script>
+      import "preline/preline.js";
+    </script>
   </body>
 </html>
-
-<script is:inline src="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.js"
-></script>
