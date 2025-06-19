@@ -3,7 +3,7 @@ import MainLogo from "@/assets/logo.svg";
 import docsLogo from "@/assets/docs.svg?raw";
 
 const { locale, Content, siteTitleHref } = Astro.locals.starlightRoute;
-const docs = (locale ? `/${locale}/` : "/") + "docs/";
+const docs = `${locale ? `/${locale}/` : "/"}docs/`;
 
 const isStarlightCommonPage = Content?.isAstroComponentFactory === true;
 ---
