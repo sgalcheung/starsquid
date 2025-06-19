@@ -17,11 +17,6 @@ export default defineConfig({
       prerender: false,
       title: "StarSquid",
       favicon: "/starsquid_favicon.svg",
-      logo: {
-        light: "/src/assets/logo-light.svg",
-        dark: "/src/assets/logo-dark.svg",
-        replacesTitle: true,
-      },
       locales: {
         root: {
           label: "English",
@@ -61,9 +56,10 @@ export default defineConfig({
       ],
       routeMiddleware: "./src/routeMiddleware.ts",
       components: {
-        ThemeSelect: "./src/overrides/ThemeSelect.astro",
-        Sidebar: "./src/overrides/Sidebar.astro",
         PageTitle: "./src/overrides/PageTitle.astro",
+        Sidebar: "./src/overrides/Sidebar.astro",
+        SiteTitle: "./src/overrides/SiteTitle.astro",
+        ThemeSelect: "./src/overrides/ThemeSelect.astro",
       },
       customCss: ["./src/styles/starlight.css"],
     }), // only support for developing environment

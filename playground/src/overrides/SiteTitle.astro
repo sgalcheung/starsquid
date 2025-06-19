@@ -1,0 +1,56 @@
+---
+import MainLogo from "@/assets/logo.svg";
+import docsLogo from "@/assets/docs.svg?raw";
+
+const { locale, Content, siteTitleHref } = Astro.locals.starlightRoute;
+const docs = (locale ? `/${locale}/` : "/") + "docs/";
+
+const isStarlightCommonPage = Content?.isAstroComponentFactory === true;
+---
+
+<span class="site-title sl-flex">
+  <a class="main-logo sl-flex" href={siteTitleHref} aria-label="StarSquid">
+    <MainLogo class="print:block" />
+  </a>
+  <a
+    class:list={["docs-logo", isStarlightCommonPage ? "sl-flex" : "sl-hidden"]}
+    href={docs}
+    set:html={docsLogo}
+    aria-label="StarSquid Docs"
+  />
+</span>
+
+<style>
+  .site-title {
+    gap: 1rem;
+  }
+  .main-logo {
+    color: var(--sl-color-white);
+  }
+  .docs-logo {
+    color: var(--sl-color-text-accent);
+  }
+
+  /* On focus, outline <img> and <svg> rather than <a> */
+  .site-title a:focus-visible {
+    outline: 0;
+  }
+  .site-title a:focus-visible > :global(*) {
+    outline: auto;
+    outline-offset: 0.33rem;
+    border-radius: 1px;
+  }
+  /* Adjust svg sizes to full nav height */
+  .site-title :global(svg) {
+    --display-height: 1.75rem;
+    /* `auto` ensures the `<svg>` scales down on really narrow viewports */
+    width: auto;
+    height: auto;
+    margin-block: calc((var(--sl-nav-height) - var(--display-height)) / 2);
+    transition: transform 0.18s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .site-title a:hover :global(svg) {
+    --hover-offset: 0.15rem;
+    transform: translateY(calc(var(--hover-offset) * -1));
+  }
+</style>
