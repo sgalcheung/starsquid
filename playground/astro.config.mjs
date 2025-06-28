@@ -4,7 +4,6 @@ import react from "@astrojs/react";
 import { loadEnv } from "vite";
 import { refreshContentIntegration } from "starsquid/integrations";
 import tailwindcss from "@tailwindcss/vite";
-import solidJs from "@astrojs/solid-js";
 import vercel from "@astrojs/vercel";
 
 const env = loadEnv("", process.cwd(), "");
@@ -16,7 +15,7 @@ export default defineConfig({
     starlight({
       prerender: false,
       title: "StarSquid",
-      favicon: "/starsquid_favicon.svg",
+      favicon: "/favicon.svg",
       locales: {
         root: {
           label: "English",
@@ -66,9 +65,6 @@ export default defineConfig({
     refreshContentIntegration(env.WEBHOOK_SECRET),
     react({
       include: ["**/react/*"],
-    }),
-    solidJs({
-      include: ["**/solid/*", "**/icons/solid/**"],
     }),
   ],
 
