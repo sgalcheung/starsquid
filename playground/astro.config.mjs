@@ -5,6 +5,7 @@ import { loadEnv } from "vite";
 import { refreshContentIntegration } from "starsquid/integrations";
 import tailwindcss from "@tailwindcss/vite";
 import vercel from "@astrojs/vercel";
+import clerk from "@clerk/astro";
 
 const env = loadEnv("", process.cwd(), "");
 
@@ -12,6 +13,9 @@ export default defineConfig({
   output: "server",
 
   integrations: [
+    clerk({
+      publishableKey: import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY,
+    }),
     starlight({
       prerender: false,
       title: "StarSquid",
