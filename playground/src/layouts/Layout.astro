@@ -1,6 +1,7 @@
 ---
 import "@/styles/global.css";
 import BaseHead from "@/components/BaseHead.astro";
+import Header from "../components/Header.astro";
 ---
 
 <!doctype html>
@@ -9,7 +10,12 @@ import BaseHead from "@/components/BaseHead.astro";
     <BaseHead />
   </head>
   <body>
-    <slot />
+    <Header />
+
+    <main>
+      <slot />
+    </main>
+    
     <script>
       import "preline/preline.js";
     </script>

@@ -1,0 +1,27 @@
+---
+import {
+  SignInButton,
+  SignOutButton,
+  SignedIn,
+  SignedOut,
+} from "@clerk/astro/components";
+---
+
+<div class="flex items-center gap-2 xs:gap-4">
+  <SignedOut>
+    <SignInButton
+      mode="modal"
+      class="max-xs:h-[32px] max-xs:text-[10px] max-xs:py-0 max-xs:px-1.5 max-md:h-[38px] max-md:text-xs max-md:py-0 max-md:px-2 px-4 py-2 text-sm font-medium dark:bg-black dark:text-white dark:hover:text-white/80 bg-white text-black hover:text-black/80"
+    >
+      Sign In
+    </SignInButton>
+  </SignedOut>
+
+  <SignedIn>
+    <SignOutButton
+      class="max-xs:h-[32px] max-xs:text-[10px] max-xs:py-0 max-xs:px-1.5 max-md:h-[38px] max-md:text-xs max-md:py-0 max-md:px-2 px-4 py-2 text-sm font-medium bg-white/50 text-black hover:text-black/80 dark:bg-black/50 dark:text-white dark:hover:text-white/80"
+    >
+      Sign Out
+    </SignOutButton>
+  </SignedIn>
+</div>

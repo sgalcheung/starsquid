@@ -1,0 +1,126 @@
+---
+import Logo from "../assets/logo.svg";
+import { routes } from "../routing";
+import AuthButtons from "./AuthButtons.astro";
+---
+
+<header
+  class="fixed top-0 z-50 hidden h-16 w-full md:block print:hidden scrolled"
+>
+  <div class="container mx-auto h-16">
+    <div class="relative flex h-full items-center justify-between">
+      <nav
+        class="mx-auto flex w-full max-w-[85rem] flex-wrap items-center px-4 sm:px-6 lg:px-8"
+      >
+        <!-- Logo -->
+        <div class="flex items-center sm:gap-x-2 order-1">
+          <a
+            href={routes.home()}
+            class="logo flex-none rounded-md focus:opacity-80 focus:outline-hidden"
+          >
+            <Logo />
+          </a>
+          <a
+            type="button"
+            href={routes.docs()}
+            class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium text-gray-800 focus:outline-hidden disabled:opacity-50 disabled:pointer-events-none dark:text-white"
+          >
+            Docs
+            <svg
+              class="shrink-0 size-4"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+        <!-- End Logo -->
+
+        <div class="ms-auto flex items-center lg:gap-x-1 order-3">
+          <div
+            class="relative z-10 flex items-center before:hidden before:h-8 before:w-px before:bg-gray-300 lg:before:block xl:gap-x-1 dark:before:bg-neutral-700"
+          >
+            <div class="flex lg:ms-4 xl:gap-x-1"></div>
+
+            <!-- Dark Mode -->
+            <div role="button" id="theme-switcher" aria-label="Switch theme">
+              <div
+                class="p-2 rounded-lg bg-body-800 hover:bg-body-700 outline-1 outline-body-700 transition-all"
+              >
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 20 20"
+                  height="24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+            </div>
+            <!-- End Dark Mode -->
+          </div>
+        </div>
+
+        <!-- Collapse -->
+        <div
+          id="main-navbar"
+          class="hs-collapse ms-auto hidden grow basis-full overflow-hidden transition-all duration-300 lg:block lg:w-auto lg:basis-auto order-2 lg:mr-4"
+          aria-labelledby="main-navbar-collapse"
+        >
+          <div
+            class="mt-5 flex flex-col lg:mt-0 lg:flex-row lg:items-center lg:justify-end"
+          >
+            <AuthButtons />
+          </div>
+        </div>
+        <!-- End Collapse -->
+      </nav>
+    </div>
+
+    <div
+      class="absolute left-0 bottom-0 w-full h-px bg-gray-200 dark:bg-gray-700"
+    >
+    </div>
+  </div>
+</header>
+
+<style>
+  :root[class="light"] {
+    --sl-color-white: oklch(21% 0.006 285.885);
+  }
+  :root[class="dark"] {
+    --sl-color-white: #ffffff;
+  }
+
+  .logo {
+    color: var(--sl-color-white);
+  }
+</style>
+<noscript>
+  <style>
+    #theme-switcher {
+      display: none;
+    }
+  </style>
+</noscript>
+<script>
+  import { toggleTheme } from "src/scripts/theme-switcher";
+
+  const switcher = document.querySelector("#theme-switcher")!;
+  switcher.addEventListener("click", toggleTheme);
+</script>

@@ -6,8 +6,8 @@ import { CatalogComponent } from "@/components/react/ShadcnComponents";
 import Layout from "@/layouts/Layout.astro";
 import { COLUMN } from "@/helpers/constants";
 import { Markdown } from "astro-remote";
-import Navbar from "@/components/Navbar.astro";
 import { getIntroductionBySlug } from "@/data/models/Introduction";
+import AccordionGroup from "../../components/AccordionGroup.astro";
 
 const { slug } = Astro.params;
 if (!slug || slug === undefined) return Astro.redirect("/404");
@@ -15,7 +15,6 @@ if (!slug || slug === undefined) return Astro.redirect("/404");
 const intro = await getIntroductionBySlug(slug);
 const { data } = intro.data;
 if (!intro || !data) return Astro.redirect("/404");
-
 
 const catalogs = Astro.locals.catalogs;
 
@@ -25,104 +24,46 @@ Astro.cookies.set(COLUMN, slug, { path: "/" });
 ---
 
 <Layout>
-  <Navbar />
-  <article class="mx-auto max-w-[85rem] w-full px-4 sm:px-6 lg:px-8">
-    <header class="w-full px-6 py-[1.875rem]">
-      <h1
-        class="mx-auto text-center m-0 mb-4 leading-[1.35] text-2xl sm:text-3xl md:text-5xl font-black z-1"
-      >
+  <div class="container mx-auto my-24 xl:my-5">
+    <header class="flex flex-col items-center sm:mt-24 text-center">
+      <h1 class="mb-6 text-4xl">
         {data.title.iv}
       </h1>
     </header>
 
-    <main class="w-full">
-      <div class="flex flex-row">
+    <section class="w-full">
+      <div class="flex flex-row mb-6">
         <Markdown content={data.description.iv ?? ""} />
       </div>
 
-      <div data-intro class="flex">
-        <div class="w-1/2 p-4">
+      <div class="flex flex-col lg:flex-row gap-6">
+        <!-- Left Column -->
+        <div class="w-full lg:w-1/2 p-4">
           <CatalogComponent data={catalogs} client:visible />
         </div>
 
-        <div class="w-1/2 p-4">
+        <!-- Right Column: Accordion -->
+        <div class="w-full lg:w-1/2 p-4">
           <div class="hs-accordion-group">
             {
               catalogs.map((catalog, index) => {
                 return (
-                  <div
-                    class={`hs-accordion ${
-                      index === 0 ? "active" : ""
-                    } bg-white border -mt-px first:rounded-t-lg last:rounded-b-lg dark:bg-neutral-800 dark:border-neutral-700`}
-                    id={`hs-basic-nested-heading-${index}`}
-                  >
-                    <button
-                      class="hs-accordion-toggle hs-accordion-active:text-blue-600 inline-flex items-center justify-between gap-x-3 w-full font-semibold text-start text-gray-800 py-4 px-5 hover:text-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:text-blue-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:outline-hidden dark:focus:text-neutral-400"
-                      aria-expanded={index === 0 ? "true" : "false"}
-                      aria-controls={`hs-basic-nested-collapse-${index}`}
-                    >
-                      {catalog.label}
-                      <svg
-                        class="hs-accordion-active:hidden block size-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="m6 9 6 6 6-6" />
-                      </svg>
-                      <svg
-                        class="hs-accordion-active:block hidden size-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="m18 15-6-6-6 6" />
-                      </svg>
-                    </button>
-                    <div
-                      id={`hs-basic-nested-collapse-${index}`}
-                      class={`hs-accordion-content w-full overflow-hidden transition-[height] duration-300 ${
-                        index === 0 ? "" : "hidden"
-                      }`}
-                      role="region"
-                      aria-labelledby={`hs-basic-nested-heading-${index}`}
-                    >
-                      <div class="hs-accordion-group ps-6">
-                        {catalog.items.map((item) => {
-                          return (
-                            <div class="pb-4 px-5">
-                              <p>
-                                <a
-                                  class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-hidden focus:underline opacity-90"
-                                  href={item.link}
-                                >
-                                  {item.label}
-                                </a>
-                              </p>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
+                  <AccordionGroup
+                    index={index}
+                    catalog={{
+                      label: catalog.label,
+                      items: catalog.items.map((item) => ({
+                        link: item.link,
+                        label: item.label,
+                      })),
+                    }}
+                  />
                 );
               })
             }
           </div>
         </div>
       </div>
-    </main>
-  </article>
+    </section>
+  </div>
 </Layout>

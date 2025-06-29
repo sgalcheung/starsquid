@@ -1,0 +1,19 @@
+---
+export type Props = {
+  link: string;
+  label: string;
+};
+
+const { link, label } = Astro.props;
+---
+
+<div class="pb-4 px-5">
+  <p>
+    <a
+      class="text-blue-600 hover:text-blue-500 decoration-2 hover:underline focus:outline-hidden focus:underline opacity-90"
+      href={link}
+    >
+      {label}
+    </a>
+  </p>
+</div>
