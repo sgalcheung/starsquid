@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@reference "./global.css";
+
+* {
+  @apply border-border outline-ring/50;
+}
+
+body {
+  @apply bg-background text-foreground;
+}
+
+header.scrolled {
+  @apply border-black/25 bg-white/80 saturate-200 backdrop-blur-sm dark:border-white/25 dark:bg-black/50;
+}
+
+/* Adds pointer cursor to buttons */
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}

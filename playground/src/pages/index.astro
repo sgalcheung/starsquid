@@ -19,7 +19,7 @@ const intros = await getAllIntroductions();
       <div class="container mx-auto my-24">
         <div class="flex flex-col items-center justify-between">
           <div class="flex flex-col items-center gap-y-4 mb-8">
-            <h1 class="text-4xl dark:text-white">
+            <h1 class="ss-h1">
               Welcome to the StarSquid Playground
             </h1>
           </div>
@@ -29,7 +29,7 @@ const intros = await getAllIntroductions();
               const data = intro.data.data;
               return (
                 data && (
-                  <h2 class="text-3xl dark:text-white">
+                  <h2 class="ss-h2">
                     <a
                       class="text-blue-600 hover:underline hover:decoration-blue-800 focus:outline-hidden focus:underline focus:decoration-blue-800 dark:decoration-white"
                       href={routes.intro(data.slug.iv)}
@@ -43,7 +43,7 @@ const intros = await getAllIntroductions();
           }
 
           <sction>
-            <h3 class="text-2xl dark:text-white">This is the backend info:</h3>
+            <h3 class="ss-h3 dark:text-white">This is the backend info:</h3>
             {
               app && (
                 <p class="dark:text-white">
@@ -64,7 +64,7 @@ const intros = await getAllIntroductions();
                     </div>
 
                     <div class="grow pt-0.5 pb-8">
-                      <h3 class="flex gap-x-1.5 font-semibold text-gray-800 dark:text-white">
+                      <h3 class="ss-h3 flex gap-x-1.5 font-semibold text-gray-800 dark:text-white">
                         <svg
                           class="shrink-0 size-4 mt-1"
                           xmlns="http://www.w3.org/2000/svg"
