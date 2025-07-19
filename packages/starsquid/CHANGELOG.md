@@ -1,5 +1,11 @@
 # starsquid
 
+## 1.1.3
+
+### Patch Changes
+
+- [#6](https://github.com/sgalcheung/starsquid/pull/6) [`ca494e6`](https://github.com/sgalcheung/starsquid/commit/ca494e67a13aac4412bb72c48125dd61f5c6844b) Thanks [@sgalcheung](https://github.com/sgalcheung)! - Support RenderMarkdown API
+
 ## 1.1.2
 
 ### Patch Changes
