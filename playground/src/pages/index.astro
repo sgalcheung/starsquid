@@ -1,14 +1,12 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { getCollection } from "astro:content";
-import { Markdown } from "astro-remote";
+import { getCollection, render } from "astro:content";
 import { routes } from "../routing";
 import { SCHEMAS } from "@/data/models/schemas";
 import { getAllIntroductions } from "@/data/models/Introduction";
 
 const app = (await getCollection(SCHEMAS.APP))?.[0];
-const newsFeature = (await getCollection(SCHEMAS.NEWS))?.[0];
-const features = newsFeature.data.features.slice(0, 2);
+const news = (await getCollection(SCHEMAS.NEWS)).slice(0, 2);
 
 const intros = await getAllIntroductions();
 ---
@@ -19,9 +17,7 @@ const intros = await getAllIntroductions();
       <div class="container mx-auto my-24">
         <div class="flex flex-col items-center justify-between">
           <div class="flex flex-col items-center gap-y-4 mb-8">
-            <h1 class="ss-h1">
-              Welcome to the StarSquid Playground
-            </h1>
+            <h1 class="ss-h1">Welcome to the StarSquid Playground</h1>
           </div>
 
           {
@@ -54,7 +50,9 @@ const intros = await getAllIntroductions();
 
             <strong>Change log</strong>
             {
-              features.map((feature) => {
+              news.map(async (feature) => {
+                const { Content } = await render(feature);
+
                 return (
                   <div class="flex gap-x-3">
                     <div class="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-neutral-700">
@@ -83,10 +81,10 @@ const intros = await getAllIntroductions();
                           <line x1="16" x2="8" y1="17" y2="17" />
                           <line x1="10" x2="8" y1="9" y2="9" />
                         </svg>
-                        {feature.name}
+                        {feature.data.name}
                       </h3>
                       <p class="mt-1 text-sm text-gray-600 dark:text-neutral-400">
-                        <Markdown content={feature.text} />
+                        <Content />
                       </p>
                       <button
                         type="button"

@@ -2,7 +2,6 @@ import { z, type ZodTypeAny } from "astro/zod";
 import type {
   AppDto,
   FeatureDto,
-  FeaturesDto,
   FieldDto,
   FieldPropertiesDto,
   NestedFieldDto,
@@ -34,15 +33,10 @@ const appDtoSchema = z.object({
   roleProperties: z.record(z.any()),
 }) satisfies z.ZodType<AppDto>;
 
-const featureDtoSchema = z.object({
+const newsDtoSchema = z.object({
   name: z.string(),
   text: z.string(),
 }) satisfies z.ZodType<FeatureDto>;
-
-const featuresDtoSchema = z.object({
-  features: z.array(featureDtoSchema),
-  version: z.number(),
-}) satisfies z.ZodType<FeaturesDto>;
 
 const scheduleJobDtoSchema = z.object({
   id: z.string(),
@@ -117,7 +111,9 @@ export const contentDtoSchema = <T extends z.ZodTypeAny>(schema: T) =>
 //satisfies z.ZodType<ContentDto>;
 
 // Helper type to infer the content DTO schema for a specific data type
-export type ContentDtoType<T extends z.ZodTypeAny> = z.infer<ReturnType<typeof contentDtoSchema<T>>>;
+export type ContentDtoType<T extends z.ZodTypeAny> = z.infer<
+  ReturnType<typeof contentDtoSchema<T>>
+>;
 
 /**
  * A schema for a collection of content items.
@@ -125,7 +121,7 @@ export type ContentDtoType<T extends z.ZodTypeAny> = z.infer<ReturnType<typeof c
  */
 // Temporarily disable the export or remove if unused
 export const contentsDtoSchema = <T>(
-  schema: z.ZodType<T, z.ZodTypeDef, unknown>,
+  schema: z.ZodType<T, z.ZodTypeDef, unknown>
 ) =>
   z.object({
     links: z.record(z.string(), resourceLinkSchema),
@@ -136,7 +132,8 @@ export const contentsDtoSchema = <T>(
 //satisfies z.ZodType<ContentsDto>;
 
 export type ContentsDtoType<T extends z.ZodTypeAny> = z.infer<
-  ReturnType<typeof contentsDtoSchema<T>>>;
+  ReturnType<typeof contentsDtoSchema<T>>
+>;
 
 export enum SYSTEM_SCHEMAS {
   APP = "app",
@@ -145,5 +142,5 @@ export enum SYSTEM_SCHEMAS {
 
 export const SYSTEM_SCHEMAS_Map = new Map<string, ZodTypeAny>([
   [SYSTEM_SCHEMAS.APP, appDtoSchema],
-  [SYSTEM_SCHEMAS.NEWS, featuresDtoSchema],
+  [SYSTEM_SCHEMAS.NEWS, newsDtoSchema],
 ]);
