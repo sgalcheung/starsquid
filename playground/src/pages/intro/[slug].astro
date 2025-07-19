@@ -5,9 +5,9 @@
 import { CatalogComponent } from "@/components/react/ShadcnComponents";
 import Layout from "@/layouts/Layout.astro";
 import { COLUMN } from "@/helpers/constants";
-import { Markdown } from "astro-remote";
 import { getIntroductionBySlug } from "@/data/models/Introduction";
 import AccordionGroup from "../../components/AccordionGroup.astro";
+import { render } from "astro:content";
 
 const { slug } = Astro.params;
 if (!slug || slug === undefined) return Astro.redirect("/404");
@@ -15,6 +15,7 @@ if (!slug || slug === undefined) return Astro.redirect("/404");
 const intro = await getIntroductionBySlug(slug);
 const { data } = intro.data;
 if (!intro || !data) return Astro.redirect("/404");
+const { Content } = await render(intro);
 
 const catalogs = Astro.locals.catalogs;
 
@@ -33,7 +34,7 @@ Astro.cookies.set(COLUMN, slug, { path: "/" });
 
     <section class="w-full">
       <div class="flex flex-row mb-6">
-        <Markdown content={data.description.iv ?? ""} />
+        <Content />
       </div>
 
       <div class="flex flex-col lg:flex-row gap-6">
