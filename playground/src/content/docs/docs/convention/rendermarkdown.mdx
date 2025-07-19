@@ -1,0 +1,22 @@
+---
+title: RenderMarkdown
+---
+
+We use the content field to render markdown, so we convention that your schema uses the content field as the markdown content storage field.
+
+There is key code.
+```ts
+const id = item.id;
+const parsedData = await parseData({
+  id,
+  data: JSON.parse(JSON.stringify(item)),
+});
+
+const content = item.data?.content?.iv;
+
+store.set({
+  id,
+  data: parsedData,
+  rendered: content ? await renderMarkdown(content) : undefined,
+});
+```
