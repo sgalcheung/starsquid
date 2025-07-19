@@ -1,11 +1,3 @@
-<div align="center" style="margin-bottom: 20px;">
-
-⚠️ **This package has been renamed from `starlight-squidex` to [`starsquid`](https://www.npmjs.com/package/starsquid)** ⚠️  
-Please update your dependencies with:  
-`npm uninstall starlight-squidex`  
-`npm install starsquid`
-
-</div>
 
 <div align="center">
   <h1>💜 starsquid ❤️</h1>
