@@ -1,5 +1,12 @@
-import { FetchError, SquidexNotFoundError, type FieldDto, type FieldPropertiesDto, type NestedFieldDto, type SchemaDto } from "@squidex/squidex";
-import { z, type ZodTypeAny } from "astro/zod";
+import {
+  FetchError,
+  SquidexNotFoundError,
+  type FieldDto,
+  type FieldPropertiesDto,
+  type NestedFieldDto,
+  type SchemaDto,
+} from "@squidex/squidex";
+import { z, type ZodType } from "astro/zod";
 import { match, P } from "ts-pattern";
 import type { SquidexClientFactory } from "../core/api.js";
 import { AstroError } from "astro/errors";
@@ -8,36 +15,28 @@ import { contentDtoSchema } from "./schemas.js";
 export interface SquidexField extends Omit<Partial<FieldDto>, "nested"> {
   name: string;
   properties: {
-    isRequired: boolean,
-    fieldType: string,
-    schemaIds?: Array<string>,
-    editor?: string,
+    isRequired: boolean;
+    fieldType: string;
+    schemaIds?: Array<string>;
+    editor?: string;
   } & Partial<FieldPropertiesDto>;
-  nested?: Array<{
-    name: string;
-    properties: {
-      isRequired: boolean,
-      fieldType: string,
-    } & Partial<FieldPropertiesDto>;
-  } & Partial<NestedFieldDto>>;
+  nested?: Array<
+    {
+      name: string;
+      properties: {
+        isRequired: boolean;
+        fieldType: string;
+      } & Partial<FieldPropertiesDto>;
+    } & Partial<NestedFieldDto>
+  >;
 }
 
 // Define sets for different Squidex field types
-const STRING_TYPES = new Set([
-  "String",
-  "RichText"
-]);
+const STRING_TYPES = new Set(["String", "RichText"]);
 
-const STRING_LIST_TYPES = new Set([
-  "Assets",
-  "References",
-  "Tags",
-]);
+const STRING_LIST_TYPES = new Set(["Assets", "References", "Tags"]);
 
-const COMPONENT_TYPES = new Set([
-  "Component",
-  "Components"
-]);
+const COMPONENT_TYPES = new Set(["Component", "Components"]);
 
 enum STRING_EditorType {
   Input = "Input",
@@ -52,22 +51,26 @@ enum STRING_EditorType {
   Color = "Color",
 }
 
-// Define schemas for complex field types
-
-const nestedSchema = async (fields: FieldDto[] | SquidexField[], client: ReturnType<typeof SquidexClientFactory>) => {
+const nestedSchema = async (
+  fields: FieldDto[] | SquidexField[],
+  client: ReturnType<typeof SquidexClientFactory>,
+) => {
   if (Array.isArray(fields) && fields.length > 0) {
-    const schemaObject: Record<string, ZodTypeAny> = {};
+    const schemaObject: Record<string, ZodType> = {};
 
     for (const item of fields) {
       if (item.name && item.properties) {
         const isRequired = item.properties.isRequired ?? false;
-        const value = await squidexTypeToZodType({
-          name: item.name,
-          properties: {
-            ...item.properties,
-            isRequired,
+        const value = await squidexTypeToZodType(
+          {
+            name: item.name,
+            properties: {
+              ...item.properties,
+              isRequired,
+            },
           },
-        }, client);
+          client,
+        );
 
         // Add each field type to the Zod object
         schemaObject[item.name] = value;
@@ -76,7 +79,7 @@ const nestedSchema = async (fields: FieldDto[] | SquidexField[], client: ReturnT
     return z.object(schemaObject);
   }
   return z.unknown();
-}
+};
 
 const geolocationSchema = z.object({
   latitude: z.number(),
@@ -99,50 +102,59 @@ const docSchema = z.object({
 });
 
 // TODO: Implement other editor type
-const editorMap = new Map<string, ZodTypeAny>([
+const editorMap = new Map<string, ZodType>([
   [STRING_EditorType.Input, z.string()],
   [STRING_EditorType.RichText, docSchema],
   [STRING_EditorType.Markdown, z.string()],
 ]);
 
 // Define function for zod
-function isEmptyZodObject(schema: ZodTypeAny): boolean {
-  if (!schema || typeof schema !== 'object') return false;
-  if ('_def' in schema && schema._def?.typeName === 'ZodObject') {
+function isEmptyZodObject(schema: ZodType): boolean {
+  if (!schema || typeof schema !== "object") return false;
+  if ("_def" in schema && schema._zod.def?.type === "object") {
     const shape = (schema as z.ZodObject<z.ZodRawShape>).shape;
     return Object.keys(shape).length === 0;
   }
   return false;
 }
 
-function squidexWrapper<T extends ZodTypeAny>(schema: T, isRequired: boolean | undefined) {
-  if ('_def' in schema && schema._def?.typeName === 'ZodNull') {
+function squidexWrapper<T extends ZodType>(
+  schema: T,
+  isRequired: boolean | undefined,
+) {
+  if ("_def" in schema && schema._zod.def?.type === "null") {
     return schema.optional();
   }
   if (isEmptyZodObject(schema)) return schema.optional();
 
   if (!isRequired) {
     return z.object({
-      iv: schema.nullable()
+      iv: schema.nullable(),
     });
   }
 
   return z.object({
-    iv: schema
+    iv: schema,
   });
 }
 
 // iv as user config, default have
 
-export const squidexTypeToZodType = async (field: SquidexField, client: ReturnType<typeof SquidexClientFactory>): Promise<z.ZodTypeAny> => {
+export const squidexTypeToZodType = async (
+  field: SquidexField,
+  client: ReturnType<typeof SquidexClientFactory>,
+): Promise<z.ZodType> => {
   return await match(field)
     // The writing order is consistent with the official docs (https://docs.squidex.io/id-02-documentation/concepts/schemas#field-types).
-    .with({
-      properties: P.select("properties", {
-        fieldType: P.when((t) => STRING_TYPES.has(t)),
-      }),
-    },
-      ({ properties }: {
+    .with(
+      {
+        properties: P.select("properties", {
+          fieldType: P.when((t) => STRING_TYPES.has(t)),
+        }),
+      },
+      ({
+        properties,
+      }: {
         properties: {
           fieldType: string;
           editor?: string | undefined;
@@ -152,14 +164,21 @@ export const squidexTypeToZodType = async (field: SquidexField, client: ReturnTy
         if (fieldType === STRING_EditorType.RichText) return docSchema;
 
         const editor = properties.editor;
-        return editorMap.get(editor ?? STRING_EditorType.Input) ?? z.unknown()
-      })
+        return editorMap.get(editor ?? STRING_EditorType.Input) ?? z.unknown();
+      },
+    )
     .with({ properties: { fieldType: "Number" } }, () => z.number())
     .with({ properties: { fieldType: "Boolean" } }, () => z.boolean())
     .with({ properties: { fieldType: "DateTime" } }, () => z.coerce.date())
-    .with({ properties: { fieldType: P.when((t) => STRING_LIST_TYPES.has(t)) } }, () => z.array(z.string()))
     .with(
-      { properties: { fieldType: "Array" }, nested: P.optional(P.select("nested")) },
+      { properties: { fieldType: P.when((t) => STRING_LIST_TYPES.has(t)) } },
+      () => z.array(z.string()),
+    )
+    .with(
+      {
+        properties: { fieldType: "Array" },
+        nested: P.optional(P.select("nested")),
+      },
       async ({ nested }) => {
         if (Array.isArray(nested) && nested.length > 0) {
           const nestedSchemas = await nestedSchema(nested, client);
@@ -167,7 +186,7 @@ export const squidexTypeToZodType = async (field: SquidexField, client: ReturnTy
         }
         // If there are no nested fields, it defaults to an array of unknown type
         return z.array(z.unknown());
-      }
+      },
     )
     .with(
       {
@@ -175,7 +194,9 @@ export const squidexTypeToZodType = async (field: SquidexField, client: ReturnTy
           fieldType: P.when((t) => COMPONENT_TYPES.has(t)),
         }),
       },
-      async ({ properties }: {
+      async ({
+        properties,
+      }: {
         properties: {
           fieldType: string;
           isRequired: boolean;
@@ -191,11 +212,13 @@ export const squidexTypeToZodType = async (field: SquidexField, client: ReturnTy
               const schema = await client.schemas.getSchema(schemaId);
               const schemaFields = schema.fields;
               return await nestedSchema(schemaFields, client);
-            })
+            }),
           );
 
           // Filter out undefined or null results
-          const validResults = results.filter((result) => result !== undefined && result !== null);
+          const validResults = results.filter(
+            (result) => result !== undefined && result !== null,
+          );
 
           // If there is only one valid result, return it directly; if there are multiple, use z.union
           if (validResults.length === 1) {
@@ -203,47 +226,69 @@ export const squidexTypeToZodType = async (field: SquidexField, client: ReturnTy
           }
           if (validResults.length > 1) {
             return isSingle
-              ? z.union(validResults as unknown as [z.ZodTypeAny, z.ZodTypeAny, ...z.ZodTypeAny[]])
-              : z.array(z.union(validResults as unknown as [z.ZodTypeAny, z.ZodTypeAny, ...z.ZodTypeAny[]]));
+              ? z.union(
+                  validResults as unknown as [
+                    z.ZodType,
+                    z.ZodType,
+                    ...z.ZodType[],
+                  ],
+                )
+              : z.array(
+                  z.union(
+                    validResults as unknown as [
+                      z.ZodType,
+                      z.ZodType,
+                      ...z.ZodType[],
+                    ],
+                  ),
+                );
           }
         }
-        return z.object({})
-      }
+        return z.object({});
+      },
     )
     .with({ properties: { fieldType: "Geolocation" } }, () => geolocationSchema)
-    .with({ properties: { fieldType: "Json" } }, () => z.record(z.unknown()))
+    .with({ properties: { fieldType: "Json" } }, () =>
+      z.record(z.string(), z.unknown()),
+    )
     .with({ properties: { fieldType: "UI" } }, () => z.null())
     .otherwise(() => z.unknown());
-}
+};
 
 // Generate Zod schema from Squidex Schema
 export const zodSchemaFromSquidexSchema = async ({
   schemaName,
-  client
+  client,
 }: {
-  schemaName: string,
-  client: ReturnType<typeof SquidexClientFactory>
+  schemaName: string;
+  client: ReturnType<typeof SquidexClientFactory>;
 }) => {
   let schema: SchemaDto = {} as SchemaDto;
   try {
     schema = await client.schemas.getSchema(schemaName);
   } catch (error) {
     if (error instanceof SquidexNotFoundError) {
-      throw new AstroError(`The specified schema does not exist in this Squidex app: ${schemaName}`);
+      throw new AstroError(
+        `The specified schema does not exist in this Squidex app: ${schemaName}`,
+      );
     }
     if (error instanceof FetchError) {
-      throw new AstroError('Network layer error:', error.cause.message);
+      throw new AstroError("Network layer error:", error.cause.message);
     }
     throw new AstroError("unknow error");
   }
 
-  const schemaObject: Record<string, ZodTypeAny> = {};
+  // Build a Zod object shape from the Squidex schema fields
+  const schemaObject: Record<string, ZodType> = {};
 
   for (const field of schema.fields) {
     const zodType = await squidexTypeToZodType(field as SquidexField, client);
-    schemaObject[field.name] = squidexWrapper(zodType, field.properties.isRequired);;
+    schemaObject[field.name] = squidexWrapper(
+      zodType,
+      field.properties.isRequired,
+    );
   }
 
   const dataZodType = z.object(schemaObject);
-  return contentDtoSchema(dataZodType)
+  return contentDtoSchema(dataZodType);
 };

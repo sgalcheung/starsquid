@@ -7,7 +7,7 @@ export * from "@squidex/squidex/generated";
 export { mod2 as z2 };
 
 import { SquidexClients as SquidexClient } from "@squidex/squidex/wrapper/SquidexClient";
-export { SquidexClient } from "@squidex/squidex/wrapper/SquidexClient";
+export { SquidexClients } from "@squidex/squidex/wrapper/SquidexClient";
 export { SquidexClient as z3 };
 
 export { mod1, mod2, SquidexClient };

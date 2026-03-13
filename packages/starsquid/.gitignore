@@ -1,1 +1,5 @@
 dist/
+
+# environment variables
+.env
+.env.production

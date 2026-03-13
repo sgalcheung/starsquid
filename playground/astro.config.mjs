@@ -1,5 +1,5 @@
 import starlight from "@astrojs/starlight";
-import { defineConfig, envField } from "astro/config";
+import { defineConfig, envField, sessionDrivers } from "astro/config";
 import react from "@astrojs/react";
 import { loadEnv } from "vite";
 import { refreshContentIntegration } from "starsquid/integrations";
@@ -87,10 +87,9 @@ export default defineConfig({
   // },
   adapter: vercel(),
   session: {
-    driver: "redis",
-    options: {
+    driver: sessionDrivers.redis({
       url: env.REDIS_URL,
-    },
+    }),
   },
   env: {
     schema: {

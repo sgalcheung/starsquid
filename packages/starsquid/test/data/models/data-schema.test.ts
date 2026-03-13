@@ -1,7 +1,7 @@
 import { squidexFieldFixtures } from "../../fixtures/fileds";
 import { squidexTypeToZodType } from "../../../src/data/models/data-schema";
 import { z } from "astro/zod";
-import { test, describe, expect } from "../../vitest.setup"
+import { test, describe, expect } from "../../vitest.setup";
 import { isZodType, zodToStructure } from "../../_utils";
 
 describe("Data Schema", async () => {
@@ -25,28 +25,33 @@ describe("Data Schema", async () => {
     expect(schema).toBeInstanceOf(z.ZodBoolean);
   });
 
-  test("Should map Component(Button) to z.object(z.record(z.unknown()))", async ({ client }) => {
+  test("Should map Component(Button) to z.object(z.record(z.string(), z.unknown()))", async ({
+    client,
+  }) => {
     const field = squidexFieldFixtures.Component;
     const schema = await squidexTypeToZodType(field, client);
     // console.log(zodToStructure(schema))
     expect(schema).toBeInstanceOf(z.ZodObject);
 
     const objSchema = schema as z.ZodObject<{
-      name: z.ZodTypeAny;
-      description: z.ZodTypeAny;
+      name: z.ZodString;
+      description: z.ZodString;
     }>;
     expect(objSchema.shape).toHaveProperty("name");
     expect(objSchema.shape).toHaveProperty("description");
   });
 
-  test("Should map Component(Select) to z.union([z.object(z.record(z.unknown())) | z.object(z.record(z.unknown()))])", async ({ client }) => {
+  test("Should map Component(Select) to z.union([z.object(z.record(z.string(), z.unknown())) | z.object(z.record(z.string(), z.unknown()))])", async ({
+    client,
+  }) => {
     const field = squidexFieldFixtures.ComponentSelect;
     const schema = await squidexTypeToZodType(field, client);
     // console.log(zodToStructure(schema))
     expect(schema).toBeInstanceOf(z.ZodUnion);
 
     // Get all options in a union
-    const unionOptions = (schema as z.ZodUnion<[z.AnyZodObject, z.AnyZodObject]>).options;
+    const unionOptions = (schema as z.ZodUnion<[z.ZodObject, z.ZodObject]>)
+      .options;
 
     // Determines whether the first type is an object and contains the attribute "name"
     expect(unionOptions[0]).toBeInstanceOf(z.ZodObject);
@@ -63,24 +68,30 @@ describe("Data Schema", async () => {
     expect(shape).toHaveProperty("slug");
   });
 
-  test("Should map Components(List) to z.array(z.object(z.record(z.unknown())))", async ({ client }) => {
+  test("Should map Components(List) to z.array(z.object(z.record(z.string(), z.unknown())))", async ({
+    client,
+  }) => {
     const field = squidexFieldFixtures.Components;
     const schema = await squidexTypeToZodType(field, client);
     // console.log(zodToStructure(schema));
     // z.array(z.object({ name: z.string() }))
     expect(schema).toBeInstanceOf(z.ZodArray);
-    const innerType = (schema as z.ZodArray<z.AnyZodObject>).element;
+    const innerType = (schema as z.ZodArray<z.ZodObject>).element;
     expect(innerType).toBeInstanceOf(z.ZodObject);
   });
 
-  test("Should map Components(SelectList) to z.array(z.union([z.object(z.record(z.unknown())) | z.object(z.record(z.unknown()))]))", async ({ client }) => {
+  test("Should map Components(SelectList) to z.array(z.union([z.object(z.record(z.string(), z.unknown())) | z.object(z.record(z.string(), z.unknown()))]))", async ({
+    client,
+  }) => {
     const field = squidexFieldFixtures.ComponentsSelect;
     const schema = await squidexTypeToZodType(field, client);
     console.log(zodToStructure(schema));
     // z.array(z.union([z.object({ name: z.string() }) | z.object({ name: z.string(), description: z.unknown(), rooms: z.number(), minPrice: z.number(), photos: z.array(z.string()), slug: z.string() })]))
     expect(schema).toBeInstanceOf(z.ZodArray);
 
-    const innerType = (schema as z.ZodArray<z.ZodUnion<[z.AnyZodObject, z.AnyZodObject]>>).element;
+    const innerType = (
+      schema as z.ZodArray<z.ZodUnion<[z.ZodObject, z.ZodObject]>>
+    ).element;
     expect(innerType).toBeInstanceOf(z.ZodUnion);
 
     const unionOptions = innerType.options;
@@ -131,15 +142,17 @@ describe("Data Schema", async () => {
     expect(geoSchema.shape.longitude).toBeInstanceOf(z.ZodNumber);
   });
 
-  test("Should map Json to z.record(z.unknown())", async ({ client }) => {
+  test("Should map Json to z.record(z.string(), z.unknown())", async ({
+    client,
+  }) => {
     const field = squidexFieldFixtures.Json;
     const schema = await squidexTypeToZodType(field, client);
     expect(schema).toBeInstanceOf(z.ZodRecord);
 
     const recordSchema = schema as z.ZodRecord<z.ZodString, z.ZodUnknown>;
-    expect(recordSchema.valueSchema).toBeInstanceOf(z.ZodUnknown);
+    expect(recordSchema._zod.def.valueType).toBeInstanceOf(z.ZodUnknown);
 
-    expect(recordSchema.keySchema).toBeInstanceOf(z.ZodString);
+    expect((recordSchema._zod.def as any).keyType).toBeInstanceOf(z.ZodString);
   });
 
   test("Should map Number to z.number()", async ({ client }) => {
@@ -199,7 +212,7 @@ describe("Data Schema", async () => {
     expect(paragraphElement).toBeInstanceOf(z.ZodObject);
     expect(paragraphElement.shape.type).toBeInstanceOf(z.ZodLiteral);
     expect(paragraphElement.shape.type.value).toBe("paragraph");
-    
+
     // Test paragraph content
     const paragraphContent = paragraphElement.shape.content;
     // console.log(zodToStructure(paragraphContent));
@@ -249,6 +262,6 @@ describe("Data Schema", async () => {
     const field = squidexFieldFixtures.UI;
     const schema = await squidexTypeToZodType(field, client);
     expect(schema).toBeInstanceOf(z.ZodNull);
-    expect(isZodType(schema, "ZodNull")).toBe(true);
+    expect(isZodType(schema, "null")).toBe(true);
   });
 });

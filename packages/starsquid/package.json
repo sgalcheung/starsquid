@@ -54,10 +54,10 @@
 	},
 	"type": "module",
 	"peerDependencies": {
-		"astro": ">=5.0.0"
+		"astro": ">=6.0.0"
 	},
 	"dependencies": {
-		"@squidex/squidex": "2.0.0-rc2",
+		"@squidex/squidex": "2.0.1",
 		"ts-pattern": "^5.7.0"
 	},
 	"devDependencies": {

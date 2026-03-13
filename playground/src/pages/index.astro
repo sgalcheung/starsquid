@@ -39,16 +39,16 @@ const intros = await getAllIntroductions();
           }
 
           <sction>
-            <h3 class="ss-h3 dark:text-white">This is the backend info:</h3>
             {
               app && (
+                <h3 class="ss-h3 dark:text-white">This is the backend info:</h3>
                 <p class="dark:text-white">
                   <strong>App name</strong>: {app.data.name}
                 </p>
               )
             }
 
-            <strong>Change log</strong>
+            {news.length > 0 && (<strong>Change log</strong>)}
             {
               news.map(async (feature) => {
                 const { Content } = await render(feature);
