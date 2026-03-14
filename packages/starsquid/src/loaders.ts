@@ -1,11 +1,11 @@
 import type { Loader } from "astro/loaders";
-import { z } from "astro/zod";
 import { defineCollection } from "astro:content";
 import { SYSTEM_SCHEMAS, SYSTEM_SCHEMAS_MAP } from "./data/models/schemas.js";
 import { SquidexClientFactory } from "./data/core/api.js";
 import type { LoaderCollectionOpts } from "./type.js";
 import { AstroError } from "astro/errors";
 import { zodSchemaFromSquidexSchema } from "./data/models/data-schema.js";
+import { createAuxiliaryTypeStore, printNode, zodToTs } from "zod-to-ts";
 
 export function squidexCollections({
   squidexAppName,
@@ -41,28 +41,22 @@ export function squidexCollections({
     );
 
   const squidexSchemaLoader = (schemaName: string) => {
-    // Get Fields of dynamic ZodType in advance
-    const schema = async () =>
-      await zodSchemaFromSquidexSchema({
-        schemaName: schemaName,
-        client: client,
-      });
     return squidexLoader({ schemaName, client });
   };
 
-  const squidexMakeSchemaLoader = (schemaName: string) =>
+  const squidexMakeSchemaLoader = (schemaName: SYSTEM_SCHEMAS) =>
     squidexMakeLoader({ schemaName, client });
 
   const collections = Object.fromEntries(
     squidexSchemas.map((schema) => {
-      const isSystemSchema = Object.values(SYSTEM_SCHEMAS).includes(
-        schema as SYSTEM_SCHEMAS,
-      );
+      const systemSchema = schema as SYSTEM_SCHEMAS;
+      const isSystemSchema =
+        Object.values(SYSTEM_SCHEMAS).includes(systemSchema);
       return [
         schema,
         defineCollection({
           loader: isSystemSchema
-            ? squidexMakeSchemaLoader(schema)
+            ? squidexMakeSchemaLoader(systemSchema)
             : squidexSchemaLoader(schema),
         }),
       ];
@@ -77,11 +71,9 @@ const loaderName = "starsquid-loader";
 function squidexLoader({
   schemaName,
   client,
-  // schema,
 }: {
   schemaName: string;
   client: ReturnType<typeof SquidexClientFactory>;
-  // schema: z.ZodType;
 }): Loader {
   return {
     name: loaderName,
@@ -108,7 +100,22 @@ function squidexLoader({
       }
       logger.info(`Loaded ${contents.total} records from "${schemaName}"`);
     },
-    // schema,
+    createSchema: async () => {
+      const schema = await zodSchemaFromSquidexSchema({
+        schemaName: schemaName,
+        client: client,
+      });
+      const auxiliaryTypeStore = createAuxiliaryTypeStore();
+      const { node } = zodToTs(schema, { auxiliaryTypeStore });
+
+      const nodeString = printNode(node);
+      // console.log(nodeString);
+
+      return {
+        schema,
+        types: `export type Entry = ${nodeString}`,
+      };
+    },
   } satisfies Loader;
 }
 
@@ -116,7 +123,7 @@ function squidexMakeLoader({
   schemaName,
   client,
 }: {
-  schemaName: string;
+  schemaName: SYSTEM_SCHEMAS;
   client: ReturnType<typeof SquidexClientFactory>;
 }) {
   const schema = SYSTEM_SCHEMAS_MAP.get(schemaName);

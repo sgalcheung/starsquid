@@ -58,7 +58,8 @@
 	},
 	"dependencies": {
 		"@squidex/squidex": "2.0.1",
-		"ts-pattern": "^5.7.0"
+		"ts-pattern": "^5.7.0",
+		"zod-to-ts": "^2.0.0"
 	},
 	"devDependencies": {
 		"esbuild": "^0.25.2",
