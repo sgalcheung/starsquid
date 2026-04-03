@@ -1,13 +1,38 @@
 import type { Loader } from "astro/loaders";
 import { defineCollection } from "astro:content";
-import { SYSTEM_SCHEMAS, SYSTEM_SCHEMAS_MAP } from "./data/models/schemas.js";
+import {
+  appDtoSchema,
+  newsDtoSchema,
+  SYSTEM_SCHEMAS,
+} from "./data/models/schemas.js";
 import { SquidexClientFactory } from "./data/core/api.js";
 import type { LoaderCollectionOpts } from "./type.js";
 import { AstroError } from "astro/errors";
 import { zodSchemaFromSquidexSchema } from "./data/models/data-schema.js";
 import { createAuxiliaryTypeStore, printNode, zodToTs } from "zod-to-ts";
 
-export function squidexCollections({
+const loaderName = "starsquid-loader";
+
+type SystemCollections = {
+  [SYSTEM_SCHEMAS.APP]: ReturnType<
+    typeof defineCollection<typeof appDtoSchema>
+  >;
+  [SYSTEM_SCHEMAS.NEWS]: ReturnType<
+    typeof defineCollection<typeof newsDtoSchema>
+  >;
+};
+
+export function createSquidexCollections(opts: LoaderCollectionOpts) {
+  const dynamic = squidexCollections(opts);
+  const system = squidexSystemCollections(opts);
+
+  return {
+    ...dynamic,
+    ...system,
+  };
+}
+
+function squidexCollections({
   squidexAppName,
   squidexUrl = import.meta.env.SQUIDEX_URL,
   squidexClientId = import.meta.env.SQUIDEX_CLIENT_ID,
@@ -44,20 +69,12 @@ export function squidexCollections({
     return squidexLoader({ schemaName, client });
   };
 
-  const squidexMakeSchemaLoader = (schemaName: SYSTEM_SCHEMAS) =>
-    squidexMakeLoader({ schemaName, client });
-
   const collections = Object.fromEntries(
     squidexSchemas.map((schema) => {
-      const systemSchema = schema as SYSTEM_SCHEMAS;
-      const isSystemSchema =
-        Object.values(SYSTEM_SCHEMAS).includes(systemSchema);
       return [
         schema,
         defineCollection({
-          loader: isSystemSchema
-            ? squidexMakeSchemaLoader(systemSchema)
-            : squidexSchemaLoader(schema),
+          loader: squidexSchemaLoader(schema),
         }),
       ];
     }),
@@ -66,7 +83,62 @@ export function squidexCollections({
   return collections;
 }
 
-const loaderName = "starsquid-loader";
+function squidexSystemCollections(
+  opts: LoaderCollectionOpts,
+): SystemCollections {
+  const {
+    squidexAppName,
+    squidexUrl = import.meta.env.SQUIDEX_URL,
+    squidexClientId = import.meta.env.SQUIDEX_CLIENT_ID,
+    squidexClientSecret = import.meta.env.SQUIDEX_CLIENT_SECRET,
+    squidexClient,
+  } = opts;
+
+  if (!squidexClient) {
+    console.log("Creating new Squidex client");
+    if (!squidexUrl || !squidexClientId || !squidexClientSecret) {
+      throw new AstroError(
+        `Missing Squidex configuration. Please set the following environment variables: 
+        ${!squidexUrl ? "SQUIDEX_URL, " : ""}${
+          !squidexClientId ? "SQUIDEX_CLIENT_ID, " : ""
+        }${!squidexClientSecret ? "SQUIDEX_CLIENT_SECRET" : ""}`.replace(
+          /, $/,
+          ".",
+        ),
+      );
+    }
+  } else {
+    console.log("Using provided Squidex client");
+  }
+  const client =
+    squidexClient ??
+    SquidexClientFactory(
+      squidexAppName,
+      squidexClientId,
+      squidexClientSecret,
+      squidexUrl,
+    );
+
+  const systemCollections = {
+    [SYSTEM_SCHEMAS.APP]: defineCollection({
+      schema: appDtoSchema,
+      loader: squidexSystemLoader({
+        schemaName: SYSTEM_SCHEMAS.APP,
+        client,
+      }),
+    }),
+
+    [SYSTEM_SCHEMAS.NEWS]: defineCollection({
+      schema: newsDtoSchema,
+      loader: squidexSystemLoader({
+        schemaName: SYSTEM_SCHEMAS.NEWS,
+        client,
+      }),
+    }),
+  };
+
+  return systemCollections;
+}
 
 function squidexLoader({
   schemaName,
@@ -119,18 +191,13 @@ function squidexLoader({
   } satisfies Loader;
 }
 
-function squidexMakeLoader({
+function squidexSystemLoader({
   schemaName,
   client,
 }: {
   schemaName: SYSTEM_SCHEMAS;
   client: ReturnType<typeof SquidexClientFactory>;
 }) {
-  const schema = SYSTEM_SCHEMAS_MAP.get(schemaName);
-  if (!schema) {
-    throw new AstroError(`System schema not found for "${schemaName}"`);
-  }
-
   return {
     name: loaderName,
     load: async ({ renderMarkdown, store, parseData, logger }) => {
@@ -164,6 +231,5 @@ function squidexMakeLoader({
 
       logger.info(`Loaded record from system schema "${schemaName}"`);
     },
-    schema: schema,
   } satisfies Loader;
 }

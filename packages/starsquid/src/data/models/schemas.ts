@@ -21,7 +21,7 @@ const resourceLinkSchema = z.object({
   metadata: z.string().nullable().optional(),
 }) satisfies z.ZodType<ResourceLink>;
 
-const appDtoSchema = z.object({
+export const appDtoSchema = z.object({
   links: z.record(z.string(), resourceLinkSchema),
   id: z.string(),
   name: z.string(),
@@ -38,7 +38,7 @@ const appDtoSchema = z.object({
   roleProperties: AnyObject,
 }) satisfies z.ZodType<AppDto>;
 
-const newsDtoSchema = z.object({
+export const newsDtoSchema = z.object({
   name: z.string(),
   text: z.string(),
 }) satisfies z.ZodType<FeatureDto>;
@@ -143,7 +143,9 @@ export enum SYSTEM_SCHEMAS {
   NEWS = "news",
 }
 
-export const SYSTEM_SCHEMAS_MAP = new Map<string, z.ZodType>([
-  [SYSTEM_SCHEMAS.APP, appDtoSchema],
-  [SYSTEM_SCHEMAS.NEWS, newsDtoSchema],
-]);
+export const SYSTEM_SCHEMAS_MAP = {
+  [SYSTEM_SCHEMAS.APP]: appDtoSchema,
+  [SYSTEM_SCHEMAS.NEWS]: newsDtoSchema,
+};
+
+// export type SystemSchemaKey = keyof typeof SYSTEM_SCHEMAS;

@@ -1,4 +1,4 @@
-import { squidexCollections } from "starsquid/loaders";
+import { createSquidexCollections } from "starsquid/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
@@ -6,15 +6,10 @@ import { docsLoader } from "@astrojs/starlight/loaders";
 import { squidexClient } from "./data/core/client";
 import { SCHEMAS } from "./data/models/schemas";
 
-const defaultCollections = squidexCollections({
+const squidexCollections = createSquidexCollections({
   squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
   squidexClient: squidexClient,
-  squidexSchemas: [
-    SCHEMAS.APP,
-    SCHEMAS.NEWS,
-    SCHEMAS.AUTHORS,
-    SCHEMAS.INTRODUCTIONS,
-  ],
+  squidexSchemas: [SCHEMAS.AUTHORS, SCHEMAS.INTRODUCTIONS],
 });
 
 const docsCollectionSchema = z.discriminatedUnion("type", [
@@ -33,7 +28,7 @@ const docsCollectionSchema = z.discriminatedUnion("type", [
 ]);
 
 export const collections = {
-  ...defaultCollections,
+  ...squidexCollections,
   docs: defineCollection({
     loader: docsLoader(),
     schema: docsSchema({ extend: docsCollectionSchema }),
