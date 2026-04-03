@@ -19,7 +19,7 @@ if (!data) {
   return Astro.redirect("/404");
 }
 
-const frontmatter = { title: data.name.iv };
+const frontmatter = { title: data.name.iv, type: undefined };
 
 const content = data.content.iv;
 const headings = extractHeadings(content);
