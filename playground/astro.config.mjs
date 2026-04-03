@@ -58,6 +58,16 @@ export default defineConfig({
           label: "Convention",
           autogenerate: { directory: "/docs/convention" },
         },
+        {
+          label: "Upgrade",
+          items: [
+            "docs/upgrade/upgrade-starsquid",
+            {
+              label: "Major upgrade guides",
+              autogenerate: { directory: "docs/upgrade/upgrade-to" },
+            },
+          ],
+        },
         { label: "Changelog", link: "/docs/changelog/" },
         { label: "Demo", link: "/" },
       ],

@@ -50,17 +50,17 @@ import ReadMore from "@/components/ReadMore.astro";
 
    Add **squidexCollections** and configure the necessary squidex parameters to initialize a squidex client. If you don't add this, it will be the default read from the Vite env(`import.mete.env.*`). Or add an initialized squidex client.
 
-   Add the schemas you want to load to the array **squidexSchemas**. Currently, the system schema, such as app and news (previously named features), are not loaded. If you need them, remember to add them.
+   Add the schemas you want to load to the array **squidexSchemas**. Since v2 or later of StarSquid, the system schemas (app and news) are loaded by default, so you can focus on adding your custom schemas.
 
    <Aside>
-     [v1.1.1](https://www.npmjs.com/package/starsquid/v/1.1.1) is a transitional
-     version that supports both to meet your migration needs.
+     [v2.0.0](https://www.npmjs.com/package/starsquid/v/2.0.0) Support Astro v6.
    </Aside>
 
    Creating new Squidex client.
+
    ```ts
    // src/content.config.ts
-   import { squidexCollections } from "starsquid/loaders";
+   import { createSquidexCollections } from "starsquid/loaders";
 
    const enum SCHEMAS {
      APP = "app",
@@ -70,11 +70,9 @@ import ReadMore from "@/components/ReadMore.astro";
      ARTICLES = "articles",
    }
 
-   export const collections = squidexCollections({
+   export const collections = createSquidexCollections({
      squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
      squidexSchemas: [
-       SCHEMAS.APP,
-       SCHEMAS.NEWS,
        SCHEMAS.AUTHORS,
        SCHEMAS.INTRODUCTIONS,
      ],
@@ -82,6 +80,7 @@ import ReadMore from "@/components/ReadMore.astro";
    ```
 
    Using provided Squidex client.
+
    ```ts
    // src/content.config.ts
    import { squidexCollections } from "starsquid/loaders";
@@ -95,12 +94,10 @@ import ReadMore from "@/components/ReadMore.astro";
      ARTICLES = "articles",
    }
 
-   export const collections = squidexCollections({
+   export const collections = createSquidexCollections({
      squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
      squidexClient: squidexClient,
      squidexSchemas: [
-       SCHEMAS.APP,
-       SCHEMAS.NEWS,
        SCHEMAS.AUTHORS,
        SCHEMAS.INTRODUCTIONS,
      ],
