@@ -1,14 +1,14 @@
 {
 	"name": "root",
 	"private": true,
-	"packageManager": "pnpm@9.7.1",
+	"packageManager": "pnpm@10.30.3",
 	"engines": {
-		"node": ">=18.19.0"
+		"node": ">=22.12.0"
 	},
 	"scripts": {
 		"changeset": "changeset",
-    "build": "pnpm --filter starsquid build",
-    "test": "pnpm --filter starsquid test",
+		"build": "pnpm --filter starsquid build",
+		"test": "pnpm --filter starsquid test",
 		"release": "node scripts/release.mjs",
 		"check": "biome lint --write .",
 		"format": "biome format --write ."
@@ -21,7 +21,7 @@
 		"esbuild": "^0.25.2",
 		"run-scripts": "workspace:*",
 		"typescript": "^5.5.4",
-		"vite": "^6.3.5",
-		"vitest": "^3.1.3"
+		"vite": "^7.3.1",
+		"vitest": "^4.1.0"
 	}
 }

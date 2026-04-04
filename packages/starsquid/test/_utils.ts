@@ -1,29 +1,27 @@
-import type { ZodTypeAny } from "Astro/zod";
+import type { ZodType } from "Astro/zod";
 
-export function isZodType(schema: ZodTypeAny, zodType: string): boolean {
-  return !!schema?._def?.typeName && schema._def.typeName === zodType;
+export function isZodType(schema: ZodType, zodType: string): boolean {
+  return !!schema?._zod.def?.type && schema._zod.def.type === zodType;
 }
 
 // Recursively parse Zod type as a string-like object
-export function zodToStructure(schema: ZodTypeAny): string {
+export function zodToStructure(schema: ZodType): string {
   if (isZodType(schema, "ZodObject")) {
-    const shape = schema._def.shape();
+    const shape = (schema as any)._zod.def.shape as Record<string, ZodType>;
     const properties = Object.entries(shape)
-      .map(([key, value]) => `${key}: ${zodToStructure(value as ZodTypeAny)}`)
+      .map(([key, value]) => `${key}: ${zodToStructure(value as ZodType)}`)
       .join(", ");
     return `z.object({ ${properties} })`;
   }
 
   if (isZodType(schema, "ZodArray")) {
-    const itemType = zodToStructure(schema._def.type);
+    const itemType = zodToStructure(schema);
     return `z.array(${itemType})`;
   }
 
   if (isZodType(schema, "ZodUnion")) {
-    const options = schema._def.options
-      .map((option: ZodTypeAny) => zodToStructure(option))
-      .join(" | ");
-    return `z.union([${options}])`;
+    const options = (schema as any)._zod.def.options as ZodType[];
+    return `z.union([${options.map((option) => zodToStructure(option)).join(" | ")}])`;
   }
 
   // Basic type direct output
@@ -32,17 +30,17 @@ export function zodToStructure(schema: ZodTypeAny): string {
   if (isZodType(schema, "ZodBoolean")) return "z.boolean()";
   if (isZodType(schema, "ZodDate")) return "z.date()";
   if (isZodType(schema, "ZodUnknown")) return "z.unknown()";
-  if (isZodType(schema, "ZodLiteral")) return `z.literal(${JSON.stringify(schema._def.value)})`;
+  if (isZodType(schema, "ZodLiteral"))
+    return `z.literal(${JSON.stringify(schema._zod.output)})`;
   if (isZodType(schema, "ZodNull")) return "z.null()";
 
   if (isZodType(schema, "ZodOptional")) {
-    const innerType = zodToStructure(schema._def.innerType);
+    const innerType = zodToStructure(schema);
     return `${innerType}.optional()`;
   }
 
   return "z.any()";
 }
-
 
 export function delay(ms: number) {
   return new Promise((resolve) => {

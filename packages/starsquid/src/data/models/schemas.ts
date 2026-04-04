@@ -1,4 +1,4 @@
-import { z, type ZodTypeAny } from "astro/zod";
+import { z } from "astro/zod";
 import type {
   AppDto,
   FeatureDto,
@@ -10,13 +10,18 @@ import type {
   StatusInfoDto,
 } from "@squidex/squidex";
 
+// Define schemas for complex field types
+
+const Keys = z.union([z.string(), z.number(), z.symbol()]);
+const AnyObject = z.record(Keys, z.unknown());
+
 const resourceLinkSchema = z.object({
   href: z.string(),
   method: z.string(),
   metadata: z.string().nullable().optional(),
 }) satisfies z.ZodType<ResourceLink>;
 
-const appDtoSchema = z.object({
+export const appDtoSchema = z.object({
   links: z.record(z.string(), resourceLinkSchema),
   id: z.string(),
   name: z.string(),
@@ -30,10 +35,10 @@ const appDtoSchema = z.object({
   canAccessApi: z.boolean(),
   canAccessContent: z.boolean(),
   roleName: z.string().nullable().optional(),
-  roleProperties: z.record(z.any()),
+  roleProperties: AnyObject,
 }) satisfies z.ZodType<AppDto>;
 
-const newsDtoSchema = z.object({
+export const newsDtoSchema = z.object({
   name: z.string(),
   text: z.string(),
 }) satisfies z.ZodType<FeatureDto>;
@@ -64,7 +69,7 @@ const fieldPropertiesDtoSchema = z.object({
 }) satisfies z.ZodType<FieldPropertiesDto>;
 
 const nestedFieldDtoSchema = z.object({
-  links: z.record(resourceLinkSchema),
+  links: z.record(z.string(), resourceLinkSchema),
   fieldId: z.number(),
   name: z.string(),
   isHidden: z.boolean(),
@@ -85,14 +90,14 @@ const fieldDtoSchema = z.object({
   nested: z.array(nestedFieldDtoSchema).nullable(),
 }) satisfies z.ZodType<FieldDto>;
 
-export const contentDtoSchema = <T extends z.ZodTypeAny>(schema: T) =>
+export const contentDtoSchema = <T extends z.ZodType>(schema: T) =>
   z.object({
     links: z.record(z.string(), resourceLinkSchema),
     id: z.string(),
     createdBy: z.string(),
     lastModifiedBy: z.string(),
     data: schema.nullable(),
-    referenceData: z.record(z.record(z.any())).optional(),
+    referenceData: z.record(Keys, AnyObject).optional(),
     created: z.coerce.date(),
     lastModified: z.coerce.date(),
     status: z.string(),
@@ -111,7 +116,7 @@ export const contentDtoSchema = <T extends z.ZodTypeAny>(schema: T) =>
 //satisfies z.ZodType<ContentDto>;
 
 // Helper type to infer the content DTO schema for a specific data type
-export type ContentDtoType<T extends z.ZodTypeAny> = z.infer<
+export type ContentDtoType<T extends z.ZodType> = z.infer<
   ReturnType<typeof contentDtoSchema<T>>
 >;
 
@@ -120,9 +125,7 @@ export type ContentDtoType<T extends z.ZodTypeAny> = z.infer<
  * The generic type `T` represents the shape of the data schema for individual content items.
  */
 // Temporarily disable the export or remove if unused
-export const contentsDtoSchema = <T>(
-  schema: z.ZodType<T, z.ZodTypeDef, unknown>
-) =>
+export const contentsDtoSchema = <T extends z.ZodType>(schema: T) =>
   z.object({
     links: z.record(z.string(), resourceLinkSchema),
     total: z.number(),
@@ -131,7 +134,7 @@ export const contentsDtoSchema = <T>(
   });
 //satisfies z.ZodType<ContentsDto>;
 
-export type ContentsDtoType<T extends z.ZodTypeAny> = z.infer<
+export type ContentsDtoType<T extends z.ZodType> = z.infer<
   ReturnType<typeof contentsDtoSchema<T>>
 >;
 
@@ -140,7 +143,9 @@ export enum SYSTEM_SCHEMAS {
   NEWS = "news",
 }
 
-export const SYSTEM_SCHEMAS_Map = new Map<string, ZodTypeAny>([
-  [SYSTEM_SCHEMAS.APP, appDtoSchema],
-  [SYSTEM_SCHEMAS.NEWS, newsDtoSchema],
-]);
+export const SYSTEM_SCHEMAS_MAP = {
+  [SYSTEM_SCHEMAS.APP]: appDtoSchema,
+  [SYSTEM_SCHEMAS.NEWS]: newsDtoSchema,
+};
+
+// export type SystemSchemaKey = keyof typeof SYSTEM_SCHEMAS;

@@ -1,0 +1,44 @@
+---
+title: Upgrade to StarSquid v2
+sidebar:
+  label: v2.0
+---
+
+## Dependency Updates
+
+Any major upgrades to dependencies, such as Node 22, Vite v7, Zod v4, etc,
+this fllows Astro v6 upgrade guide, and you can see the details in [Astro v6 Upgrade Guide](https://docs.astro.build/en/guides/upgrade-to/v6/#upgrade-astro).
+
+## Breaking Changes
+
+### Changed: `squidexCollections` to `createSquidexCollections`
+
+```diff lang="ts"
+// content.config.ts
+import { defineConfig } from 'astro/config'
+import { createSquidexCollections } from "starsquid/loaders";
+
+-const squidexCollections = squidexCollections({...});
++const squidexCollections = createSquidexCollections({...});
+```
+
+### Changed: `squidexSchemas` only accepts custom schemas
+
+In v1, you need to add all the schemas you want to load, including the system schemas. If you don't add them, they will not be loaded.
+In v2, the system schemas (app and news) are loaded by default, and you can only add custom schemas.
+
+This changed is made to make it easier for users to get started, and also to avoid confusion about the system schemas.
+
+
+```diff lang="ts"
+const squidexCollections = createSquidexCollections({
+  squidexAppName: import.meta.env.SQUIDEX_APP_NAME,
+  squidexClient: squidexClient,
+  squidexSchemas: [
+-    SCHEMAS.APP,
+-    SCHEMAS.NEWS,
+    SCHEMAS.AUTHORS,
+    SCHEMAS.INTRODUCTIONS
+  ],
+});
+```

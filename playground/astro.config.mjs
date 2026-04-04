@@ -1,5 +1,5 @@
 import starlight from "@astrojs/starlight";
-import { defineConfig, envField } from "astro/config";
+import { defineConfig, envField, sessionDrivers } from "astro/config";
 import react from "@astrojs/react";
 import { loadEnv } from "vite";
 import { refreshContentIntegration } from "starsquid/integrations";
@@ -58,6 +58,16 @@ export default defineConfig({
           label: "Convention",
           autogenerate: { directory: "/docs/convention" },
         },
+        {
+          label: "Upgrade",
+          items: [
+            "docs/upgrade/upgrade-starsquid",
+            {
+              label: "Major upgrade guides",
+              autogenerate: { directory: "docs/upgrade/upgrade-to" },
+            },
+          ],
+        },
         { label: "Changelog", link: "/docs/changelog/" },
         { label: "Demo", link: "/" },
       ],
@@ -87,10 +97,9 @@ export default defineConfig({
   // },
   adapter: vercel(),
   session: {
-    driver: "redis",
-    options: {
+    driver: sessionDrivers.redis({
       url: env.REDIS_URL,
-    },
+    }),
   },
   env: {
     schema: {
