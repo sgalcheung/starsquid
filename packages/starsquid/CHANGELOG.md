@@ -1,5 +1,11 @@
 # starsquid
 
+## 2.0.0
+
+### Major Changes
+
+- [#8](https://github.com/sgalcheung/starsquid/pull/8) [`082c4be`](https://github.com/sgalcheung/starsquid/commit/082c4be2e72f1bb32a0a7a6977024db5ea47d0f5) Thanks [@sgalcheung](https://github.com/sgalcheung)! - chore: Support Astro v6
+
 ## 1.1.3
 
 ### Patch Changes
