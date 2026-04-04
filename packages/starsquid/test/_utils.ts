@@ -1,4 +1,4 @@
-import type { ZodType } from "Astro/zod";
+import type { ZodObject, ZodRawShape, ZodType, ZodUnion } from "Astro/zod";
 
 export function isZodType(schema: ZodType, zodType: string): boolean {
   return !!schema?._zod.def?.type && schema._zod.def.type === zodType;
@@ -7,10 +7,13 @@ export function isZodType(schema: ZodType, zodType: string): boolean {
 // Recursively parse Zod type as a string-like object
 export function zodToStructure(schema: ZodType): string {
   if (isZodType(schema, "ZodObject")) {
-    const shape = (schema as any)._zod.def.shape as Record<string, ZodType>;
+    const objectSchema = schema as ZodObject<ZodRawShape>;
+    const shape = objectSchema.shape;
+
     const properties = Object.entries(shape)
       .map(([key, value]) => `${key}: ${zodToStructure(value as ZodType)}`)
       .join(", ");
+
     return `z.object({ ${properties} })`;
   }
 
@@ -20,7 +23,9 @@ export function zodToStructure(schema: ZodType): string {
   }
 
   if (isZodType(schema, "ZodUnion")) {
-    const options = (schema as any)._zod.def.options as ZodType[];
+    const unionSchema = schema as ZodUnion<[ZodType, ...ZodType[]]>;
+    const options = unionSchema.def.options;
+
     return `z.union([${options.map((option) => zodToStructure(option)).join(" | ")}])`;
   }
 

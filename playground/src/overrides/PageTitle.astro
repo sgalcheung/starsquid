@@ -7,7 +7,7 @@ const {
   entry: { data },
 } = Astro.locals.starlightRoute;
 
-let packageName: string = "";
+let packageName = "";
 if (data.type === 'integration') {
   packageName = data.packageName;
 }

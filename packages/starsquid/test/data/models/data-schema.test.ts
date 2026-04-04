@@ -152,7 +152,9 @@ describe("Data Schema", async () => {
     const recordSchema = schema as z.ZodRecord<z.ZodString, z.ZodUnknown>;
     expect(recordSchema._zod.def.valueType).toBeInstanceOf(z.ZodUnknown);
 
-    expect((recordSchema._zod.def as any).keyType).toBeInstanceOf(z.ZodString);
+    expect(
+      (recordSchema._zod.def as { keyType: unknown }).keyType,
+    ).toBeInstanceOf(z.ZodString);
   });
 
   test("Should map Number to z.number()", async ({ client }) => {
