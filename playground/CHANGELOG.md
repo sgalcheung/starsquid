@@ -1,5 +1,12 @@
 # playground
 
+## 0.1.14
+
+### Patch Changes
+
+- Updated dependencies [[`082c4be`](https://github.com/sgalcheung/starsquid/commit/082c4be2e72f1bb32a0a7a6977024db5ea47d0f5)]:
+  - starsquid@2.0.0
+
 ## 0.1.13
 
 ### Patch Changes
