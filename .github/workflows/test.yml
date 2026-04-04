@@ -6,15 +6,15 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: preview
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
+        uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v5
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
+          node-version: 24.14.1
           cache: "pnpm"
           check-latest: true
           registry-url: "https://registry.npmjs.org"
@@ -25,4 +25,9 @@ jobs:
       - name: Build
         run: pnpm build
       - name: Test
+        env:
+          SQUIDEX_APP_NAME: ${{ vars.SQUIDEX_APP_NAME }}
+          SQUIDEX_CLIENT_ID: ${{ vars.SQUIDEX_CLIENT_ID }}
+          SQUIDEX_CLIENT_SECRET: ${{ vars.SQUIDEX_CLIENT_SECRET }}
+          SQUIDEX_URL: ${{ vars.SQUIDEX_URL }}
         run: pnpm test
